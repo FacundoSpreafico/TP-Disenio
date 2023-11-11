@@ -4,4 +4,19 @@
   <artifactId>2</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>TP-Diseño</name>
+  <dependencies>
+	
+  <dependency>
+  <groupId>org.hibernate.orm</groupId>
+  <artifactId>hibernate-core</artifactId>
+  <version>6.4.0.CR1</version>
+  </dependency>	  
+  <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+  <dependency>
+  <groupId>org.postgresql</groupId>
+  <artifactId>postgresql</artifactId>
+  <version>42.6.0</version>
+  </dependency>  
+
+  </dependencies>
 </project>

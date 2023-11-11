@@ -28,8 +28,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 
 		inicializarPaneles();
 		
-		
-		
 	}
 	
 	public void inicializarPaneles () {

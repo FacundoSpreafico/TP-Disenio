@@ -1,6 +1,6 @@
 package capaDTO;
 
 public class PolizaDTO {
-	private Double sumaAsegurada;
+	private Double sumaAsegurada;	
 	
 }

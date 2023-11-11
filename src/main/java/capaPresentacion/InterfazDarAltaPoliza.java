@@ -25,8 +25,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
 		inicializarPaneles();
+		tabbedPrincipal.setEnabledAt(1, false);
 		
 	}
 	
@@ -40,6 +40,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tabbedPrincipal.setFont(new Font("Arial", Font.PLAIN, 13));
 		tabbedPrincipal.setBounds(0, 0, 853, 508);
 		panelPrincipal.add(tabbedPrincipal);
+		tabbedPrincipal.setFocusable(false);
 		
 		crearPoliza = new JPanel();
 		crearPoliza.setBackground(new Color(255, 255, 255));
@@ -49,6 +50,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tabbedCrearPoliza = new JTabbedPane(JTabbedPane.TOP);
 		tabbedCrearPoliza.setFont(new Font("Arial", Font.PLAIN, 13));
 		tabbedCrearPoliza.setBounds(0, 0, 860, 480);
+		tabbedCrearPoliza.setFocusable(false);
 		crearPoliza.add(tabbedCrearPoliza);
 		
 		buscarCliente = new JPanel();
@@ -72,15 +74,17 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tabbedConfirmarPoliza = new JTabbedPane(JTabbedPane.TOP);
 		tabbedConfirmarPoliza.setFont(new Font("Arial", Font.PLAIN, 13));
 		tabbedConfirmarPoliza.setBounds(0, 0, 848, 478);
+		tabbedConfirmarPoliza.setFocusable(false);
 		confirmarPoliza.add(tabbedConfirmarPoliza);
 		
 		tipoPoliza = new JPanel();
+		tipoPoliza.setBackground(Color.WHITE);
 		tabbedConfirmarPoliza.addTab("Tipo de poliza", null, tipoPoliza, null);
 		
 		generacionPoliza = new JPanel();
+		generacionPoliza.setBackground(Color.WHITE);
 		tabbedConfirmarPoliza.addTab("Generacion de poliza", null, generacionPoliza, null);
 	}
-	
 	
 	
 }

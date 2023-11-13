@@ -1,39 +1,32 @@
 package capaPresentacion;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
-
-import constants.Images;
-
-import javax.swing.JTabbedPane;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JEditorPane;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import javax.swing.JSeparator;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.awt.event.ActionEvent;
-import javax.swing.JToggleButton;
-import javax.swing.JTree;
+
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JProgressBar;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import com.toedter.calendar.JCalendar;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+
 import com.toedter.calendar.JDateChooser;
+
+import constants.Images;
 
 public class InterfazDarAltaPoliza extends JFrame {
 
@@ -602,6 +595,20 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnBuscarCliente.setBounds(20, 220, 104, 27);
 		buscarCliente.add(btnBuscarCliente);
 		btnBuscarCliente.setFocusable(false);
+		btnBuscarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					InterfazBuscarCliente buscarCliente = new InterfazBuscarCliente();
+					buscarCliente.setVisible(true);
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| UnsupportedLookAndFeelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+		});
+		
 			
 		btnDarAltaCliente = new JButton("Dar de alta cliente");
 		btnDarAltaCliente.setBounds(124, 220, 134, 27);

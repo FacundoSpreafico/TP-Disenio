@@ -115,8 +115,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 	            public void actionPerformed(ActionEvent e) {
 	                int modulo = contadorHijos % 2;
 
-	                int posY = 11 + (contadorHijos / 2) * 150;
-	                int posX = modulo * 280;
+	                int posY = 11 + (contadorHijos / 2) * 180;
+	                int posX = modulo * 350;
 
 	                JLabel lblSexo = new JLabel("Sexo");
 	                lblSexo.setBounds(20 + posX, 48 + posY, 33, 14);

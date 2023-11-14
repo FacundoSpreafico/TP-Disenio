@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -38,21 +39,31 @@ public class InterfazDarAltaPoliza extends JFrame {
 	// JButtons
 	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2, btnAgregarHijo;
 	// JLabels
-	private JLabel lblMarcoCliente, lblNroCliente, lblTipoDni, lblNroDni, lblApellido, lblNombre, lblDomicilio, lblMarcoClienteContexto, lblNombre_1, lblApellido_1;
-	private JLabel lblMarcoPoliza, lblModeloVehiculo, lblSimbolo, lblSimbolo_2, lblSimbolo_3, lblMarcoPoliza_1;
+	private JLabel lblNroCliente, lblTipoDni, lblNroDni, lblApellido, lblNombre, lblDomicilio, lblNombre_1, lblApellido_1;
+	private JLabel lblModeloVehiculo, lblSimbolo, lblSimbolo_2, lblSimbolo_3, lblMarcoPoliza_1;
 	private JLabel lblSumaAsegurada, lblChasis, lblKmsAnio, lblNroSiniestros, lblSimbolo_1, lblMarcaDelVehiculo, lblSimbolo_4;
 	private JLabel lblAoDelVehiculo, lblSimbolo_5, lblMotor, lblSimbolo_6, lblPatenteDelVehiculo, lblSimbolo_7, lblMedidasDeSeguridad;
-	private JLabel lblNewLabel_1, lblMarcoClienteContexto_1, lblApellido_3, lblNombre_2, lblAgregarHijo, lblContadorHijos;
+	private JLabel lblNewLabel_1, lblAgregarHijo, lblContadorHijos;
 	// JTextFields
 	private JTextField textFieldNroCliente, textFieldTipoDNI, textFieldNroDNI, textFieldApellido, textFieldNombre, textFieldDomicilio, textFieldNombre_1, textFieldApellido_1;
-	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor, textFieldApellido_3, textFieldNombre_3, textFieldContadorHijos;
+	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor, textFieldContadorHijos;
 	// JSeparators
-	private JSeparator separator_1, separator_2, separator_3, separator_4, separator_5, separator_6, separator_7, separator_8, separator_9, separator_10;
+	private JSeparator separator_1, separator_2, separator_3, separator_4, separator_5, separator_6, separator_7, separator_8;
 	// JComboBoxes
 	private JComboBox comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxMarcaVehiculo;
 	
 	private int contadorHijos = 0;
 	private JLabel lblSexo;
+	private JPanel panelContextoCliente;
+	private JPanel panelPoliza;
+	private JPanel panelContextoCliente_1;
+	private JSeparator separator_9;
+	private JSeparator separator_10;
+	private JLabel lblApellido_2;
+	private JLabel lblNombre_2;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JPanel panelPoliza_2;
 	
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -171,40 +182,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separator_10_1.setBackground(Color.BLACK);
 		separator_10_1.setBounds(200, 129, 29, 2);
 		datosHijos.add(separator_10_1);
-		
-		separator_9 = new JSeparator();
-		separator_9.setForeground(Color.BLACK);
-		separator_9.setBackground(Color.BLACK);
-		separator_9.setBounds(454, 45, 123, 2);
-		datosHijos.add(separator_9);
-		
-		separator_10 = new JSeparator();
-		separator_10.setForeground(Color.BLACK);
-		separator_10.setBackground(Color.BLACK);
-		separator_10.setBounds(96, 45, 123, 2);
-		datosHijos.add(separator_10);
-		
-		lblNombre_2 = new JLabel("Nombre");
-		lblNombre_2.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblNombre_2.setBounds(40, 33, 46, 14);
-		datosHijos.add(lblNombre_2);
-		
-		textFieldNombre_3 = new JTextField();
-		textFieldNombre_3.setColumns(10);
-		textFieldNombre_3.setBounds(96, 25, 123, 20);
-		datosHijos.add(textFieldNombre_3);
-		configuracionTextField(textFieldNombre_3);
-		
-		lblApellido_3 = new JLabel("Apellido");
-		lblApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblApellido_3.setBounds(398, 33, 46, 14);
-		datosHijos.add(lblApellido_3);
-		
-		textFieldApellido_3 = new JTextField();
-		textFieldApellido_3.setColumns(10);
-		textFieldApellido_3.setBounds(454, 25, 123, 20);
-		datosHijos.add(textFieldApellido_3);
-		configuracionTextField(textFieldApellido_3);
 	
 		JLabel lblContadorHijos = new JLabel("Hijos (entre 18 y 30 años)");
 		lblContadorHijos.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -212,29 +189,69 @@ public class InterfazDarAltaPoliza extends JFrame {
 		datosHijos.add(lblContadorHijos);
 		
 		JButton btnSiguiente_3 = new JButton("Siguiente");
+		btnSiguiente_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSiguiente_3.setFocusable(false);
-		btnSiguiente_3.setBounds(20, 404, 80, 27);
+		btnSiguiente_3.setBounds(20, 404, 89, 23);
 		datosHijos.add(btnSiguiente_3);
 		
 		JButton btnVolver_3 = new JButton("Volver");
+		btnVolver_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnVolver_3.setFocusable(false);
-		btnVolver_3.setBounds(100, 404, 80, 27);
+		btnVolver_3.setBounds(108, 404, 82, 23);
 		datosHijos.add(btnVolver_3);
 		
 		JButton btnCancelar_3 = new JButton("Cancelar");
+		btnCancelar_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_3.setFocusable(false);
-		btnCancelar_3.setBounds(180, 404, 80, 27);
+		btnCancelar_3.setBounds(190, 404, 89, 23);
 		datosHijos.add(btnCancelar_3);
 		
-		lblMarcoClienteContexto_1 = new JLabel("");
-		lblMarcoClienteContexto_1.setBounds(15, 8, 815, 67);
-		datosHijos.add(lblMarcoClienteContexto_1);
-		lblMarcoClienteContexto_1.setIcon(Images.MARCO_CLIENTE_CONTEXTO);
+		panelContextoCliente_1 = new JPanel();
+		panelContextoCliente_1.setLayout(null);
+		panelContextoCliente_1.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelContextoCliente_1.setBackground(Color.WHITE);
+		panelContextoCliente_1.setBounds(16, 11, 797, 64);
+		datosHijos.add(panelContextoCliente_1);
 		
-		JLabel lblMarcoPoliza_1 = new JLabel("");
-		lblMarcoPoliza_1.setBounds(15, 86, 835, 307);
-		datosHijos.add(lblMarcoPoliza_1);
-		lblMarcoPoliza_1.setIcon(Images.MARCO_POLIZA);
+		separator_9 = new JSeparator();
+		separator_9.setForeground(Color.BLACK);
+		separator_9.setBackground(Color.BLACK);
+		separator_9.setBounds(441, 39, 123, 2);
+		panelContextoCliente_1.add(separator_9);
+		
+		separator_10 = new JSeparator();
+		separator_10.setForeground(Color.BLACK);
+		separator_10.setBackground(Color.BLACK);
+		separator_10.setBounds(80, 39, 123, 2);
+		panelContextoCliente_1.add(separator_10);
+		
+		lblApellido_2 = new JLabel("Apellido");
+		lblApellido_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblApellido_2.setBounds(385, 27, 46, 14);
+		panelContextoCliente_1.add(lblApellido_2);
+		
+		lblNombre_2 = new JLabel("Nombre");
+		lblNombre_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblNombre_2.setBounds(24, 27, 46, 14);
+		panelContextoCliente_1.add(lblNombre_2);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(441, 19, 123, 20);
+		panelContextoCliente_1.add(textField_1);
+		
+		textField_2 = new JTextField();
+		textField_2.setColumns(10);
+		textField_2.setBounds(80, 19, 123, 20);
+		panelContextoCliente_1.add(textField_2);
+		
+		panelPoliza_2 = new JPanel();
+		panelPoliza_2.setBackground(Color.WHITE);
+		panelPoliza_2.setBounds(20, 86, 798, 305);
+		datosHijos.add(panelPoliza_2);
+		panelPoliza_2.setBorder(new TitledBorder(null, "Poliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPoliza_2.setLayout(null);
+		
 	}
 	public void pestaniaDatosDelVehiculo() {
 		comboBoxMarcaVehiculo = new JComboBox();
@@ -288,31 +305,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxModeloVehiculo.setBackground(Color.WHITE);
 		comboBoxModeloVehiculo.setBounds(178, 150, 154, 22);
 		datosVehiculo.add(comboBoxModeloVehiculo);
-		
-		JCheckBox chckbxTuercasAntirrobos = new JCheckBox("¿Posee tuercas antirrobo en las cuatro ruedas?");
-		chckbxTuercasAntirrobos.setBackground(Color.WHITE);
-		chckbxTuercasAntirrobos.setBounds(398, 355, 251, 23);
-		datosVehiculo.add(chckbxTuercasAntirrobos);
-		
-		JCheckBox chckbxRastreoVehicular = new JCheckBox("¿Posee dispositivo de rastreo vehicular?");
-		chckbxRastreoVehicular.setBackground(Color.WHITE);
-		chckbxRastreoVehicular.setBounds(398, 331, 228, 23);
-		datosVehiculo.add(chckbxRastreoVehicular);
-		
-		JCheckBox chckbxtieneAlarma = new JCheckBox("¿Tiene alarma?");
-		chckbxtieneAlarma.setBackground(Color.WHITE);
-		chckbxtieneAlarma.setBounds(398, 307, 154, 23);
-		datosVehiculo.add(chckbxtieneAlarma);
-		
-		JCheckBox chckbxGuardaGarage = new JCheckBox("¿Se guarda en garage?");
-		chckbxGuardaGarage.setBackground(Color.WHITE);
-		chckbxGuardaGarage.setBounds(398, 283, 154, 23);
-		datosVehiculo.add(chckbxGuardaGarage);
-		
-		lblMedidasDeSeguridad = new JLabel("Medidas de seguridad");
-		lblMedidasDeSeguridad.setFont(new Font("Arial", Font.BOLD, 12));
-		lblMedidasDeSeguridad.setBounds(398, 265, 133, 14);
-		datosVehiculo.add(lblMedidasDeSeguridad);
 		
 		lblSimbolo_7 = new JLabel("(*)");
 		lblSimbolo_7.setForeground(Color.RED);
@@ -407,50 +399,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblModeloVehiculo.setBounds(40, 154, 113, 14);
 		datosVehiculo.add(lblModeloVehiculo);
 		
-		separator_7 = new JSeparator();
-		separator_7.setForeground(Color.BLACK);
-		separator_7.setBackground(Color.BLACK);
-		separator_7.setBounds(454, 45, 123, 2);
-		datosVehiculo.add(separator_7);
-		
-		separator_6 = new JSeparator();
-		separator_6.setForeground(Color.BLACK);
-		separator_6.setBackground(Color.BLACK);
-		separator_6.setBounds(96, 45, 123, 2);
-		datosVehiculo.add(separator_6);
-		
-		lblApellido_1 = new JLabel("Apellido");
-		lblApellido_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblApellido_1.setBounds(398, 33, 46, 14);
-		datosVehiculo.add(lblApellido_1);
-		
-		lblNombre_1 = new JLabel("Nombre");
-		lblNombre_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblNombre_1.setBounds(40, 33, 46, 14);
-		datosVehiculo.add(lblNombre_1);
-		
-		textFieldApellido_1 = new JTextField();
-		textFieldApellido_1.setColumns(10);
-		textFieldApellido_1.setBounds(454, 25, 123, 20);
-		datosVehiculo.add(textFieldApellido_1);
-		configuracionTextField(textFieldApellido_1);
-		
-		textFieldNombre_1 = new JTextField();
-		textFieldNombre_1.setBounds(96, 25, 123, 20);
-		datosVehiculo.add(textFieldNombre_1);
-		textFieldNombre_1.setColumns(10);
-		configuracionTextField(textFieldNombre_1);
-		lblMarcoClienteContexto = new JLabel("");
-		lblMarcoClienteContexto.setIcon(Images.MARCO_CLIENTE_CONTEXTO);
-		lblMarcoClienteContexto.setBounds(15, 8, 815, 67);
-		datosVehiculo.add(lblMarcoClienteContexto);
-		
-		lblMarcoPoliza = new JLabel("");
-		lblMarcoPoliza.setIcon(Images.MARCO_POLIZA);
-		lblMarcoPoliza.setBounds(15, 86, 835, 307);
-		datosVehiculo.add(lblMarcoPoliza);
-		
 		btnSiguiente_2 = new JButton("Siguiente");
+		btnSiguiente_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSiguiente_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
@@ -463,18 +413,98 @@ public class InterfazDarAltaPoliza extends JFrame {
 			}
 		});
 		btnSiguiente_2.setFocusable(false);
-		btnSiguiente_2.setBounds(20, 404, 80, 27);
+		btnSiguiente_2.setBounds(20, 404, 89, 23);
 		datosVehiculo.add(btnSiguiente_2);
 		
 		btnCancelar_2 = new JButton("Cancelar");
+		btnCancelar_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_2.setFocusable(false);
-		btnCancelar_2.setBounds(180, 404, 80, 27);
+		btnCancelar_2.setBounds(190, 404, 89, 23);
 		datosVehiculo.add(btnCancelar_2);
 		
 		btnVolver_2 = new JButton("Volver");
+		btnVolver_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnVolver_2.setFocusable(false);
-		btnVolver_2.setBounds(100, 404, 80, 27);
+		btnVolver_2.setBounds(108, 404, 82, 23);
 		datosVehiculo.add(btnVolver_2);
+		
+		panelContextoCliente = new JPanel();
+		panelContextoCliente.setBackground(Color.WHITE);
+		panelContextoCliente.setBounds(15, 11, 797, 64);
+		datosVehiculo.add(panelContextoCliente);
+		panelContextoCliente.setLayout(null);
+		panelContextoCliente.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		
+		separator_7 = new JSeparator();
+		separator_7.setBounds(441, 39, 123, 2);
+		panelContextoCliente.add(separator_7);
+		separator_7.setForeground(Color.BLACK);
+		separator_7.setBackground(Color.BLACK);
+		
+		separator_6 = new JSeparator();
+		separator_6.setBounds(80, 39, 123, 2);
+		panelContextoCliente.add(separator_6);
+		separator_6.setForeground(Color.BLACK);
+		separator_6.setBackground(Color.BLACK);
+		
+		lblApellido_1 = new JLabel("Apellido");
+		lblApellido_1.setBounds(385, 27, 46, 14);
+		panelContextoCliente.add(lblApellido_1);
+		lblApellido_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblNombre_1 = new JLabel("Nombre");
+		lblNombre_1.setBounds(24, 27, 46, 14);
+		panelContextoCliente.add(lblNombre_1);
+		lblNombre_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		textFieldApellido_1 = new JTextField();
+		textFieldApellido_1.setBounds(441, 19, 123, 20);
+		panelContextoCliente.add(textFieldApellido_1);
+		textFieldApellido_1.setColumns(10);
+		configuracionTextField(textFieldApellido_1);
+		
+		textFieldNombre_1 = new JTextField();
+		textFieldNombre_1.setBounds(80, 19, 123, 20);
+		panelContextoCliente.add(textFieldNombre_1);
+		textFieldNombre_1.setColumns(10);
+		configuracionTextField(textFieldNombre_1);
+		
+		panelPoliza = new JPanel();
+		panelPoliza.setBackground(Color.WHITE);
+		panelPoliza.setBounds(20, 98, 784, 295);
+		datosVehiculo.add(panelPoliza);
+		panelPoliza.setBorder(new TitledBorder(null, "Poliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelPoliza.setLayout(null);
+		
+		JCheckBox chckbxGuardaGarage = new JCheckBox("¿Se guarda en garage?");
+		chckbxGuardaGarage.setBounds(378, 193, 174, 23);
+		panelPoliza.add(chckbxGuardaGarage);
+		chckbxGuardaGarage.setFont(new Font("Arial", Font.PLAIN, 12));
+		chckbxGuardaGarage.setBackground(Color.WHITE);
+		
+		JCheckBox chckbxtieneAlarma = new JCheckBox("¿Tiene alarma?");
+		chckbxtieneAlarma.setBounds(378, 217, 154, 23);
+		panelPoliza.add(chckbxtieneAlarma);
+		chckbxtieneAlarma.setFont(new Font("Arial", Font.PLAIN, 12));
+		chckbxtieneAlarma.setBackground(Color.WHITE);
+		
+		JCheckBox chckbxRastreoVehicular = new JCheckBox("¿Posee dispositivo de rastreo vehicular?");
+		chckbxRastreoVehicular.setBounds(378, 241, 256, 23);
+		panelPoliza.add(chckbxRastreoVehicular);
+		chckbxRastreoVehicular.setFont(new Font("Arial", Font.PLAIN, 12));
+		chckbxRastreoVehicular.setBackground(Color.WHITE);
+		
+		JCheckBox chckbxTuercasAntirrobos = new JCheckBox("¿Posee tuercas antirrobo en las cuatro ruedas?");
+		chckbxTuercasAntirrobos.setBounds(378, 265, 297, 23);
+		panelPoliza.add(chckbxTuercasAntirrobos);
+		chckbxTuercasAntirrobos.setFont(new Font("Arial", Font.PLAIN, 12));
+		chckbxTuercasAntirrobos.setBackground(Color.WHITE);
+		
+		lblMedidasDeSeguridad = new JLabel("Medidas de seguridad");
+		lblMedidasDeSeguridad.setBounds(380, 172, 133, 14);
+		panelPoliza.add(lblMedidasDeSeguridad);
+		lblMedidasDeSeguridad.setFont(new Font("Arial", Font.BOLD, 12));
 		
 		
 	}
@@ -489,72 +519,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		for (int i=1; i<tabbedCrearPoliza.getComponentCount(); i++) {
 			tabbedCrearPoliza.setEnabledAt(i, false);
 		}
-		separator_5 = new JSeparator();
-		separator_5.setForeground(Color.BLACK);
-		separator_5.setBackground(Color.BLACK);
-		separator_5.setBounds(449, 186, 123, 2);
-		buscarCliente.add(separator_5);
-		
-		separator_4 = new JSeparator();
-		separator_4.setForeground(Color.BLACK);
-		separator_4.setBackground(Color.BLACK);
-		separator_4.setBounds(449, 153, 123, 2);
-		buscarCliente.add(separator_4);
-		
-		separator_3 = new JSeparator();
-		separator_3.setForeground(Color.BLACK);
-		separator_3.setBackground(Color.BLACK);
-		separator_3.setBounds(449, 120, 123, 2);
-		buscarCliente.add(separator_3);
-		
-		separator_2 = new JSeparator();
-		separator_2.setForeground(Color.BLACK);
-		separator_2.setBackground(Color.BLACK);
-		separator_2.setBounds(128, 186, 123, 2);
-		buscarCliente.add(separator_2);
-		JSeparator separator = new JSeparator();
-		separator.setBackground(Color.BLACK);
-		separator.setForeground(Color.BLACK);
-		separator.setBounds(128, 120, 123, 2);
-		buscarCliente.add(separator);
-		
-		separator_1 = new JSeparator();
-		separator_1.setForeground(Color.BLACK);
-		separator_1.setBackground(Color.BLACK);
-		separator_1.setBounds(128, 153, 123, 2);
-		buscarCliente.add(separator_1);
-		
-		lblDomicilio = new JLabel("Domicilio");
-		lblDomicilio.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblDomicilio.setBounds(385, 174, 72, 14);
-		buscarCliente.add(lblDomicilio);
-		
-		lblApellido = new JLabel("Apellido");
-		lblApellido.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblApellido.setBounds(385, 107, 72, 14);
-		buscarCliente.add(lblApellido);
-		
-		lblNombre = new JLabel("Nombre");
-		lblNombre.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblNombre.setBounds(385, 141, 72, 14);
-		buscarCliente.add(lblNombre);
-		
-		lblNroDni = new JLabel("Nro. DNI");
-		lblNroDni.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblNroDni.setBounds(46, 174, 72, 14);
-		buscarCliente.add(lblNroDni);
-		
-		lblTipoDni = new JLabel("Tipo DNI");
-		lblTipoDni.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblTipoDni.setBounds(46, 141, 72, 14);
-		buscarCliente.add(lblTipoDni);
-		
-		lblNroCliente = new JLabel("Nro. Cliente");
-		lblNroCliente.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblNroCliente.setBounds(46, 107, 72, 14);
-		buscarCliente.add(lblNroCliente);
 		
 		btnSiguiente_1 = new JButton("Siguiente");
+		btnSiguiente_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSiguiente_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
@@ -566,17 +533,19 @@ public class InterfazDarAltaPoliza extends JFrame {
 				tabbedCrearPoliza.setSelectedIndex(1);
 			}
 		});
-		btnSiguiente_1.setBounds(20, 404, 80, 27);
+		btnSiguiente_1.setBounds(20, 404, 89, 23);
 		buscarCliente.add(btnSiguiente_1);
 		btnSiguiente_1.setFocusable(false);
 		
 		btnCancelar_1 = new JButton("Cancelar");
-		btnCancelar_1.setBounds(100, 404, 80, 27);
+		btnCancelar_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnCancelar_1.setBounds(108, 404, 89, 23);
 		buscarCliente.add(btnCancelar_1);
 		btnCancelar_1.setFocusable(false);
 			
 		btnBuscarCliente = new JButton("Buscar cliente");
-		btnBuscarCliente.setBounds(20, 220, 104, 27);
+		btnBuscarCliente.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnBuscarCliente.setBounds(20, 220, 111, 23);
 		buscarCliente.add(btnBuscarCliente);
 		btnBuscarCliente.setFocusable(false);
 		btnBuscarCliente.addActionListener(new ActionListener() {
@@ -595,50 +564,119 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 			
 		btnDarAltaCliente = new JButton("Dar de alta cliente");
-		btnDarAltaCliente.setBounds(124, 220, 134, 27);
+		btnDarAltaCliente.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnDarAltaCliente.setBounds(129, 220, 134, 23);
 		buscarCliente.add(btnDarAltaCliente);
 		btnDarAltaCliente.setFocusable(false);
 		
-		textFieldNroCliente = new JTextField();
-		textFieldNroCliente.setBounds(128, 102, 123, 20);
-		textFieldNroCliente.setColumns(10);
-		buscarCliente.add(textFieldNroCliente);
-		configuracionTextField(textFieldNroCliente);
+		JPanel panelCliente = new JPanel();
+		panelCliente.setBackground(Color.WHITE);
+		panelCliente.setBounds(20, 58, 759, 157);
+		buscarCliente.add(panelCliente);
+		panelCliente.setLayout(null);
+		panelCliente.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		textFieldTipoDNI = new JTextField();
-		textFieldTipoDNI.setColumns(10);
-		textFieldTipoDNI.setBounds(128, 135, 123, 20);
-		buscarCliente.add(textFieldTipoDNI);
-		configuracionTextField(textFieldTipoDNI);
 		
-		textFieldNroDNI = new JTextField();
-		textFieldNroDNI.setColumns(10);
-		textFieldNroDNI.setBounds(128, 168, 123, 20);
-		buscarCliente.add(textFieldNroDNI);
-		configuracionTextField(textFieldNroDNI);
+		separator_5 = new JSeparator();
+		separator_5.setBounds(469, 132, 123, 2);
+		panelCliente.add(separator_5);
+		separator_5.setForeground(Color.BLACK);
+		separator_5.setBackground(Color.BLACK);
+		
+		separator_4 = new JSeparator();
+		separator_4.setBounds(469, 99, 123, 2);
+		panelCliente.add(separator_4);
+		separator_4.setForeground(Color.BLACK);
+		separator_4.setBackground(Color.BLACK);
+		
+		separator_3 = new JSeparator();
+		separator_3.setBounds(469, 66, 123, 2);
+		panelCliente.add(separator_3);
+		separator_3.setForeground(Color.BLACK);
+		separator_3.setBackground(Color.BLACK);
+		
+		lblDomicilio = new JLabel("Domicilio");
+		lblDomicilio.setBounds(405, 120, 72, 14);
+		panelCliente.add(lblDomicilio);
+		lblDomicilio.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblApellido = new JLabel("Apellido");
+		lblApellido.setBounds(405, 53, 72, 14);
+		panelCliente.add(lblApellido);
+		lblApellido.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblNombre = new JLabel("Nombre");
+		lblNombre.setBounds(405, 87, 72, 14);
+		panelCliente.add(lblNombre);
+		lblNombre.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		textFieldApellido = new JTextField();
+		textFieldApellido.setBounds(469, 48, 123, 20);
+		panelCliente.add(textFieldApellido);
 		textFieldApellido.setColumns(10);
-		textFieldApellido.setBounds(449, 102, 123, 20);
-		buscarCliente.add(textFieldApellido);
 		configuracionTextField(textFieldApellido);
 		
 		textFieldNombre = new JTextField();
+		textFieldNombre.setBounds(469, 81, 123, 20);
+		panelCliente.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
-		textFieldNombre.setBounds(449, 135, 123, 20);
-		buscarCliente.add(textFieldNombre);
 		configuracionTextField(textFieldNombre);
 		
 		textFieldDomicilio = new JTextField();
+		textFieldDomicilio.setBounds(469, 114, 123, 20);
+		panelCliente.add(textFieldDomicilio);
 		textFieldDomicilio.setColumns(10);
-		textFieldDomicilio.setBounds(449, 168, 123, 20);
-		buscarCliente.add(textFieldDomicilio);
 		configuracionTextField(textFieldDomicilio);
 		
-		lblMarcoCliente = new JLabel("");
-		lblMarcoCliente.setIcon(Images.MARCO_CLIENTE);
-		lblMarcoCliente.setBounds(5, 55, 725, 168);
-		buscarCliente.add(lblMarcoCliente);
+		separator_2 = new JSeparator();
+		separator_2.setBounds(111, 132, 123, 2);
+		panelCliente.add(separator_2);
+		separator_2.setForeground(Color.BLACK);
+		separator_2.setBackground(Color.BLACK);
+		JSeparator separator = new JSeparator();
+		separator.setBounds(111, 66, 123, 2);
+		panelCliente.add(separator);
+		separator.setBackground(Color.BLACK);
+		separator.setForeground(Color.BLACK);
+		
+		separator_1 = new JSeparator();
+		separator_1.setBounds(111, 99, 123, 2);
+		panelCliente.add(separator_1);
+		separator_1.setForeground(Color.BLACK);
+		separator_1.setBackground(Color.BLACK);
+		
+		lblNroDni = new JLabel("Nro. DNI");
+		lblNroDni.setBounds(29, 120, 72, 14);
+		panelCliente.add(lblNroDni);
+		lblNroDni.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblTipoDni = new JLabel("Tipo DNI");
+		lblTipoDni.setBounds(29, 87, 72, 14);
+		panelCliente.add(lblTipoDni);
+		lblTipoDni.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblNroCliente = new JLabel("Nro. Cliente");
+		lblNroCliente.setBounds(29, 53, 72, 14);
+		panelCliente.add(lblNroCliente);
+		lblNroCliente.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		textFieldNroCliente = new JTextField();
+		textFieldNroCliente.setBounds(111, 48, 123, 20);
+		panelCliente.add(textFieldNroCliente);
+		textFieldNroCliente.setColumns(10);
+		configuracionTextField(textFieldNroCliente);
+		
+		textFieldTipoDNI = new JTextField();
+		textFieldTipoDNI.setBounds(111, 81, 123, 20);
+		panelCliente.add(textFieldTipoDNI);
+		textFieldTipoDNI.setColumns(10);
+		configuracionTextField(textFieldTipoDNI);
+		
+		textFieldNroDNI = new JTextField();
+		textFieldNroDNI.setBounds(111, 114, 123, 20);
+		panelCliente.add(textFieldNroDNI);
+		textFieldNroDNI.setColumns(10);
+		configuracionTextField(textFieldNroDNI);
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);

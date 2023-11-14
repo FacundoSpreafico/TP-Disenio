@@ -18,6 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
 
 public class InterfazBuscarCliente extends JFrame {
 
@@ -35,6 +36,7 @@ public class InterfazBuscarCliente extends JFrame {
 		setResizable(false);
 		setBounds(100, 100, 869, 547);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -100,6 +102,7 @@ public class InterfazBuscarCliente extends JFrame {
 		contentPane.add(btnBuscar);
 		
 		JPanel panelBusqueda = new JPanel();
+		panelBusqueda.setBackground(Color.WHITE);
 		panelBusqueda.setBorder(new TitledBorder(null, "B\u00FAsqueda de cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelBusqueda.setBounds(28, 28, 780, 210);
 		contentPane.add(panelBusqueda);
@@ -140,11 +143,13 @@ public class InterfazBuscarCliente extends JFrame {
 		scrollPane.setViewportView(tablaClientes);
 		
 		JPanel panelResultado = new JPanel();
+		panelResultado.setBackground(Color.WHITE);
 		panelResultado.setBorder(new TitledBorder(null, "Resultado de b\u00FAsqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelResultado.setBounds(28, 249, 780, 190);
 		contentPane.add(panelResultado);
 		
 		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setBackground(Color.WHITE);
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

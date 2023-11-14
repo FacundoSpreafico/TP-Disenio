@@ -60,17 +60,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 	
 	private int contadorHijos = 0;
 	private JLabel lblSexo;
-	private Map<Integer, List<Component>> componentesPorHijo = new HashMap<>();
-	
-	
-	
-	
-	
-	
 	
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 869, 547);
@@ -82,6 +74,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
 		pestaniaCrearPoliza();
+		
 		
 	}
 
@@ -97,7 +90,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		scrollPane.setViewportView(panel);
 		panel.setLayout(null);
 		
-		
 		lblAgregarHijo = new JLabel("Agregar");
 		lblAgregarHijo.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblAgregarHijo.setBounds(40, 150, 56, 14);
@@ -111,7 +103,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnAgregarHijo.setBorder(null);
 		btnAgregarHijo.setFocusable(false);
 		
-		 btnAgregarHijo.addActionListener(new ActionListener() {
+		btnAgregarHijo.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e) {
 	                int modulo = contadorHijos % 2;
 
@@ -171,14 +163,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 	            }
 	        });
     
-
-
-
-
-
-
-
-
 		textFieldContadorHijos = new JTextField();
 		textFieldContadorHijos.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldContadorHijos.setColumns(10);

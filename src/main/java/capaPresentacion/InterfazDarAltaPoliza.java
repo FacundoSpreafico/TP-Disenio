@@ -17,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -79,6 +80,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setIconImage(Images.LOGO.getImage());
 		setBounds(100, 100, 869, 547);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -92,6 +94,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 	}
 
+	//pestañas de la interfaz
 	public void pestaniaDatosHijos() {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(24, 170, 789, 211);
@@ -103,7 +106,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panel.setBackground(Color.WHITE);
 		scrollPane.setViewportView(panel);
 		panel.setLayout(null);
-		
 		
 		lblAgregarHijo = new JLabel("Agregar");
 		lblAgregarHijo.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -182,7 +184,7 @@ public class InterfazDarAltaPoliza extends JFrame {
                             panel.revalidate();
                             contadorHijos--;
                             textFieldContadorHijos.setText(String.valueOf(contadorHijos));
-                            
+    
                         }
                 });
 
@@ -236,10 +238,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		JButton btnSiguiente_3 = new JButton("Siguiente");
 		btnSiguiente_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (HijoCliente hijos: listaHijos) {
-					System.out.print(hijos.getSexo());
-					
-				}
 			}
 		});
 		btnSiguiente_3.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -254,6 +252,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		datosHijos.add(btnVolver_3);
 		
 		JButton btnCancelar_3 = new JButton("Cancelar");
+		btnCancelar_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogoCancelar();
+			}
+		});
 		btnCancelar_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_3.setFocusable(false);
 		btnCancelar_3.setBounds(190, 404, 89, 23);
@@ -292,11 +295,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textField_1.setColumns(10);
 		textField_1.setBounds(441, 19, 123, 20);
 		panelContextoCliente_1.add(textField_1);
+		configuracionTextField(textField_1);
 		
 		textField_2 = new JTextField();
 		textField_2.setColumns(10);
 		textField_2.setBounds(80, 19, 123, 20);
 		panelContextoCliente_1.add(textField_2);
+		configuracionTextField(textField_2);
 		
 		panelPoliza_2 = new JPanel();
 		panelPoliza_2.setBackground(Color.WHITE);
@@ -305,7 +310,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza_2.setBorder(new TitledBorder(null, "Poliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelPoliza_2.setLayout(null);
 	}
-	public void pestaniaDatosDelVehiculo() {
+    public void pestaniaDatosDelVehiculo() {
 		comboBoxMarcaVehiculo = new JComboBox<>();
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
 		comboBoxMarcaVehiculo.setBounds(541, 150, 154, 22);
@@ -469,6 +474,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		datosVehiculo.add(btnSiguiente_2);
 		
 		btnCancelar_2 = new JButton("Cancelar");
+		btnCancelar_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogoCancelar();
+			}
+		});
 		btnCancelar_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_2.setFocusable(false);
 		btnCancelar_2.setBounds(190, 404, 89, 23);
@@ -560,13 +570,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		
 	}
-	public void configuracionTextField(JTextField textField) {
-		textField.setBorder(null);
-		textField.setFocusable(false);
-		textField.setBackground(Color.WHITE);
-		textField.setEnabled(false);
-	}
-	public void pestaniaBuscarCliente() {
+    public void pestaniaBuscarCliente() {
 		tabbedPrincipal.setSelectedIndex(0);
 		for (int i=1; i<tabbedCrearPoliza.getComponentCount(); i++) {
 			tabbedCrearPoliza.setEnabledAt(i, false);
@@ -590,6 +594,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnSiguiente_1.setFocusable(false);
 		
 		btnCancelar_1 = new JButton("Cancelar");
+		btnCancelar_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogoCancelar();
+			}
+		});
 		btnCancelar_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_1.setBounds(108, 404, 89, 23);
 		buscarCliente.add(btnCancelar_1);
@@ -605,10 +614,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				try {
 					InterfazBuscarCliente buscarCliente = new InterfazBuscarCliente();
 					buscarCliente.setVisible(true);
-				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-						| UnsupportedLookAndFeelException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (Exception e1) {
 				}
 
 			}
@@ -737,6 +743,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 	public void pestaniaConfirmarPoliza() {
 		tabbedPrincipal.setEnabledAt(0, false);
 	}
+	
+    //funciones de configuracion
 	public void inicializarPaneles () {
 		setTitle("Productor de seguro- Dar de alta poliza");
 		panelPrincipal = new JPanel();
@@ -799,4 +807,18 @@ public class InterfazDarAltaPoliza extends JFrame {
 		generacionPoliza.setBackground(Color.WHITE);
 		tabbedConfirmarPoliza.addTab("Generacion de poliza", null, generacionPoliza, null);
 	}
+	public void configuracionTextField(JTextField textField) {
+		textField.setBorder(null);
+		textField.setFocusable(false);
+		textField.setBackground(Color.WHITE);
+		textField.setEnabled(false);
+	}
+	public void dialogoCancelar() {
+    	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar la operación?","Confirmación",
+                JOptionPane.YES_NO_OPTION);
+        if (opcion == JOptionPane.YES_OPTION) {
+            //En la version final, aquí deberia volver a la interfaz menu principal dependiendo del usuario que este logueado en el sistema
+        	System.exit(0);
+        }
+    }
 }

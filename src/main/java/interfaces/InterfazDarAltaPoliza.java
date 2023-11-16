@@ -1,4 +1,4 @@
-package capaPresentacion;
+package interfaces;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -30,8 +30,8 @@ import javax.swing.border.TitledBorder;
 
 import com.toedter.calendar.JDateChooser;
 
-import capaDatos.HijoCliente;
-import constants.Images;
+import constantes.Images;
+import entidades.HijoCliente;
 
 public class InterfazDarAltaPoliza extends JFrame {
 
@@ -71,6 +71,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	
+	JCheckBox chckbxGuardaGarage,chckbxtieneAlarma,chckbxRastreoVehicular,chckbxTuercasAntirrobos;
+	
+	
 	private static final int ELEMENT_WIDTH = 140;
 	private static final int ELEMENT_HEIGHT = 22;
 	private static final int ELEMENT_MARGIN = 11;
@@ -90,8 +93,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
 		pestaniaCrearPoliza();
-		
-		
 	}
 
 	//pestañas de la interfaz
@@ -154,13 +155,10 @@ public class InterfazDarAltaPoliza extends JFrame {
                 comboBoxSexo.addItem("sexo 1");
                 comboBoxSexo.addItem("sexo 2");
                 comboBoxSexo.addItem("sexo 3");
-                
-                
+                               
                 JDateChooser dateChooser = new JDateChooser();
                 dateChooser.setBounds(143 + posX, 11 + posY, 140, 20);
- 
-                
-                
+
                 JButton btnEliminarHijo = new JButton("");
                 btnEliminarHijo.setBackground(Color.WHITE);
                 btnEliminarHijo.setBounds(20 + posX, 116 + posY, 33, 23);
@@ -168,8 +166,6 @@ public class InterfazDarAltaPoliza extends JFrame {
                 btnEliminarHijo.setBorder(null);
                 btnEliminarHijo.setFocusable(false);
   
-                
-
                 btnEliminarHijo.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                             panel.remove(lblFechaDeNacimiento);
@@ -246,6 +242,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		datosHijos.add(btnSiguiente_3);
 		
 		JButton btnVolver_3 = new JButton("Volver");
+		btnVolver_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			dialogoVolver(tabbedCrearPoliza.getSelectedIndex());
+			}
+		});
 		btnVolver_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnVolver_3.setFocusable(false);
 		btnVolver_3.setBounds(108, 404, 82, 23);
@@ -485,10 +486,17 @@ public class InterfazDarAltaPoliza extends JFrame {
 		datosVehiculo.add(btnCancelar_2);
 		
 		btnVolver_2 = new JButton("Volver");
+		btnVolver_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogoVolver(tabbedCrearPoliza.getSelectedIndex());
+			}
+		});
 		btnVolver_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnVolver_2.setFocusable(false);
 		btnVolver_2.setBounds(108, 404, 82, 23);
 		datosVehiculo.add(btnVolver_2);
+		
+		
 		
 		panelContextoCliente = new JPanel();
 		panelContextoCliente.setBackground(Color.WHITE);
@@ -539,25 +547,25 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza.setBorder(new TitledBorder(null, "Poliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelPoliza.setLayout(null);
 		
-		JCheckBox chckbxGuardaGarage = new JCheckBox("¿Se guarda en garage?");
+		chckbxGuardaGarage = new JCheckBox("¿Se guarda en garage?");
 		chckbxGuardaGarage.setBounds(378, 193, 174, 23);
 		panelPoliza.add(chckbxGuardaGarage);
 		chckbxGuardaGarage.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxGuardaGarage.setBackground(Color.WHITE);
 		
-		JCheckBox chckbxtieneAlarma = new JCheckBox("¿Tiene alarma?");
+		chckbxtieneAlarma = new JCheckBox("¿Tiene alarma?");
 		chckbxtieneAlarma.setBounds(378, 217, 154, 23);
 		panelPoliza.add(chckbxtieneAlarma);
 		chckbxtieneAlarma.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxtieneAlarma.setBackground(Color.WHITE);
 		
-		JCheckBox chckbxRastreoVehicular = new JCheckBox("¿Posee dispositivo de rastreo vehicular?");
+		chckbxRastreoVehicular = new JCheckBox("¿Posee dispositivo de rastreo vehicular?");
 		chckbxRastreoVehicular.setBounds(378, 241, 256, 23);
 		panelPoliza.add(chckbxRastreoVehicular);
 		chckbxRastreoVehicular.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxRastreoVehicular.setBackground(Color.WHITE);
 		
-		JCheckBox chckbxTuercasAntirrobos = new JCheckBox("¿Posee tuercas antirrobo en las cuatro ruedas?");
+		chckbxTuercasAntirrobos = new JCheckBox("¿Posee tuercas antirrobo en las cuatro ruedas?");
 		chckbxTuercasAntirrobos.setBounds(378, 265, 297, 23);
 		panelPoliza.add(chckbxTuercasAntirrobos);
 		chckbxTuercasAntirrobos.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -571,10 +579,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 	}
     public void pestaniaBuscarCliente() {
-		tabbedPrincipal.setSelectedIndex(0);
-		for (int i=1; i<tabbedCrearPoliza.getComponentCount(); i++) {
-			tabbedCrearPoliza.setEnabledAt(i, false);
-		}
+		configuracionBuscarCliente();
 		
 		btnSiguiente_1 = new JButton("Siguiente");
 		btnSiguiente_1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -813,7 +818,59 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textField.setBackground(Color.WHITE);
 		textField.setEnabled(false);
 	}
-	public void dialogoCancelar() {
+	public void configuracionBuscarCliente() {
+		tabbedCrearPoliza.setSelectedIndex(0);
+		tabbedCrearPoliza.setEnabledAt(0,true);
+		for (int i=1; i<tabbedCrearPoliza.getComponentCount(); i++) {
+			tabbedCrearPoliza.setEnabledAt(i, false);
+		}
+	}
+    public void configuracionDatosVehiculo() {
+		tabbedCrearPoliza.setSelectedIndex(1);
+		tabbedCrearPoliza.setEnabledAt(1,true);
+		for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
+			if (i!=1) {
+			tabbedCrearPoliza.setEnabledAt(i, false);
+			}
+		}
+    }
+	public void limpiarCamposVehiculo() {
+		comboBoxModeloVehiculo.setSelectedItem(null);
+		textFieldSumaAsegurada.setText(null);
+		textFieldChasis.setText(null);
+		comboBoxKmsPorAnio.setSelectedItem(null);
+		comboBoxSiniestrosUltAnio.setSelectedItem(null);
+		comboBoxMarcaVehiculo.setSelectedItem(null);
+	    comboBoxAnioVehiculo.setSelectedItem(null);	
+	    textFieldMotor.setText(null);
+	    textFieldPatenteVehiculo.setText(null);
+	    chckbxGuardaGarage.setSelected(false);
+	    chckbxtieneAlarma.setSelected(false);
+	    chckbxRastreoVehicular.setSelected(false);
+	    chckbxTuercasAntirrobos.setSelected(false);
+	}
+    public void dialogoVolver(int index) {
+		switch (index) {
+		case 1:
+			switch(JOptionPane.showConfirmDialog(null,"Los datos ingresados se eliminarán, ¿está seguro que desea volver? ","Alerta",JOptionPane.YES_NO_OPTION)) {
+			case JOptionPane.YES_OPTION:
+			tabbedCrearPoliza.setSelectedIndex(index-1);
+			configuracionBuscarCliente();
+			limpiarCamposVehiculo();
+			break;
+			case JOptionPane.NO_OPTION:
+			break;
+			}
+		break;
+		case 2:
+		tabbedCrearPoliza.setSelectedIndex(index-1);
+		configuracionDatosVehiculo();
+		break;
+		
+		
+		}
+	}
+    public void dialogoCancelar() {
     	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar la operación?","Confirmación",
                 JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {

@@ -1,4 +1,4 @@
-package capaDTO;
+package DTO;
 
 public class VehiculoDTO {
 	private DomicilioRiesgoDTO domicilio;

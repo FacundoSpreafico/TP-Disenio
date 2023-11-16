@@ -1,4 +1,4 @@
-package capaPresentacion;
+package interfaces;
 
 import java.awt.EventQueue;
 import java.awt.Font;

@@ -1,8 +1,8 @@
-package constants;
+package constantes;
 
 import javax.swing.ImageIcon;
 
-import capaPresentacion.InterfazDarAltaPoliza;
+import interfaces.InterfazDarAltaPoliza;
 
 public class Images {
 	 public static final ImageIcon ICONO_AGREGAR_HIJO = new ImageIcon(InterfazDarAltaPoliza.class.getResource("/resources/agregarHijo.png"));

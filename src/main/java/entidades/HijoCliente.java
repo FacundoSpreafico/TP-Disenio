@@ -1,4 +1,4 @@
-package capaDatos;
+package entidades;
 
 import java.util.Date;
 

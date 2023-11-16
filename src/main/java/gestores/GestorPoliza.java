@@ -1,4 +1,4 @@
-package capaLogica;
+package gestores;
 
 public class GestorPoliza {
 

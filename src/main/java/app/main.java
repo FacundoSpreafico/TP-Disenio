@@ -1,8 +1,8 @@
-package App;
+package app;
 
 import javax.swing.UnsupportedLookAndFeelException;
 
-import capaPresentacion.InterfazDarAltaPoliza;
+import interfaces.InterfazDarAltaPoliza;
 
 public class main {
 

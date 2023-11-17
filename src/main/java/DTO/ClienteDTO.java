@@ -1,8 +1,7 @@
 package DTO;
 
 public class ClienteDTO {
-	String nombre,apellido,tipoDocumento,nroCliente;
-	Integer nroDocumento;
+	String nombre,apellido,tipoDocumento,nroCliente,nroDocumento;
 	public String getNroCliente() {
 		return nroCliente;
 	}
@@ -27,10 +26,10 @@ public class ClienteDTO {
 	public void setTipoDocumento(String tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
-	public Integer getNroDocumento() {
+	public String getNroDocumento() {
 		return nroDocumento;
 	}
-	public void setNroDocumento(Integer nroDocumento) {
+	public void setNroDocumento(String nroDocumento) {
 		this.nroDocumento = nroDocumento;
 	}
 }

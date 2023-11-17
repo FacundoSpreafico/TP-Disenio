@@ -71,8 +71,6 @@ public class Cliente {
     public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
     }
-
-    // Getters y Setters para nombre
     public String getNombre() {
         return nombre;
     }
@@ -177,15 +175,13 @@ public class Cliente {
 		this.anioRegistro = anioRegistro;
 	}
 
-	public Integer getNroDocumento() {
+	public String getNroDocumento() {
 		return nroDocumento;
 	}
 
-	public void setNroDocumento(Integer nroDocumento) {
+	public void setNroDocumento(String nroDocumento) {
 		this.nroDocumento = nroDocumento;
 	}
-
-	// Getter y Setter para estadoCliente
     public String getEstadoCliente() {
         return estadoCliente;
     }

@@ -59,6 +59,7 @@ public class ClienteDAOImp implements ClienteDAO {
         }
         if (índice == tamañoLista) {
         	return restricciones;  
+        	
         }
         else {
         	return java.util.Arrays.copyOf(restricciones, índice);

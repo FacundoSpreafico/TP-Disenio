@@ -116,7 +116,7 @@ public class InterfazBuscarCliente extends JFrame {
 		            cliente.setTipoDocumento(comboBoxTipoDoc.getSelectedItem().toString());
 		        }
 		        if (!textFieldNroDoc.getText().isEmpty()) {
-		            cliente.setNroDocumento(Integer.parseInt(textFieldNroDoc.getText()));
+		            cliente.setNroDocumento(textFieldNroDoc.getText());
 		        }
 		        if (!textFieldNroCliente.getText().isEmpty()) {
 		           cliente.setNroCliente(textFieldNroCliente.getText().trim());

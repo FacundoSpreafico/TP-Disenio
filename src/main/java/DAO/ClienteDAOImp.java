@@ -29,7 +29,7 @@ public class ClienteDAOImp implements ClienteDAO {
 
             Predicate[] restricciones = construirRestricciones(criteriaBuilder, root, clienteDTO);
             criteriaQuery.where(restricciones);
-
+            
             Query<Cliente> query = session.createQuery(criteriaQuery);
            
             return query.getResultList();
@@ -57,7 +57,12 @@ public class ClienteDAOImp implements ClienteDAO {
         if (clienteDTO.getNroDocumento() != null) {
             restricciones[índice] = criteriaBuilder.equal(root.get("nroDocumento"), clienteDTO.getNroDocumento());
         }
-        return índice == tamañoLista ? restricciones : java.util.Arrays.copyOf(restricciones, índice);
+        if (índice == tamañoLista) {
+        	return restricciones;  
+        }
+        else {
+        	return java.util.Arrays.copyOf(restricciones, índice);
+        }
     }
     }
 

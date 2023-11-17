@@ -20,14 +20,21 @@ import jakarta.persistence.criteria.Root;
 public class ClienteDAOImp implements ClienteDAO {
     private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Cliente.class).buildSessionFactory();
 
-    @Override
-    public List<Cliente> buscarClientes(ClienteDTO clienteDTO) {
+    public void create(Cliente cliente) {
+		
+    	
+    	
+    	
+	}
+    
+    public List<Cliente> find(ClienteDTO clienteDTO) {
         try (Session session = sessionFactory.openSession()) {
         	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
             Root<Cliente> root = criteriaQuery.from(Cliente.class);
 
             Predicate[] restricciones = construirRestricciones(criteriaBuilder, root, clienteDTO);
+            
             criteriaQuery.where(restricciones);
             
             Query<Cliente> query = session.createQuery(criteriaQuery);
@@ -38,7 +45,7 @@ public class ClienteDAOImp implements ClienteDAO {
 
     
     private Predicate[] construirRestricciones(CriteriaBuilder criteriaBuilder, Root<Cliente> root, ClienteDTO clienteDTO) {
-        int tamañoLista = 5; 
+        int tamañoLista = 100; 
         Predicate[] restricciones = new Predicate[tamañoLista];
         int índice = 0;
         
@@ -59,15 +66,14 @@ public class ClienteDAOImp implements ClienteDAO {
         }
         if (índice == tamañoLista) {
         	return restricciones;  
-        	
-        	
-        	
         }
         else {
         	return java.util.Arrays.copyOf(restricciones, índice);
         }
     }
-    }
+
+}
+	
 
 
 

@@ -122,6 +122,9 @@ public class InterfazBuscarCliente extends JFrame {
 		           cliente.setNroCliente(textFieldNroCliente.getText().trim());
 		        }
 		        List<ClienteDTO> listaClientes = GestorCliente.getInstance().buscar(cliente);
+		        
+		        
+		        
 		        configuracionTabla(listaClientes);
 		    }
 		});
@@ -154,6 +157,7 @@ public class InterfazBuscarCliente extends JFrame {
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnConfirmar.setBounds(28, 460, 89, 23);

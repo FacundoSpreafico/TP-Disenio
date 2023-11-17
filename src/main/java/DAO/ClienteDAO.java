@@ -7,5 +7,7 @@ import entidades.Cliente;
 
 public interface ClienteDAO {
 
-	public List<Cliente> buscarClientes(ClienteDTO cliente);
+	public List<Cliente> find(ClienteDTO cliente);
+	public void create(Cliente cliente);
+	
 }

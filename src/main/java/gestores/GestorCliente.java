@@ -20,9 +20,15 @@ public class GestorCliente{
 		return _INSTANCE;
 	}
 	
+	public void insertar(Cliente cliente) {
+	
+	}
+	
+	
+	
 	public List<ClienteDTO> buscar(ClienteDTO cliente) {
 		 List<ClienteDTO> resultado = new ArrayList<>();
-		 List<Cliente> clientes = clienteDAO.buscarClientes(cliente);
+		 List<Cliente> clientes = clienteDAO.find(cliente);
 		 
 		 for (Cliente clienteEntidad : clientes) {
 		     ClienteDTO clienteDTO = convertirEntidadADTO(clienteEntidad);

@@ -175,16 +175,12 @@ public class InterfazDarAltaPoliza extends JFrame {
                             panel.remove(comboBoxEstadoCivil);
                             panel.remove(comboBoxSexo);
                             panel.remove(btnEliminarHijo);
-                            
                             panel.repaint();
                             panel.revalidate();
                             contadorHijos--;
                             textFieldContadorHijos.setText(String.valueOf(contadorHijos));
-    
                         }
                 });
-
-
                panel.add(lblSexo);
                panel.add(lblEstadoCivil);
                panel.add(lblFechaDeNacimiento);

@@ -55,7 +55,7 @@ public class Cliente {
 	private Integer anioRegistro;
 
 	@Column(name = "nro_documento")
-	private Integer nroDocumento;
+	private String nroDocumento;
 	
 	@Column(name = "estado_cliente")
 	private String estadoCliente;

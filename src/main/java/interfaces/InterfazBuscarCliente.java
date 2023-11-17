@@ -1,11 +1,10 @@
 package interfaces;
 
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,10 +14,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import java.awt.Color;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+import java.util.List;
+
+
+import DTO.ClienteDTO;
+import gestores.GestorCliente;
 
 public class InterfazBuscarCliente extends JFrame {
 
@@ -28,7 +34,7 @@ public class InterfazBuscarCliente extends JFrame {
 	private JTextField textFieldApellido;
 	private JTextField textFieldNombre;
 	private JTable tablaClientes;
-
+    
 	
 	public InterfazBuscarCliente()  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -97,6 +103,29 @@ public class InterfazBuscarCliente extends JFrame {
 		contentPane.add(comboBoxTipoDoc);
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		    	ClienteDTO cliente = new ClienteDTO();
+		        if (!textFieldNombre.getText().isEmpty()) {
+		            cliente.setNombre(textFieldNombre.getText().trim());
+		        }
+		        if (!textFieldApellido.getText().isEmpty()) {
+		            cliente.setApellido(textFieldApellido.getText().trim());
+		        }
+		        if (comboBoxTipoDoc.getSelectedItem() != null) {
+		            cliente.setTipoDocumento(comboBoxTipoDoc.getSelectedItem().toString());
+		        }
+		        if (!textFieldNroDoc.getText().isEmpty()) {
+		            cliente.setNroDocumento(Integer.parseInt(textFieldNroDoc.getText()));
+		        }
+		        if (!textFieldNroCliente.getText().isEmpty()) {
+		           cliente.setNroCliente(textFieldNroCliente.getText().trim());
+		        }
+		        List<ClienteDTO> listaClientes = GestorCliente.getInstance().buscar(cliente);
+		        configuracionTabla(listaClientes);
+		    }
+		});
+		
 		btnBuscar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnBuscar.setBounds(60, 190, 89, 23);
 		contentPane.add(btnBuscar);
@@ -112,34 +141,6 @@ public class InterfazBuscarCliente extends JFrame {
 		contentPane.add(scrollPane);
 		
 		tablaClientes = new JTable();
-		tablaClientes.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento"
-			}
-		));
-		tablaClientes.getColumnModel().getColumn(0).setPreferredWidth(100);
-		tablaClientes.getColumnModel().getColumn(1).setPreferredWidth(90);
-		tablaClientes.getColumnModel().getColumn(2).setPreferredWidth(90);
-		tablaClientes.getColumnModel().getColumn(3).setPreferredWidth(90);
-		tablaClientes.getColumnModel().getColumn(4).setPreferredWidth(100);
 		scrollPane.setViewportView(tablaClientes);
 		
 		JPanel panelResultado = new JPanel();
@@ -169,4 +170,42 @@ public class InterfazBuscarCliente extends JFrame {
 		contentPane.add(btnCancelar);
 
 	}
+	
+	public void configuracionTabla(List<ClienteDTO> listaClientes) {
+	    String[] titulos = {"Nro. cliente", "Apellido", "Nombre", "Tipo documento", "Nro. documento"};
+	    DefaultTableModel dtmDatos = new DefaultTableModel();
+	    TableRowSorter<TableModel> trs;
+
+	    int contador = listaClientes.size();
+	    String[][] datosClientes = cargarDatosClientes(listaClientes);
+
+	    dtmDatos = new DefaultTableModel(datosClientes, titulos) {
+	        @Override
+	        public boolean isCellEditable(int row, int column) {
+	            return false;
+	        }
+	    };
+	    
+	    tablaClientes.setModel(dtmDatos);
+	    
+	    trs = new TableRowSorter<>(dtmDatos);
+	    tablaClientes.setRowSorter(trs);
+	}
+
+	private String[][] cargarDatosClientes(List<ClienteDTO> listaClientes) {
+	    int cantidadClientes = listaClientes.size();
+	    String[][] datosClientes = new String[cantidadClientes][5];
+
+	    for (int i = 0; i < cantidadClientes; i++) {
+	        ClienteDTO clienteDTO = listaClientes.get(i);
+	        datosClientes[i][0] = String.valueOf(clienteDTO.getNroCliente());
+	        datosClientes[i][1] = clienteDTO.getApellido();
+	        datosClientes[i][2] = clienteDTO.getNombre();
+	        datosClientes[i][3] = clienteDTO.getTipoDocumento();
+	        datosClientes[i][4] = String.valueOf(clienteDTO.getNroDocumento());
+	    }
+
+	    return datosClientes;
+	}
+
 }

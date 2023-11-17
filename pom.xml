@@ -5,16 +5,22 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>TP-Diseño</name>
   <dependencies>
+  <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
   <dependency>
   <groupId>org.hibernate.orm</groupId>
   <artifactId>hibernate-core</artifactId>
-  <version>6.4.0.CR1</version>
-  </dependency>	  
+  <version>6.3.0.Final</version>
+  </dependency>
   <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
   <dependency>
   <groupId>org.postgresql</groupId>
   <artifactId>postgresql</artifactId>
   <version>42.6.0</version>
   </dependency>  
+  <dependency>
+  	<groupId>1</groupId>
+  	<artifactId>1</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </dependency>
   </dependencies>
 </project>

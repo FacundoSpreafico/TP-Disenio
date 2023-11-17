@@ -1,14 +1,5 @@
-/META-INF/
-/capaPresentacion/
-/constants/
-/resources/
-/App/
-/capaDatos/
 /DAO/
-/Gestores/
 /gestores/
-/entidades/
 /interfaces/
+/entidades/
 /DTO/
-/constantes/
-/app/

@@ -55,7 +55,7 @@ public class Cliente {
 	private Integer anioRegistro;
 
 	@Column(name = "nro_documento")
-	private long nroDocumento;
+	private Integer nroDocumento;
 	
 	@Column(name = "estado_cliente")
 	private String estadoCliente;
@@ -63,5 +63,136 @@ public class Cliente {
 	/*
 	Domicilio domicilio;
 	*/
+	
+	public Integer getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    // Getters y Setters para nombre
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getApellido() {
+		return apellido;
+	}
+
+	public void setApellido(String apellido) {
+		this.apellido = apellido;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+	public String getNroCliente() {
+		return nroCliente;
+	}
+
+	public void setNroCliente(String nroCliente) {
+		this.nroCliente = nroCliente;
+	}
+
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public String getNroCuil() {
+		return nroCuil;
+	}
+
+	public void setNroCuil(String nroCuil) {
+		this.nroCuil = nroCuil;
+	}
+
+	public String getEstadoCivil() {
+		return estadoCivil;
+	}
+
+	public void setEstadoCivil(String estadoCivil) {
+		this.estadoCivil = estadoCivil;
+	}
+
+	public String getProfesion() {
+		return profesion;
+	}
+
+	public void setProfesion(String profesion) {
+		this.profesion = profesion;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getCondicionIVA() {
+		return condicionIVA;
+	}
+
+	public void setCondicionIVA(String condicionIVA) {
+		this.condicionIVA = condicionIVA;
+	}
+
+	public String getTipoCliente() {
+		return tipoCliente;
+	}
+
+	public void setTipoCliente(String tipoCliente) {
+		this.tipoCliente = tipoCliente;
+	}
+
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public Integer getAnioRegistro() {
+		return anioRegistro;
+	}
+
+	public void setAnioRegistro(Integer anioRegistro) {
+		this.anioRegistro = anioRegistro;
+	}
+
+	public Integer getNroDocumento() {
+		return nroDocumento;
+	}
+
+	public void setNroDocumento(Integer nroDocumento) {
+		this.nroDocumento = nroDocumento;
+	}
+
+	// Getter y Setter para estadoCliente
+    public String getEstadoCliente() {
+        return estadoCliente;
+    }
+
+    public void setEstadoCliente(String estadoCliente) {
+        this.estadoCliente = estadoCliente;
+    }
+	
 	
 }

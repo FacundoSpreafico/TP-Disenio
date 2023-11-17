@@ -1,10 +1,12 @@
 package DTO;
 
 public class ClienteDTO {
-	public Integer getNroCliente() {
+	String nombre,apellido,tipoDocumento,nroCliente;
+	Integer nroDocumento;
+	public String getNroCliente() {
 		return nroCliente;
 	}
-	public void setNroCliente(Integer nroCliente) {
+	public void setNroCliente(String nroCliente) {
 		this.nroCliente = nroCliente;
 	}
 	public String getNombre() {
@@ -25,12 +27,10 @@ public class ClienteDTO {
 	public void setTipoDocumento(String tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
-	public String getNroDocumento() {
+	public Integer getNroDocumento() {
 		return nroDocumento;
 	}
-	public void setNroDocumento(String nroDocumento) {
+	public void setNroDocumento(Integer nroDocumento) {
 		this.nroDocumento = nroDocumento;
 	}
-	Integer nroCliente;
-	String nombre,apellido,tipoDocumento,nroDocumento;
 }

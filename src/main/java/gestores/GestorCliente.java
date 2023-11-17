@@ -11,7 +11,8 @@ import entidades.Cliente;
 public class GestorCliente{
 
 	private static GestorCliente _INSTANCE;
-	private ClienteDAOImp clienteDAO = new ClienteDAOImp();
+	private ClienteDAO clienteDAO = new ClienteDAOImp();
+
 	
 	public static GestorCliente getInstance() {
 		if (_INSTANCE == null) {
@@ -28,7 +29,7 @@ public class GestorCliente{
 	
 	public List<ClienteDTO> buscar(ClienteDTO cliente) {
 		 List<ClienteDTO> resultado = new ArrayList<>();
-		 List<Cliente> clientes = clienteDAO.find(cliente);
+		 List<Cliente> clientes = clienteDAO.buscarClientes(cliente);
 		 
 		 for (Cliente clienteEntidad : clientes) {
 		     ClienteDTO clienteDTO = convertirEntidadADTO(clienteEntidad);

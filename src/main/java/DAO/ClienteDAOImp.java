@@ -27,7 +27,7 @@ public class ClienteDAOImp implements ClienteDAO {
     	
 	}
     
-    public List<Cliente> find(ClienteDTO clienteDTO) {
+    public List<Cliente> buscarClientes(ClienteDTO clienteDTO) {
         try (Session session = sessionFactory.openSession()) {
         	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);

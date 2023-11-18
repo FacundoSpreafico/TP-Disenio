@@ -107,7 +107,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 
 	//pestañas de la interfaz
 	public void pestaniaDatosHijos() {
-	;
+	
 		
 		List<HijoCliente> listaHijos = new ArrayList<>();
 		

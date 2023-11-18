@@ -2,6 +2,8 @@ package DTO;
 
 public class ClienteDTO {
 	String nombre,apellido,tipoDocumento,nroCliente,nroDocumento;
+	
+	
 	public String getNroCliente() {
 		return nroCliente;
 	}

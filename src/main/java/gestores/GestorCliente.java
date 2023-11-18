@@ -21,12 +21,10 @@ public class GestorCliente{
 		return _INSTANCE;
 	}
 	
-	public void insertar(Cliente cliente) {
-	
+	public void create(Cliente cliente) {
+	clienteDAO.create(cliente);
 	}
-	
-	
-	
+
 	public List<ClienteDTO> buscar(ClienteDTO cliente) {
 		 List<ClienteDTO> resultado = new ArrayList<>();
 		 List<Cliente> clientes = clienteDAO.buscarClientes(cliente);

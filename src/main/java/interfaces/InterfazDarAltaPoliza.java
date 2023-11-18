@@ -6,8 +6,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -32,6 +35,8 @@ import com.toedter.calendar.JDateChooser;
 
 import constantes.Images;
 import entidades.HijoCliente;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class InterfazDarAltaPoliza extends JFrame {
 
@@ -41,22 +46,21 @@ public class InterfazDarAltaPoliza extends JFrame {
 	// JTabbedPanes
 	private JTabbedPane tabbedPrincipal, tabbedCrearPoliza, tabbedConfirmarPoliza;
 	// JButtons
-	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2, btnAgregarHijo;
+	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2;
 	// JLabels
 	private JLabel lblNroCliente, lblTipoDni, lblNroDni, lblApellido, lblNombre, lblDomicilio, lblNombre_1, lblApellido_1;
 	private JLabel lblModeloVehiculo, lblSimbolo, lblSimbolo_2, lblSimbolo_3, lblMarcoPoliza_1;
 	private JLabel lblSumaAsegurada, lblChasis, lblKmsAnio, lblNroSiniestros, lblSimbolo_1, lblMarcaDelVehiculo, lblSimbolo_4;
 	private JLabel lblAoDelVehiculo, lblSimbolo_5, lblMotor, lblSimbolo_6, lblPatenteDelVehiculo, lblSimbolo_7, lblMedidasDeSeguridad;
-	private JLabel lblNewLabel_1, lblAgregarHijo, lblContadorHijos;
+	private JLabel lblNewLabel_1, lblContadorHijos;
 	// JTextFields
 	private JTextField textFieldNroCliente, textFieldTipoDNI, textFieldNroDNI, textFieldApellido, textFieldNombre, textFieldDomicilio, textFieldNombre_1, textFieldApellido_1;
-	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor, textFieldContadorHijos;
+	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor;
 	// JSeparators
 	private JSeparator separator_1, separator_2, separator_3, separator_4, separator_5, separator_6, separator_7, separator_8;
 	// JComboBoxes
 	private JComboBox comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxMarcaVehiculo,comboBoxModeloVehiculo;
 
-	private int contadorHijos = 0;
 	private JLabel lblSexo;
 	private JPanel panelContextoCliente;
 	private JPanel panelPoliza;
@@ -71,12 +75,18 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	
-	JCheckBox chckbxGuardaGarage,chckbxtieneAlarma,chckbxRastreoVehicular,chckbxTuercasAntirrobos;
+	private JCheckBox chckbxGuardaGarage,chckbxtieneAlarma,chckbxRastreoVehicular,chckbxTuercasAntirrobos;
+	private JLabel lblFechaNacimiento,lblEstadoCivil,lblSex;
+	private JDateChooser fechaNacimiento;
+	private JComboBox comboBoxEstadoCivil,comboBoxSexo;
 	
-	
-	private static final int ELEMENT_WIDTH = 140;
-	private static final int ELEMENT_HEIGHT = 22;
 	private static final int ELEMENT_MARGIN = 11;
+	private JLabel lblAgregarHijo;
+	private JScrollPane scrollPaneHijos;
+	private JTable tablaHijos;
+	private JButton btnEditar;
+	private JTextField textFieldHijos;
+	private JSeparator separator_10_1;
 
 	
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -97,135 +107,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 
 	//pestañas de la interfaz
 	public void pestaniaDatosHijos() {
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(24, 170, 789, 211);
-		datosHijos.add(scrollPane);
-		
-		scrollPane.setBorder(null);
-		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		scrollPane.setViewportView(panel);
-		panel.setLayout(null);
-		
-		lblAgregarHijo = new JLabel("Agregar");
-		lblAgregarHijo.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblAgregarHijo.setBounds(40, 150, 56, 14);
-		datosHijos.add(lblAgregarHijo);
-		
-		btnAgregarHijo = new JButton("");
-		btnAgregarHijo.setBackground(Color.WHITE);
-		btnAgregarHijo.setBounds(96, 145, 38, 23);
-		datosHijos.add(btnAgregarHijo);
-		btnAgregarHijo.setIcon(Images.ICONO_AGREGAR_HIJO);
-		btnAgregarHijo.setBorder(null);
-		btnAgregarHijo.setFocusable(false);
+	;
 		
 		List<HijoCliente> listaHijos = new ArrayList<>();
-		
-		btnAgregarHijo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-
-            	int modulo = contadorHijos % 2;
-                int posY = 11 + (contadorHijos / 2) * 180;
-                int posX = modulo * 350;
-                
-                JLabel lblSexo = new JLabel("Sexo");
-                lblSexo.setBounds(20 + posX, 48 + posY, 33, 14);
-                lblSexo.setFont(new Font("Arial", Font.PLAIN, 12));
-
-                
-                JLabel lblEstadoCivil = new JLabel("Estado civil");
-                lblEstadoCivil.setFont(new Font("Arial", Font.PLAIN, 12));
-                lblEstadoCivil.setBounds(20 + posX, 79 + posY, 68, 14);
-                
-                
-                JLabel lblFechaDeNacimiento = new JLabel("Fecha de nacimiento");
-                lblFechaDeNacimiento.setFont(new Font("Arial", Font.PLAIN, 12));
-                lblFechaDeNacimiento.setBounds(20 + posX, 17 + posY, 115, 14);
-
-                JComboBox<String> comboBoxEstadoCivil = new JComboBox<>();
-                comboBoxEstadoCivil.setBounds(143 + posX, 75 + posY, 140, 22);
-                comboBoxEstadoCivil.addItem("estado civil 1");
-                comboBoxEstadoCivil.addItem("estado civil 2");
-                comboBoxEstadoCivil.addItem("estado civil 3");
-                
-                JComboBox<String> comboBoxSexo = new JComboBox<>();
-                comboBoxSexo.setBounds(143 + posX, 42 + posY, 140, 22);
-                comboBoxSexo.addItem("sexo 1");
-                comboBoxSexo.addItem("sexo 2");
-                comboBoxSexo.addItem("sexo 3");
-                               
-                JDateChooser dateChooser = new JDateChooser();
-                dateChooser.setBounds(143 + posX, 11 + posY, 140, 20);
-
-                JButton btnEliminarHijo = new JButton("");
-                btnEliminarHijo.setBackground(Color.WHITE);
-                btnEliminarHijo.setBounds(20 + posX, 116 + posY, 33, 23);
-                btnEliminarHijo.setIcon(Images.ICONO_ELIMINAR_HIJO);
-                btnEliminarHijo.setBorder(null);
-                btnEliminarHijo.setFocusable(false);
-  
-                btnEliminarHijo.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                            panel.remove(lblFechaDeNacimiento);
-                            panel.remove(lblSexo);
-                            panel.remove(lblEstadoCivil);
-                            panel.remove(dateChooser);
-                            panel.remove(comboBoxEstadoCivil);
-                            panel.remove(comboBoxSexo);
-                            panel.remove(btnEliminarHijo);
-                            panel.repaint();
-                            panel.revalidate();
-                            contadorHijos--;
-                            textFieldContadorHijos.setText(String.valueOf(contadorHijos));
-                        }
-                });
-               panel.add(lblSexo);
-               panel.add(lblEstadoCivil);
-               panel.add(lblFechaDeNacimiento);
-               panel.add(comboBoxEstadoCivil);
-               panel.add(comboBoxSexo);
-               panel.add(dateChooser);
-               panel.add(btnEliminarHijo);
-               
-               int panelHeight = posY + 150;
-               panel.setPreferredSize(new Dimension(panel.getWidth(), panelHeight));
-
-               panel.revalidate();
-               panel.repaint();
-               scrollPane.repaint();
-               scrollPane.revalidate();
-             
-               contadorHijos++;
-               textFieldContadorHijos.setText(String.valueOf(contadorHijos));
-               HijoCliente hijo = new HijoCliente();
-               hijo.setSexo(comboBoxSexo.getSelectedItem().toString());
-               listaHijos.add(hijo);
-            }
-
-            });
-		
-		textFieldContadorHijos = new JTextField();
-		textFieldContadorHijos.setFont(new Font("Arial", Font.PLAIN, 12));
-		textFieldContadorHijos.setColumns(10);
-		textFieldContadorHijos.setBounds(205, 109, 20, 20);
-		datosHijos.add(textFieldContadorHijos);
-		configuracionTextField(textFieldContadorHijos);
-		textFieldContadorHijos.setEnabled(true);
-		textFieldContadorHijos.setText("0");
-		
-		
-		JSeparator separator_10_1 = new JSeparator();
-		separator_10_1.setForeground(Color.BLACK);
-		separator_10_1.setBackground(Color.BLACK);
-		separator_10_1.setBounds(200, 129, 29, 2);
-		datosHijos.add(separator_10_1);
-	
-		JLabel lblContadorHijos = new JLabel("Hijos (entre 18 y 30 años)");
-		lblContadorHijos.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblContadorHijos.setBounds(40, 115, 161, 14);
-		datosHijos.add(lblContadorHijos);
 		
 		JButton btnSiguiente_3 = new JButton("Siguiente");
 		btnSiguiente_3.addActionListener(new ActionListener() {
@@ -263,7 +147,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelContextoCliente_1.setLayout(null);
 		panelContextoCliente_1.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelContextoCliente_1.setBackground(Color.WHITE);
-		panelContextoCliente_1.setBounds(16, 11, 797, 64);
+		panelContextoCliente_1.setBounds(15, 11, 797, 64);
 		datosHijos.add(panelContextoCliente_1);
 		
 		separator_9 = new JSeparator();
@@ -306,6 +190,156 @@ public class InterfazDarAltaPoliza extends JFrame {
 		datosHijos.add(panelPoliza_2);
 		panelPoliza_2.setBorder(new TitledBorder(null, "Poliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelPoliza_2.setLayout(null);
+		
+		
+		
+		lblAgregarHijo = new JLabel("Agregar hijo");
+		lblAgregarHijo.setFont(new Font("Arial", Font.BOLD, 12));
+		lblAgregarHijo.setBounds(15, 71, 94, 14);
+		panelPoliza_2.add(lblAgregarHijo);
+		
+		lblFechaNacimiento = new JLabel("Fecha de nacimiento");
+		lblFechaNacimiento.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblFechaNacimiento.setBounds(15, 116, 118, 14);
+		panelPoliza_2.add(lblFechaNacimiento);
+		
+		fechaNacimiento = new JDateChooser();
+		fechaNacimiento.setBounds(143, 110, 111, 20);
+		panelPoliza_2.add(fechaNacimiento);
+		
+		lblEstadoCivil = new JLabel("Estado civil");
+		lblEstadoCivil.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblEstadoCivil.setBounds(15, 158, 77, 14);
+		panelPoliza_2.add(lblEstadoCivil);
+		
+		
+		String[] optionsEstadoCivil = {"Soltero/a", "Casado/a", "Divorciado/a","Separado/A", "Viudo/A"};
+		comboBoxEstadoCivil = new JComboBox(optionsEstadoCivil);
+		comboBoxEstadoCivil.setBounds(143, 154, 111, 22);
+		
+		panelPoliza_2.add(comboBoxEstadoCivil);
+		
+		lblSex = new JLabel("Sexo");
+		lblSex.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSex.setBounds(15, 202, 77, 14);
+		panelPoliza_2.add(lblSex);
+		
+		String[] optionsSexo = {"Masculino","Femenino"};
+		comboBoxSexo = new JComboBox(optionsSexo);
+		comboBoxSexo.setBounds(142, 198, 112, 22);
+		panelPoliza_2.add(comboBoxSexo);
+		
+		JLabel lblContadorHijos_1 = new JLabel("Hijos (entre 18 y 30 años)");
+		lblContadorHijos_1.setBounds(15, 30, 161, 14);
+		panelPoliza_2.add(lblContadorHijos_1);
+		lblContadorHijos_1.setFont(new Font("Arial", Font.PLAIN, 12));
+			
+		scrollPaneHijos = new JScrollPane();
+		scrollPaneHijos.setBorder(null);
+		scrollPaneHijos.setBounds(299, 21, 477, 227);
+		panelPoliza_2.add(scrollPaneHijos);
+			
+		tablaHijos = new JTable();
+		scrollPaneHijos.setViewportView(tablaHijos);
+		tablaHijos.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+				"Fecha nacimiento", "Estado civil", "Sexo"
+				}
+		));
+		tablaHijos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		
+		JButton btnAgregar = new JButton("Agregar");
+		DefaultTableModel modelo = (DefaultTableModel) tablaHijos.getModel();
+		btnAgregar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            // Obtener valores seleccionados
+		            String sexo = comboBoxSexo.getSelectedItem().toString();
+		            String estadoCivil = comboBoxEstadoCivil.getSelectedItem().toString();
+		            Date fechaSeleccionada = fechaNacimiento.getDate();
+
+		            // Verificar que se haya seleccionado una fecha
+		            if (fechaSeleccionada == null) {
+		                JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de nacimiento válida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		                return; 
+		            }
+
+		            // Calcular la edad
+		            Calendar fechaNacimientoCal = Calendar.getInstance();
+		            fechaNacimientoCal.setTime(fechaSeleccionada);
+		            Calendar fechaActual = Calendar.getInstance();
+
+		            int edad = fechaActual.get(Calendar.YEAR) - fechaNacimientoCal.get(Calendar.YEAR);
+
+		            // Ajustar la edad si aún no ha pasado el cumpleaños de este año
+		            
+		            if (fechaActual.get(Calendar.DAY_OF_YEAR) < fechaNacimientoCal.get(Calendar.DAY_OF_YEAR)) {
+		                edad--;
+		            }
+
+		            // Verificar que la edad esté entre 18 y 30 años
+		            if (edad < 18 || edad > 30) {
+		                JOptionPane.showMessageDialog(null, "El hijo no cumple con la edad requerida (entre 18 y 30 años).", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		                return;
+		            }
+
+                    // Ajustamos el formato de la fecha para pasarlo a string
+		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		            String fechaString = dateFormat.format(fechaSeleccionada);
+		            Object[] nuevaFila = { fechaString, estadoCivil, sexo };
+
+		            modelo.addRow(nuevaFila);
+		            modelo.fireTableDataChanged();
+		            textFieldHijos.setText(String.valueOf(modelo.getRowCount()));
+		            comboBoxSexo.setSelectedIndex(0);
+		            comboBoxEstadoCivil.setSelectedIndex(0);
+		            fechaNacimiento.setDate(null);
+		            fechaNacimiento.requestFocus();
+
+		        } catch (Exception ex) {
+		            
+		        }
+		    }
+		});
+
+		btnAgregar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAgregar.setFocusable(false);
+		btnAgregar.setBounds(15, 259, 89, 23);
+		panelPoliza_2.add(btnAgregar);
+		
+		
+		
+		btnEditar = new JButton("Editar");
+		btnEditar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEditar.setFocusable(false);
+		btnEditar.setBounds(299, 259, 89, 23);
+		btnEditar.setEnabled(false);
+		
+	
+		btnEditar.setEnabled(true);
+		
+		panelPoliza_2.add(btnEditar);
+		
+		
+		textFieldHijos = new JTextField();
+		textFieldHijos.setFont(new Font("Arial", Font.BOLD, 12));
+		textFieldHijos.setEnabled(true);
+		textFieldHijos.setColumns(10);
+		textFieldHijos.setBounds(182, 21, 20, 20);
+		panelPoliza_2.add(textFieldHijos);
+		configuracionTextField(textFieldHijos);
+		
+		
+		separator_10_1 = new JSeparator();
+		separator_10_1.setForeground(Color.BLACK);
+		separator_10_1.setBackground(Color.BLACK);
+		separator_10_1.setBounds(177, 41, 29, 2);
+		panelPoliza_2.add(separator_10_1);
+			
+			
 	}
     public void pestaniaDatosDelVehiculo() {
 		comboBoxMarcaVehiculo = new JComboBox<>();
@@ -360,55 +394,20 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxModeloVehiculo.setBounds(178, 150, 154, 22);
 		datosVehiculo.add(comboBoxModeloVehiculo);
 		
-		lblSimbolo_7 = new JLabel("(*)");
-		lblSimbolo_7.setForeground(Color.RED);
-		lblSimbolo_7.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_7.setBounds(512, 240, 19, 14);
-		datosVehiculo.add(lblSimbolo_7);
-		
-		lblPatenteDelVehiculo = new JLabel("Patente del vehiculo");
-		lblPatenteDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblPatenteDelVehiculo.setBounds(398, 240, 113, 14);
-		datosVehiculo.add(lblPatenteDelVehiculo);
-		
-		lblSimbolo_6 = new JLabel("(*)");
-		lblSimbolo_6.setForeground(Color.RED);
-		lblSimbolo_6.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_6.setBounds(512, 215, 19, 14);
-		datosVehiculo.add(lblSimbolo_6);
-		
 		lblMotor = new JLabel("Motor");
 		lblMotor.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblMotor.setBounds(398, 215, 40, 14);
 		datosVehiculo.add(lblMotor);
-		
-		lblSimbolo_5 = new JLabel("(*)");
-		lblSimbolo_5.setForeground(Color.RED);
-		lblSimbolo_5.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_5.setBounds(512, 184, 19, 14);
-		datosVehiculo.add(lblSimbolo_5);
 		
 		lblAoDelVehiculo = new JLabel("Año del vehiculo");
 		lblAoDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblAoDelVehiculo.setBounds(398, 186, 94, 14);
 		datosVehiculo.add(lblAoDelVehiculo);
 		
-		lblSimbolo_4 = new JLabel("(*)");
-		lblSimbolo_4.setForeground(Color.RED);
-		lblSimbolo_4.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_4.setBounds(512, 154, 19, 14);
-		datosVehiculo.add(lblSimbolo_4);
-		
 		lblMarcaDelVehiculo = new JLabel("Marca del vehiculo");
 		lblMarcaDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblMarcaDelVehiculo.setBounds(398, 154, 107, 14);
 		datosVehiculo.add(lblMarcaDelVehiculo);
-		
-		lblSimbolo_1 = new JLabel("(*)");
-		lblSimbolo_1.setForeground(Color.RED);
-		lblSimbolo_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_1.setBounds(152, 288, 19, 14);
-		datosVehiculo.add(lblSimbolo_1);
 		
 		lblNroSiniestros = new JLabel("Nro. Siniestros / ult. año");
 		lblNroSiniestros.setFont(new Font("Arial", Font.PLAIN, 10));
@@ -429,24 +428,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblSumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblSumaAsegurada.setBounds(40, 186, 113, 14);
 		datosVehiculo.add(lblSumaAsegurada);
-		
-		lblSimbolo_3 = new JLabel("(*)");
-		lblSimbolo_3.setForeground(Color.RED);
-		lblSimbolo_3.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_3.setBounds(152, 255, 19, 14);
-		datosVehiculo.add(lblSimbolo_3);
-		
-		lblSimbolo_2 = new JLabel("(*)");
-		lblSimbolo_2.setForeground(Color.RED);
-		lblSimbolo_2.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_2.setBounds(152, 223, 19, 14);
-		datosVehiculo.add(lblSimbolo_2);
-		
-		lblSimbolo = new JLabel("(*)");
-		lblSimbolo.setForeground(Color.RED);
-		lblSimbolo.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo.setBounds(152, 154, 19, 14);
-		datosVehiculo.add(lblSimbolo);
 		
 		lblModeloVehiculo = new JLabel("Modelo del vehiculo");
 		lblModeloVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -538,39 +519,92 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		panelPoliza = new JPanel();
 		panelPoliza.setBackground(Color.WHITE);
-		panelPoliza.setBounds(20, 98, 784, 295);
+		panelPoliza.setBounds(20, 86, 798, 305);
 		datosVehiculo.add(panelPoliza);
 		panelPoliza.setBorder(new TitledBorder(null, "Poliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelPoliza.setLayout(null);
 		
 		chckbxGuardaGarage = new JCheckBox("¿Se guarda en garage?");
-		chckbxGuardaGarage.setBounds(378, 193, 174, 23);
+		chckbxGuardaGarage.setBounds(378, 203, 174, 23);
 		panelPoliza.add(chckbxGuardaGarage);
 		chckbxGuardaGarage.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxGuardaGarage.setBackground(Color.WHITE);
 		
 		chckbxtieneAlarma = new JCheckBox("¿Tiene alarma?");
-		chckbxtieneAlarma.setBounds(378, 217, 154, 23);
+		chckbxtieneAlarma.setBounds(378, 227, 154, 23);
 		panelPoliza.add(chckbxtieneAlarma);
 		chckbxtieneAlarma.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxtieneAlarma.setBackground(Color.WHITE);
 		
 		chckbxRastreoVehicular = new JCheckBox("¿Posee dispositivo de rastreo vehicular?");
-		chckbxRastreoVehicular.setBounds(378, 241, 256, 23);
+		chckbxRastreoVehicular.setBounds(378, 251, 256, 23);
 		panelPoliza.add(chckbxRastreoVehicular);
 		chckbxRastreoVehicular.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxRastreoVehicular.setBackground(Color.WHITE);
 		
 		chckbxTuercasAntirrobos = new JCheckBox("¿Posee tuercas antirrobo en las cuatro ruedas?");
-		chckbxTuercasAntirrobos.setBounds(378, 265, 297, 23);
+		chckbxTuercasAntirrobos.setBounds(378, 275, 297, 23);
 		panelPoliza.add(chckbxTuercasAntirrobos);
 		chckbxTuercasAntirrobos.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxTuercasAntirrobos.setBackground(Color.WHITE);
 		
 		lblMedidasDeSeguridad = new JLabel("Medidas de seguridad");
-		lblMedidasDeSeguridad.setBounds(380, 172, 133, 14);
+		lblMedidasDeSeguridad.setBounds(380, 182, 133, 14);
 		panelPoliza.add(lblMedidasDeSeguridad);
 		lblMedidasDeSeguridad.setFont(new Font("Arial", Font.BOLD, 12));
+		
+		lblPatenteDelVehiculo = new JLabel("Patente del vehiculo");
+		lblPatenteDelVehiculo.setBounds(378, 157, 113, 14);
+		panelPoliza.add(lblPatenteDelVehiculo);
+		lblPatenteDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo_7 = new JLabel("(*)");
+		lblSimbolo_7.setBounds(501, 157, 19, 14);
+		panelPoliza.add(lblSimbolo_7);
+		lblSimbolo_7.setForeground(Color.RED);
+		lblSimbolo_7.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo_6 = new JLabel("(*)");
+		lblSimbolo_6.setBounds(501, 128, 19, 14);
+		panelPoliza.add(lblSimbolo_6);
+		lblSimbolo_6.setForeground(Color.RED);
+		lblSimbolo_6.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo_5 = new JLabel("(*)");
+		lblSimbolo_5.setBounds(501, 98, 19, 14);
+		panelPoliza.add(lblSimbolo_5);
+		lblSimbolo_5.setForeground(Color.RED);
+		lblSimbolo_5.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo_4 = new JLabel("(*)");
+		lblSimbolo_4.setBounds(501, 67, 19, 14);
+		panelPoliza.add(lblSimbolo_4);
+		lblSimbolo_4.setForeground(Color.RED);
+		lblSimbolo_4.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo = new JLabel("(*)");
+		lblSimbolo.setBounds(138, 67, 19, 14);
+		panelPoliza.add(lblSimbolo);
+		lblSimbolo.setForeground(Color.RED);
+		lblSimbolo.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo_2 = new JLabel("(*)");
+		lblSimbolo_2.setBounds(138, 138, 19, 14);
+		panelPoliza.add(lblSimbolo_2);
+		lblSimbolo_2.setForeground(Color.RED);
+		lblSimbolo_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo_3 = new JLabel("(*)");
+		lblSimbolo_3.setBounds(138, 169, 19, 14);
+		panelPoliza.add(lblSimbolo_3);
+		lblSimbolo_3.setForeground(Color.RED);
+		lblSimbolo_3.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblSimbolo_1 = new JLabel("(*)");
+		lblSimbolo_1.setBounds(138, 203, 19, 14);
+		panelPoliza.add(lblSimbolo_1);
+		lblSimbolo_1.setForeground(Color.RED);
+		lblSimbolo_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		
 	}
@@ -867,10 +901,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		}
 	}
     public void dialogoCancelar() {
-    	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar la operación?","Confirmación",
+    	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar el alta de la poliza?","Confirmación",
                 JOptionPane.YES_NO_OPTION);
         if (opcion == JOptionPane.YES_OPTION) {
-            //En la version final, aquí deberia volver a la interfaz menu principal dependiendo del usuario que este logueado en el sistema
         	System.exit(0);
         }
     }

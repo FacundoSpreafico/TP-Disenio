@@ -1,5 +1,6 @@
 package DAO;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -21,10 +22,15 @@ public class ClienteDAOImp implements ClienteDAO {
     private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Cliente.class).buildSessionFactory();
 
     public void create(Cliente cliente) {
-		
-    	
-    	
-    	
+		Session session = sessionFactory.openSession();
+    	try {
+        session.beginTransaction();
+	    session.save(cliente);
+	    session.getTransaction().commit();
+	    session.close();  
+    	}
+    	catch(Exception e) {
+    	}
 	}
     
     public List<Cliente> buscarClientes(ClienteDTO clienteDTO) {
@@ -45,33 +51,32 @@ public class ClienteDAOImp implements ClienteDAO {
 
     
     private Predicate[] construirRestricciones(CriteriaBuilder criteriaBuilder, Root<Cliente> root, ClienteDTO clienteDTO) {
-        int tamañoLista = 100; 
+        int tamañoLista = 100;
         Predicate[] restricciones = new Predicate[tamañoLista];
-        int índice = 0;
-        
+        int indice = 0;
+
         if (clienteDTO.getNroCliente() != null) {
-            restricciones[índice++] = criteriaBuilder.equal(root.get("nroCliente"), clienteDTO.getNroCliente());
+            restricciones[indice++] = criteriaBuilder.like(root.get("nroCliente"),clienteDTO.getNroCliente() + "%");
         }
         if (clienteDTO.getNombre() != null) {
-            restricciones[índice++] = criteriaBuilder.equal(root.get("nombre"), clienteDTO.getNombre());
+        	 restricciones[indice++] = criteriaBuilder.like(criteriaBuilder.upper(root.get("nombre")),clienteDTO.getNombre().toUpperCase() + "%");
         }
         if (clienteDTO.getApellido() != null) {
-            restricciones[índice++] = criteriaBuilder.equal(root.get("apellido"), clienteDTO.getApellido());
+            restricciones[indice++] = criteriaBuilder.like(criteriaBuilder.upper(root.get("apellido")),clienteDTO.getApellido().toUpperCase() + "%");
         }
         if (clienteDTO.getTipoDocumento() != null) {
-            restricciones[índice++] = criteriaBuilder.equal(root.get("tipoDocumento"), clienteDTO.getTipoDocumento());
+            restricciones[indice++] = criteriaBuilder.equal(root.get("tipoDocumento"), clienteDTO.getTipoDocumento());
         }
         if (clienteDTO.getNroDocumento() != null) {
-            restricciones[índice] = criteriaBuilder.equal(root.get("nroDocumento"), clienteDTO.getNroDocumento());
+            restricciones[indice++] = criteriaBuilder.like(root.get("nroDocumento"),clienteDTO.getNroDocumento() + "%");
         }
-        if (índice == tamañoLista) {
-        	return restricciones;  
-        }
-        else {
-        	return java.util.Arrays.copyOf(restricciones, índice);
+
+        if (indice == tamañoLista) {
+            return restricciones;
+        } else {
+            return Arrays.copyOf(restricciones, indice);
         }
     }
-
 }
 	
 

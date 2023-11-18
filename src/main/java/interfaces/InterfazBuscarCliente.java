@@ -9,10 +9,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
@@ -24,6 +26,7 @@ import java.util.List;
 
 
 import DTO.ClienteDTO;
+import entidades.Cliente;
 import gestores.GestorCliente;
 
 public class InterfazBuscarCliente extends JFrame {
@@ -34,7 +37,7 @@ public class InterfazBuscarCliente extends JFrame {
 	private JTextField textFieldApellido;
 	private JTextField textFieldNombre;
 	private JTable tablaClientes;
-    
+	private JComboBox comboBoxTipoDoc;
 	
 	public InterfazBuscarCliente()  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -98,10 +101,9 @@ public class InterfazBuscarCliente extends JFrame {
 		contentPane.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		
-		JComboBox comboBoxTipoDoc = new JComboBox();
+		comboBoxTipoDoc = new JComboBox();
 		comboBoxTipoDoc.setBounds(180, 107, 180, 20);
 		contentPane.add(comboBoxTipoDoc);
-		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -121,11 +123,14 @@ public class InterfazBuscarCliente extends JFrame {
 		        if (!textFieldNroCliente.getText().isEmpty()) {
 		           cliente.setNroCliente(textFieldNroCliente.getText().trim());
 		        }
+		        
+		        if (todosNulos()) {
+		        	JOptionPane.showMessageDialog(null, "No se ha ingresado ningún parámetro de búsqueda", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		        }
+		        else {
 		        List<ClienteDTO> listaClientes = GestorCliente.getInstance().buscar(cliente);
-		        
-		        
-		        
 		        configuracionTabla(listaClientes);
+		        }
 		    }
 		});
 		
@@ -145,6 +150,14 @@ public class InterfazBuscarCliente extends JFrame {
 		
 		tablaClientes = new JTable();
 		scrollPane.setViewportView(tablaClientes);
+		tablaClientes.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+				"Nro. cliente", "Apellido", "Nombre", "Tipo documento", "Nro. documento"
+				}
+			));
+		tablaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JPanel panelResultado = new JPanel();
 		panelResultado.setBackground(Color.WHITE);
@@ -157,7 +170,12 @@ public class InterfazBuscarCliente extends JFrame {
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Cliente cliente = new Cliente();
+				cliente.setIdCliente(3);
+				cliente.setNombre("Santi");
+				cliente.setApellido("Wangher");
+				cliente.setNroCliente("12312312");
+				GestorCliente.getInstance().create(cliente);
 			}
 		});
 		btnConfirmar.setBounds(28, 460, 89, 23);
@@ -168,18 +186,24 @@ public class InterfazBuscarCliente extends JFrame {
 		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.exit(1);
 			}
 		});
 		btnCancelar.setBounds(125, 460, 89, 23);
 		contentPane.add(btnCancelar);
 
 	}
-	
+	public boolean todosNulos() {
+		if (textFieldNombre.getText().isEmpty() && textFieldApellido.getText().isEmpty() && comboBoxTipoDoc.getSelectedItem()==null && textFieldNroDoc.getText().isEmpty() 
+				&& textFieldNroCliente.getText().isEmpty()) {
+        return true;
+        }
+		return false;
+	}
 	public void configuracionTabla(List<ClienteDTO> listaClientes) {
 	    String[] titulos = {"Nro. cliente", "Apellido", "Nombre", "Tipo documento", "Nro. documento"};
 	    DefaultTableModel dtmDatos = new DefaultTableModel();
 	    TableRowSorter<TableModel> trs;
-
 	    int contador = listaClientes.size();
 	    String[][] datosClientes = cargarDatosClientes(listaClientes);
 
@@ -208,7 +232,6 @@ public class InterfazBuscarCliente extends JFrame {
 	        datosClientes[i][3] = clienteDTO.getTipoDocumento();
 	        datosClientes[i][4] = String.valueOf(clienteDTO.getNroDocumento());
 	    }
-
 	    return datosClientes;
 	}
 

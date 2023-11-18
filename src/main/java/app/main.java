@@ -10,9 +10,6 @@ public class main {
 		InterfazDarAltaPoliza interfaz = new InterfazDarAltaPoliza();
 		interfaz.setVisible(true);
 	
-		
-		
-		
 	}
 
 }

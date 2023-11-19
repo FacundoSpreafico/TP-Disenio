@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +16,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,11 +35,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import com.toedter.calendar.JDateChooser;
 
 import constantes.Images;
 import entidades.HijoCliente;
+
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -80,15 +88,14 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JDateChooser fechaNacimiento;
 	private JComboBox comboBoxEstadoCivil,comboBoxSexo;
 	
-	private static final int ELEMENT_MARGIN = 11;
 	private JLabel lblAgregarHijo;
 	private JScrollPane scrollPaneHijos;
 	private JTable tablaHijos;
 	private JButton btnEditar;
 	private JTextField textFieldHijos;
 	private JSeparator separator_10_1;
-
-	
+    private String[] optionsEstadoCivil = {"Soltero/a", "Casado/a", "Divorciado/a","Separado/A", "Viudo/A"};
+	private String[] optionsSexo = {"Masculino","Femenino"};
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
@@ -107,8 +114,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 
 	//pestañas de la interfaz
 	public void pestaniaDatosHijos() {
-	
-		
 		List<HijoCliente> listaHijos = new ArrayList<>();
 		
 		JButton btnSiguiente_3 = new JButton("Siguiente");
@@ -212,8 +217,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblEstadoCivil.setBounds(15, 158, 77, 14);
 		panelPoliza_2.add(lblEstadoCivil);
 		
-		
-		String[] optionsEstadoCivil = {"Soltero/a", "Casado/a", "Divorciado/a","Separado/A", "Viudo/A"};
 		comboBoxEstadoCivil = new JComboBox(optionsEstadoCivil);
 		comboBoxEstadoCivil.setBounds(143, 154, 111, 22);
 		
@@ -224,7 +227,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblSex.setBounds(15, 202, 77, 14);
 		panelPoliza_2.add(lblSex);
 		
-		String[] optionsSexo = {"Masculino","Femenino"};
 		comboBoxSexo = new JComboBox(optionsSexo);
 		comboBoxSexo.setBounds(142, 198, 112, 22);
 		panelPoliza_2.add(comboBoxSexo);
@@ -248,9 +250,17 @@ public class InterfazDarAltaPoliza extends JFrame {
 				"Fecha nacimiento", "Estado civil", "Sexo"
 				}
 		));
-		tablaHijos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		
+		tablaHijos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        int filaSeleccionada = tablaHijos.getSelectedRow();
+		        if (filaSeleccionada != -1) {
+		            btnEditar.setEnabled(true);
+		        } else {
+		            btnEditar.setEnabled(false);
+		        }
+		    }
+		});
 		JButton btnAgregar = new JButton("Agregar");
 		DefaultTableModel modelo = (DefaultTableModel) tablaHijos.getModel();
 		btnAgregar.addActionListener(new ActionListener() {
@@ -313,14 +323,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnEditar.setFocusable(false);
-		btnEditar.setBounds(299, 259, 89, 23);
-		btnEditar.setEnabled(false);
-		
-	
-		btnEditar.setEnabled(true);
-		
+        configuracionbotonEditarHijo(btnEditar);
+
 		panelPoliza_2.add(btnEditar);
 		
 		
@@ -864,7 +868,73 @@ public class InterfazDarAltaPoliza extends JFrame {
 			}
 		}
     }
-	public void limpiarCamposVehiculo() {
+    public void configuracionbotonEditarHijo(JButton btnEditar){
+    	btnEditar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEditar.setFocusable(false);
+		btnEditar.setBounds(299, 259, 89, 23);
+		btnEditar.setEnabled(false);
+    	
+		
+		btnEditar.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		   
+		    int filaSeleccionada = tablaHijos.getSelectedRow();
+		    if (filaSeleccionada != -1) {
+			 String fechaNacimiento_seleccionada = tablaHijos.getValueAt(filaSeleccionada, 0).toString();
+			 String estadoCivil_seleccionado = tablaHijos.getValueAt(filaSeleccionada, 1).toString();
+			 String sexo_seleccionado = tablaHijos.getValueAt(filaSeleccionada, 2).toString();
+			 
+			 Object[] nuevoDatos = new Object[3];
+	         JPanel panel = new JPanel();
+	         panel.setLayout(new GridLayout(6, 2));
+	         
+	         JDateChooser fechaNacimiento_editar = new JDateChooser();
+	         
+	         try {
+	         Date fechaSeleccionadaDate = new SimpleDateFormat("yyyy-MM-dd").parse(fechaNacimiento_seleccionada);
+	         fechaNacimiento_editar.setDate(fechaSeleccionadaDate);
+	            } 
+	         catch (Exception ex) { 
+	            }
+	         JComboBox sexo_editar = new JComboBox(optionsSexo);
+	         sexo_editar.setSelectedItem(sexo_seleccionado);
+	         JComboBox estadoCivil_editar = new JComboBox(optionsEstadoCivil);
+	         estadoCivil_editar.setSelectedItem(estadoCivil_seleccionado);
+	            
+	         panel.add(new JLabel("Fecha de nacimiento: "));
+	         panel.add(fechaNacimiento_editar);
+	         panel.add(new JLabel("Estado civil: "));
+	         panel.add(estadoCivil_editar);
+	         panel.add(new JLabel("Sexo: "));
+	         panel.add(sexo_editar);
+	            
+	         int result = JOptionPane.showOptionDialog(null,panel,"Editar hijo",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,new Object[]{"Aceptar", "Cancelar"},null);
+
+	        		if (result == JOptionPane.YES_OPTION) {
+	        		    // Código para el botón "Aceptar"
+	        		    System.out.println("Aceptar");
+	        		} else {
+	        		    // Código para el botón "Cancelar" o cierre del cuadro de diálogo
+	        		    System.out.println("Cancelar o cerrar");
+	        		}
+			 
+			 
+        } else {
+            System.out.println("No hay fila seleccionada. Deshabilitando el botón.");
+            btnEditar.setEnabled(false);
+        }
+		}});
+
+		
+		
+		
+
+    	
+   
+    	
+    }
+    public void limpiarCamposVehiculo() {
 		comboBoxModeloVehiculo.setSelectedItem(null);
 		textFieldSumaAsegurada.setText(null);
 		textFieldChasis.setText(null);

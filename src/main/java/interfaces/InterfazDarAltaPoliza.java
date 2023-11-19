@@ -47,55 +47,52 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class InterfazDarAltaPoliza extends JFrame {
-
-	private static final long serialVersionUID = 1L;
 	// JPanels
 	private JPanel contentPane, buscarCliente, panelPrincipal, crearPoliza, confirmarPoliza, datosVehiculo, datosHijos, tipoPoliza, generacionPoliza;
+	private JPanel panelContextoCliente, panelPoliza, panelContextoCliente_1, panelPoliza_2, panel;
+
 	// JTabbedPanes
 	private JTabbedPane tabbedPrincipal, tabbedCrearPoliza, tabbedConfirmarPoliza;
+
 	// JButtons
-	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2;
+	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2, btnEditar;
+
 	// JLabels
 	private JLabel lblNroCliente, lblTipoDni, lblNroDni, lblApellido, lblNombre, lblDomicilio, lblNombre_1, lblApellido_1;
 	private JLabel lblModeloVehiculo, lblSimbolo, lblSimbolo_2, lblSimbolo_3, lblMarcoPoliza_1;
 	private JLabel lblSumaAsegurada, lblChasis, lblKmsAnio, lblNroSiniestros, lblSimbolo_1, lblMarcaDelVehiculo, lblSimbolo_4;
 	private JLabel lblAoDelVehiculo, lblSimbolo_5, lblMotor, lblSimbolo_6, lblPatenteDelVehiculo, lblSimbolo_7, lblMedidasDeSeguridad;
 	private JLabel lblNewLabel_1, lblContadorHijos;
+	private JLabel lblSexo, lblApellido_2, lblNombre_2, lblFechaNacimiento, lblEstadoCivil, lblSex, lblAgregarHijo;
+
 	// JTextFields
 	private JTextField textFieldNroCliente, textFieldTipoDNI, textFieldNroDNI, textFieldApellido, textFieldNombre, textFieldDomicilio, textFieldNombre_1, textFieldApellido_1;
-	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor;
-	// JSeparators
-	private JSeparator separator_1, separator_2, separator_3, separator_4, separator_5, separator_6, separator_7, separator_8;
-	// JComboBoxes
-	private JComboBox comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxMarcaVehiculo,comboBoxModeloVehiculo;
+	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor, textField_1, textField_2, textFieldHijos;
 
-	private JLabel lblSexo;
-	private JPanel panelContextoCliente;
-	private JPanel panelPoliza;
-	private JPanel panelContextoCliente_1;
-	private JSeparator separator_9;
-	private JSeparator separator_10;
-	private JLabel lblApellido_2;
-	private JLabel lblNombre_2;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JPanel panelPoliza_2;
-	private JPanel panel;
-	private JScrollPane scrollPane;
-	
-	private JCheckBox chckbxGuardaGarage,chckbxtieneAlarma,chckbxRastreoVehicular,chckbxTuercasAntirrobos;
-	private JLabel lblFechaNacimiento,lblEstadoCivil,lblSex;
+	// JSeparators
+	private JSeparator separator_1, separator_2, separator_3, separator_4, separator_5, separator_6, separator_7, separator_8, separator_9, separator_10, separator_10_1;
+
+	// JComboBoxes
+	private JComboBox comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxMarcaVehiculo, comboBoxModeloVehiculo;
+	private JComboBox comboBoxEstadoCivil, comboBoxSexo;
+
+	// JScrollPane
+	private JScrollPane scrollPane, scrollPaneHijos;
+
+	// JCheckBoxes
+	private JCheckBox chckbxGuardaGarage, chckbxtieneAlarma, chckbxRastreoVehicular, chckbxTuercasAntirrobos;
+
+	// JDateChooser
 	private JDateChooser fechaNacimiento;
-	private JComboBox comboBoxEstadoCivil,comboBoxSexo;
-	
-	private JLabel lblAgregarHijo;
-	private JScrollPane scrollPaneHijos;
+
+	// Arrays de opciones
+	private String[] optionsEstadoCivil = {"Soltero/a", "Casado/a", "Divorciado/a", "Separado/A", "Viudo/A"};
+	private String[] optionsSexo = {"Masculino", "Femenino"};
+
+	// JTable
 	private JTable tablaHijos;
-	private JButton btnEditar;
-	private JTextField textFieldHijos;
-	private JSeparator separator_10_1;
-    private String[] optionsEstadoCivil = {"Soltero/a", "Casado/a", "Divorciado/a","Separado/A", "Viudo/A"};
-	private String[] optionsSexo = {"Masculino","Femenino"};
+	private JButton btnEliminar;
+
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
@@ -256,8 +253,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        int filaSeleccionada = tablaHijos.getSelectedRow();
 		        if (filaSeleccionada != -1) {
 		            btnEditar.setEnabled(true);
+		            btnEliminar.setEnabled(true);
 		        } else {
 		            btnEditar.setEnabled(false);
+		            btnEliminar.setEnabled(false);
 		        }
 		    }
 		});
@@ -270,44 +269,22 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            String sexo = comboBoxSexo.getSelectedItem().toString();
 		            String estadoCivil = comboBoxEstadoCivil.getSelectedItem().toString();
 		            Date fechaSeleccionada = fechaNacimiento.getDate();
+		            if (verificarEdad(fechaSeleccionada)){
+		            	 // Ajustamos el formato de la fecha para pasarlo a string
+			            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			            String fechaString = dateFormat.format(fechaSeleccionada);
+			            Object[] nuevaFila = { fechaString, estadoCivil, sexo };
 
-		            // Verificar que se haya seleccionado una fecha
-		            if (fechaSeleccionada == null) {
-		                JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de nacimiento válida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		                return; 
+			            modelo.addRow(nuevaFila);
+			            modelo.fireTableDataChanged();
+			            textFieldHijos.setText(String.valueOf(modelo.getRowCount()));
+			            comboBoxSexo.setSelectedIndex(0);
+			            comboBoxEstadoCivil.setSelectedIndex(0);
+			            fechaNacimiento.setDate(null);
+			            fechaNacimiento.requestFocus();
 		            }
-
-		            // Calcular la edad
-		            Calendar fechaNacimientoCal = Calendar.getInstance();
-		            fechaNacimientoCal.setTime(fechaSeleccionada);
-		            Calendar fechaActual = Calendar.getInstance();
-
-		            int edad = fechaActual.get(Calendar.YEAR) - fechaNacimientoCal.get(Calendar.YEAR);
-
-		            // Ajustar la edad si aún no ha pasado el cumpleaños de este año
-		            
-		            if (fechaActual.get(Calendar.DAY_OF_YEAR) < fechaNacimientoCal.get(Calendar.DAY_OF_YEAR)) {
-		                edad--;
-		            }
-
-		            // Verificar que la edad esté entre 18 y 30 años
-		            if (edad < 18 || edad > 30) {
-		                JOptionPane.showMessageDialog(null, "El hijo no cumple con la edad requerida (entre 18 y 30 años).", "Advertencia", JOptionPane.WARNING_MESSAGE);
-		                return;
-		            }
-
-                    // Ajustamos el formato de la fecha para pasarlo a string
-		            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		            String fechaString = dateFormat.format(fechaSeleccionada);
-		            Object[] nuevaFila = { fechaString, estadoCivil, sexo };
-
-		            modelo.addRow(nuevaFila);
-		            modelo.fireTableDataChanged();
-		            textFieldHijos.setText(String.valueOf(modelo.getRowCount()));
-		            comboBoxSexo.setSelectedIndex(0);
-		            comboBoxEstadoCivil.setSelectedIndex(0);
-		            fechaNacimiento.setDate(null);
-		            fechaNacimiento.requestFocus();
+		          
+                   
 
 		        } catch (Exception ex) {
 		            
@@ -323,7 +300,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		
 		btnEditar = new JButton("Editar");
-        configuracionbotonEditarHijo(btnEditar);
+        configuracionBotonEditarHijo();
 
 		panelPoliza_2.add(btnEditar);
 		
@@ -342,6 +319,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separator_10_1.setBackground(Color.BLACK);
 		separator_10_1.setBounds(177, 41, 29, 2);
 		panelPoliza_2.add(separator_10_1);
+		
+		btnEliminar = new JButton("Eliminar");
+		configuracionBotonEliminarHijo();
 			
 			
 	}
@@ -868,7 +848,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 			}
 		}
     }
-    public void configuracionbotonEditarHijo(JButton btnEditar){
+    public void configuracionBotonEditarHijo(){
     	btnEditar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnEditar.setFocusable(false);
 		btnEditar.setBounds(299, 259, 89, 23);
@@ -912,11 +892,18 @@ public class InterfazDarAltaPoliza extends JFrame {
 	         int result = JOptionPane.showOptionDialog(null,panel,"Editar hijo",JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,new Object[]{"Aceptar", "Cancelar"},null);
 
 	        		if (result == JOptionPane.YES_OPTION) {
-	        		    // Código para el botón "Aceptar"
-	        		    System.out.println("Aceptar");
-	        		} else {
-	        		    // Código para el botón "Cancelar" o cierre del cuadro de diálogo
-	        		    System.out.println("Cancelar o cerrar");
+	        			if(verificarEdad(fechaNacimiento_editar.getDate())){
+	        				String nuevaFechaNacimiento = new SimpleDateFormat("yyyy-MM-dd").format(fechaNacimiento_editar.getDate());
+		                    String nuevoEstadoCivil = estadoCivil_editar.getSelectedItem().toString();
+		                    String nuevoSexo = sexo_editar.getSelectedItem().toString();
+		                    // Actualizar los valores en el modelo de la tabla
+		                    DefaultTableModel model = (DefaultTableModel) tablaHijos.getModel();
+		                    model.setValueAt(nuevaFechaNacimiento, filaSeleccionada, 0);
+		                    model.setValueAt(nuevoEstadoCivil, filaSeleccionada, 1);
+		                    model.setValueAt(nuevoSexo, filaSeleccionada, 2);
+		                    // Refrescar la vista de la tabla
+		                    model.fireTableDataChanged();
+	        			}
 	        		}
 			 
 			 
@@ -926,12 +913,14 @@ public class InterfazDarAltaPoliza extends JFrame {
         }
 		}});
 
-		
-		
-		
+    }
+    public void configuracionBotonEliminarHijo() {
+    	btnEliminar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnEliminar.setFocusable(false);
+		btnEliminar.setEnabled(false);
+		btnEliminar.setBounds(388, 259, 89, 23);
+		panelPoliza_2.add(btnEliminar);
 
-    	
-   
     	
     }
     public void limpiarCamposVehiculo() {
@@ -970,6 +959,33 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		}
 	}
+    public boolean verificarEdad(Date fechaNacimiento) {
+    	  // Verificar que se haya seleccionado una fecha
+        if (fechaNacimiento == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de nacimiento válida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false; 
+        }
+
+        // Calcular la edad
+        Calendar fechaNacimientoCal = Calendar.getInstance();
+        fechaNacimientoCal.setTime(fechaNacimiento);
+        Calendar fechaActual = Calendar.getInstance();
+
+        int edad = fechaActual.get(Calendar.YEAR) - fechaNacimientoCal.get(Calendar.YEAR);
+
+        // Ajustar la edad si aún no ha pasado el cumpleaños de este año
+        
+        if (fechaActual.get(Calendar.DAY_OF_YEAR) < fechaNacimientoCal.get(Calendar.DAY_OF_YEAR)) {
+            edad--;
+        }
+
+        // Verificar que la edad esté entre 18 y 30 años
+        if (edad < 18 || edad > 30) {
+            JOptionPane.showMessageDialog(null, "El hijo no cumple con la edad requerida (entre 18 y 30 años).", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+        return true;
+    }
     public void dialogoCancelar() {
     	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar el alta de la poliza?","Confirmación",
                 JOptionPane.YES_NO_OPTION);

@@ -41,10 +41,11 @@ public class InterfazBuscarCliente extends JFrame {
 	private JTable tablaClientes;
 	private JComboBox comboBoxTipoDoc;
 	private ClienteDTO clienteBuscado= new ClienteDTO();
+	private InterfazDarAltaPoliza interfazDarAltaPoliza;
 	
-	public InterfazBuscarCliente()  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public InterfazBuscarCliente(InterfazDarAltaPoliza interfazDarAltaPoliza)  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		this.interfazDarAltaPoliza = interfazDarAltaPoliza;
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		
 		setTitle("Productor de seguro - Buscar cliente");
 		setResizable(false);
 		setBounds(100, 100, 869, 547);
@@ -151,34 +152,32 @@ public class InterfazBuscarCliente extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(60, 281, 717, 137);
 		contentPane.add(scrollPane);
-	
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			int fila = tablaClientes.getSelectedRow();
-			clienteBuscado.setNroCliente(tablaClientes.getValueAt(fila,0).toString());
-			clienteBuscado.setApellido(tablaClientes.getValueAt(fila,1).toString());
-			clienteBuscado.setNombre(tablaClientes.getValueAt(fila,2).toString());
-			clienteBuscado.setTipoDocumento(tablaClientes.getValueAt(fila,3).toString());
-			clienteBuscado.setNroDocumento(tablaClientes.getValueAt(fila,4).toString());
-	        InterfazDarAltaPoliza interfaz;
-			try {
-				interfaz = new InterfazDarAltaPoliza();
-				interfaz.setVisible(true);
-				interfaz.setCliente(clienteBuscado);
-				dispose();
-			} catch (Exception e1) {
-			}
-	        
-			}});
 		
-		
-		
+		JButton btnConfirmar = new JButton();
+		btnConfirmar.setText("Confirmar");
 		btnConfirmar.setBackground(Color.WHITE);
 		btnConfirmar.setEnabled(false);
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar.setBounds(28, 460, 89, 23);
 		contentPane.add(btnConfirmar);
+		btnConfirmar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        int fila = tablaClientes.getSelectedRow();
+		            ClienteDTO clienteSeleccionado = new ClienteDTO();
+		            clienteSeleccionado.setNroCliente(tablaClientes.getValueAt(fila, 0).toString());
+		            clienteSeleccionado.setApellido(tablaClientes.getValueAt(fila, 1).toString());
+		            clienteSeleccionado.setNombre(tablaClientes.getValueAt(fila, 2).toString());
+		            clienteSeleccionado.setTipoDocumento(tablaClientes.getValueAt(fila, 3).toString());
+		            clienteSeleccionado.setNroDocumento(tablaClientes.getValueAt(fila, 4).toString());
+		            if (interfazDarAltaPoliza != null) {
+		                interfazDarAltaPoliza.actualizarCamposCliente(clienteSeleccionado);
+		            }
+		            dispose();
+		        
+		    }
+		});
+		
+
 		
 		
 		tablaClientes = new JTable();
@@ -247,6 +246,10 @@ public class InterfazBuscarCliente extends JFrame {
 	    
 	    trs = new TableRowSorter<>(dtmDatos);
 	    tablaClientes.setRowSorter(trs);
+	}
+
+	public ClienteDTO devolverClienteBuscado() {
+		return clienteBuscado;
 	}
 
 	private String[][] cargarDatosClientes(List<ClienteDTO> listaClientes) {

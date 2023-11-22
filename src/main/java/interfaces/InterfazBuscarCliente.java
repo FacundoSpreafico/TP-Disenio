@@ -19,6 +19,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -38,9 +40,11 @@ public class InterfazBuscarCliente extends JFrame {
 	private JTextField textFieldNombre;
 	private JTable tablaClientes;
 	private JComboBox comboBoxTipoDoc;
+	private ClienteDTO clienteBuscado= new ClienteDTO();
 	
 	public InterfazBuscarCliente()  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		
 		setTitle("Productor de seguro - Buscar cliente");
 		setResizable(false);
 		setBounds(100, 100, 869, 547);
@@ -145,8 +149,37 @@ public class InterfazBuscarCliente extends JFrame {
 		contentPane.add(panelBusqueda);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(60, 290, 685, 120);
+		scrollPane.setBounds(60, 281, 717, 137);
 		contentPane.add(scrollPane);
+	
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			int fila = tablaClientes.getSelectedRow();
+			clienteBuscado.setNroCliente(tablaClientes.getValueAt(fila,0).toString());
+			clienteBuscado.setApellido(tablaClientes.getValueAt(fila,1).toString());
+			clienteBuscado.setNombre(tablaClientes.getValueAt(fila,2).toString());
+			clienteBuscado.setTipoDocumento(tablaClientes.getValueAt(fila,3).toString());
+			clienteBuscado.setNroDocumento(tablaClientes.getValueAt(fila,4).toString());
+	        InterfazDarAltaPoliza interfaz;
+			try {
+				interfaz = new InterfazDarAltaPoliza();
+				interfaz.setVisible(true);
+				interfaz.setCliente(clienteBuscado);
+				dispose();
+			} catch (Exception e1) {
+			}
+	        
+			}});
+		
+		
+		
+		btnConfirmar.setBackground(Color.WHITE);
+		btnConfirmar.setEnabled(false);
+		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnConfirmar.setBounds(28, 460, 89, 23);
+		contentPane.add(btnConfirmar);
+		
 		
 		tablaClientes = new JTable();
 		scrollPane.setViewportView(tablaClientes);
@@ -158,38 +191,34 @@ public class InterfazBuscarCliente extends JFrame {
 				}
 			));
 		tablaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
+		tablaClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        int filaSeleccionada = tablaClientes.getSelectedRow();
+		        if (filaSeleccionada != -1) {
+		            btnConfirmar.setEnabled(true);
+		        }
+		        else {
+		        	btnConfirmar.setEnabled(false);
+		        }
+		    }
+		});
+
 		JPanel panelResultado = new JPanel();
 		panelResultado.setBackground(Color.WHITE);
 		panelResultado.setBorder(new TitledBorder(null, "Resultado de b\u00FAsqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelResultado.setBounds(28, 249, 780, 190);
 		contentPane.add(panelResultado);
 		
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setBackground(Color.WHITE);
-		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnConfirmar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Cliente cliente = new Cliente();
-				cliente.setIdCliente(3);
-				cliente.setNombre("Santi");
-				cliente.setApellido("Wangher");
-				cliente.setNroCliente("12312312");
-				GestorCliente.getInstance().create(cliente);
-			}
-		});
-		btnConfirmar.setBounds(28, 460, 89, 23);
-		contentPane.add(btnConfirmar);
-		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.exit(1);
+				dispose();
 			}
 		});
-		btnCancelar.setBounds(125, 460, 89, 23);
+		btnCancelar.setBounds(116, 460, 89, 23);
 		contentPane.add(btnCancelar);
 
 	}

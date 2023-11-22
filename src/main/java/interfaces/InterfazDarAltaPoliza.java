@@ -40,6 +40,7 @@ import javax.swing.event.ListSelectionListener;
 
 import com.toedter.calendar.JDateChooser;
 
+import DTO.ClienteDTO;
 import constantes.Images;
 import entidades.HijoCliente;
 
@@ -61,7 +62,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2, btnEditar,btnAgregar;
 
 	// JLabels
-	private JLabel lblNroCliente, lblTipoDni, lblNroDni, lblApellido, lblNombre, lblDomicilio, lblNombre_1, lblApellido_1;
+	private JLabel lblNroCliente, lblTipoDocumento, lblNroDni, lblApellido, lblNombre, lblDomicilio, lblNombre_1, lblApellido_1;
 	private JLabel lblModeloVehiculo, lblSimbolo, lblSimbolo_2, lblSimbolo_3, lblMarcoPoliza_1;
 	private JLabel lblSumaAsegurada, lblChasis, lblKmsAnio, lblNroSiniestros, lblSimbolo_1, lblMarcaDelVehiculo, lblSimbolo_4;
 	private JLabel lblAoDelVehiculo, lblSimbolo_5, lblMotor, lblSimbolo_6, lblPatenteDelVehiculo, lblSimbolo_7, lblMedidasDeSeguridad;
@@ -69,7 +70,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JLabel lblSexo, lblApellido_2, lblNombre_2, lblFechaNacimiento, lblEstadoCivil, lblSex, lblAgregarHijo;
 
 	// JTextFields
-	private JTextField textFieldNroCliente, textFieldTipoDNI, textFieldNroDNI, textFieldApellido, textFieldNombre, textFieldDomicilio, textFieldNombre_1, textFieldApellido_1;
+	private JTextField textFieldNroCliente, textFieldTipoDocumento, textFieldNroDNI, textFieldApellido, textFieldNombre, textFieldDomicilio, textFieldNombre_1, textFieldApellido_1;
 	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor, textField_1, textField_2, textFieldHijos;
 
 	// JSeparators
@@ -138,7 +139,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     private JTextField textFieldCuota5;
     private JTextField textFieldCuota6;
     private JTextField textFieldMontoTotalAPagar;
-    
+    private ClienteDTO clienteBuscado = new ClienteDTO();
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -154,6 +155,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
 		pestaniaCrearPoliza();
+		System.out.print(this.clienteBuscado.getNombre());
 	}
 
 	//pestañas de la interfaz
@@ -639,6 +641,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				try {
 					InterfazBuscarCliente buscarCliente = new InterfazBuscarCliente();
 					buscarCliente.setVisible(true);
+					dispose();
 				} catch (Exception e1) {
 				}
 
@@ -698,32 +701,34 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldApellido);
 		textFieldApellido.setColumns(10);
 		configuracionTextField(textFieldApellido);
+		textFieldApellido.setText(clienteBuscado.getApellido());
 		
 		textFieldNombre = new JTextField();
 		textFieldNombre.setBounds(469, 81, 123, 20);
 		panelCliente.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		configuracionTextField(textFieldNombre);
+		textFieldNombre.setText(clienteBuscado.getNombre());
 		
 		textFieldDomicilio = new JTextField();
 		textFieldDomicilio.setBounds(469, 114, 123, 20);
 		panelCliente.add(textFieldDomicilio);
 		textFieldDomicilio.setColumns(10);
 		configuracionTextField(textFieldDomicilio);
-		
+
 		separator_2 = new JSeparator();
-		separator_2.setBounds(111, 132, 123, 2);
+		separator_2.setBounds(136, 132, 123, 2);
 		panelCliente.add(separator_2);
 		separator_2.setForeground(Color.BLACK);
 		separator_2.setBackground(Color.BLACK);
 		JSeparator separator = new JSeparator();
-		separator.setBounds(111, 66, 123, 2);
+		separator.setBounds(136, 66, 123, 2);
 		panelCliente.add(separator);
 		separator.setBackground(Color.BLACK);
 		separator.setForeground(Color.BLACK);
 		
 		separator_1 = new JSeparator();
-		separator_1.setBounds(111, 99, 123, 2);
+		separator_1.setBounds(136, 99, 123, 2);
 		panelCliente.add(separator_1);
 		separator_1.setForeground(Color.BLACK);
 		separator_1.setBackground(Color.BLACK);
@@ -733,10 +738,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(lblNroDni);
 		lblNroDni.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		lblTipoDni = new JLabel("Tipo DNI");
-		lblTipoDni.setBounds(29, 87, 72, 14);
-		panelCliente.add(lblTipoDni);
-		lblTipoDni.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblTipoDocumento = new JLabel("Tipo documento");
+		lblTipoDocumento.setBounds(29, 87, 97, 14);
+		panelCliente.add(lblTipoDocumento);
+		lblTipoDocumento.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblNroCliente = new JLabel("Nro. Cliente");
 		lblNroCliente.setBounds(29, 53, 72, 14);
@@ -744,22 +749,26 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblNroCliente.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		textFieldNroCliente = new JTextField();
-		textFieldNroCliente.setBounds(111, 48, 123, 20);
+		textFieldNroCliente.setBounds(136, 48, 123, 20);
 		panelCliente.add(textFieldNroCliente);
 		textFieldNroCliente.setColumns(10);
 		configuracionTextField(textFieldNroCliente);
+		textFieldNroCliente.setText(clienteBuscado.getNroCliente());
 		
-		textFieldTipoDNI = new JTextField();
-		textFieldTipoDNI.setBounds(111, 81, 123, 20);
-		panelCliente.add(textFieldTipoDNI);
-		textFieldTipoDNI.setColumns(10);
-		configuracionTextField(textFieldTipoDNI);
+		textFieldTipoDocumento = new JTextField();
+		textFieldTipoDocumento.setBounds(136, 81, 123, 20);
+		panelCliente.add(textFieldTipoDocumento);
+		textFieldTipoDocumento.setColumns(10);
+		configuracionTextField(textFieldTipoDocumento);
+		textFieldTipoDocumento.setText(clienteBuscado.getTipoDocumento());
 		
 		textFieldNroDNI = new JTextField();
-		textFieldNroDNI.setBounds(111, 114, 123, 20);
+		textFieldNroDNI.setBounds(136, 114, 123, 20);
 		panelCliente.add(textFieldNroDNI);
 		textFieldNroDNI.setColumns(10);
 		configuracionTextField(textFieldNroDNI);
+		textFieldNroDNI.setText(clienteBuscado.getNroDocumento());
+		
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);
@@ -897,6 +906,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		});
 		
 		JButton btnCancelar_1_1 = new JButton("Cancelar");
+		btnCancelar_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogoCancelar();
+			}
+		});
 		btnCancelar_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_1_1.setFocusable(false);
 		btnCancelar_1_1.setBounds(108, 404, 89, 23);
@@ -908,6 +922,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
 	
     //funciones de configuracion
+	public void setCliente(ClienteDTO cliente) {
+		this.clienteBuscado = cliente;
+	}
 	public void inicializarPaneles () {
 		setTitle("Productor de seguro- Dar de alta poliza");
 		panelPrincipal = new JPanel();
@@ -988,6 +1005,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tabbedPaneDatosPoliza.addTab("Datos de póliza", null, panelDatosPoliza, null);
 		panelDatosPoliza.setLayout(null);
     	JButton btnCancelar_3_1 = new JButton("Cancelar");
+    	btnCancelar_3_1.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			dialogoCancelar();
+    		}
+    	});
 		btnCancelar_3_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_3_1.setFocusable(false);
 		btnCancelar_3_1.setBounds(190, 370, 89, 23);
@@ -1270,6 +1292,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		JButton btnCancelar_3_1_1 = new JButton("Cancelar");
 		btnCancelar_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_3_1_1.setFocusable(false);
+		btnCancelar_3_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogoCancelar();
+			}
+		});
 		btnCancelar_3_1_1.setBounds(190, 370, 89, 23);
 		panelCuotasSemestral.add(btnCancelar_3_1_1);
     }
@@ -1515,6 +1542,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnCancelar_3_1_1.setFocusable(false);
 		btnCancelar_3_1_1.setBounds(190, 370, 89, 23);
 		panelCuotasMensuales.add(btnCancelar_3_1_1);
+		btnCancelar_3_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dialogoCancelar();
+			}
+		});
 		
     }
     public void mostrarPanelCuotas(JPanel panel) {
@@ -1671,10 +1703,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            	DefaultTableModel model = (DefaultTableModel) tablaHijos.getModel();
 		                int filaSeleccionada = tablaHijos.getSelectedRow();
 		                listaHijos.remove(filaSeleccionada); 	
-		                // Eliminar la fila de la tabla
+
 		                model.removeRow(filaSeleccionada);
 		                model.fireTableDataChanged();
-		                // Actualizar el campo de texto
+
 		                textFieldHijos.setText(String.valueOf(Integer.parseInt(textFieldHijos.getText()) - 1));
 		            }
 		    }

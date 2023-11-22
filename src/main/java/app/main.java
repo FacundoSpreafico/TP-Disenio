@@ -2,6 +2,7 @@ package app;
 
 import javax.swing.UnsupportedLookAndFeelException;
 
+import DTO.ClienteDTO;
 import interfaces.InterfazDarAltaPoliza;
 
 public class main {

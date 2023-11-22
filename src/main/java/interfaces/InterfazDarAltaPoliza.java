@@ -45,6 +45,9 @@ import entidades.HijoCliente;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollBar;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -55,7 +58,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JTabbedPane tabbedPrincipal, tabbedCrearPoliza, tabbedConfirmarPoliza;
 
 	// JButtons
-	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2, btnEditar;
+	private JButton btnSiguiente_1, btnCancelar_1, btnBuscarCliente, btnDarAltaCliente, btnSiguiente_3, btnVolver_3, btnCancelar_3, btnSiguiente_2, btnCancelar_2, btnVolver_2, btnEditar,btnAgregar;
 
 	// JLabels
 	private JLabel lblNroCliente, lblTipoDni, lblNroDni, lblApellido, lblNombre, lblDomicilio, lblNombre_1, lblApellido_1;
@@ -92,7 +95,51 @@ public class InterfazDarAltaPoliza extends JFrame {
 	// JTable
 	private JTable tablaHijos;
 	private JButton btnEliminar;
-
+	
+	List<HijoCliente> listaHijos = new ArrayList<>();
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JPanel panelTipoPoliza;
+	private JLabel lblFechaInicio;
+	private JLabel lblTipoCobertura;
+	private JTabbedPane tabbedPaneDatosPoliza;
+	private JPanel panelCuotasSemestral;
+	private JTextField textFieldTitularSeguro;
+	private JTextField textField_Marca;
+	private JTextField textField_Modelo;
+	private JTextField textFieldChasis_1;
+	private JTextField textField_Motor;
+	private JTextField textField_Patente;
+	private JPanel panelGeneracionPoliza_1;
+	private JTextField textField_SumaAsegurada;
+	private JSeparator separatorTitularSeguro_1;
+	private JDateChooser fechaUltDiaPago;
+	private JLabel lblSumaAsegurada_1;
+	private JTextField textField_Premio;
+	private JTextField textField_ImportePDesc;
+	private JTextField textFieldMontoTotal;
+	private JSeparator separatorTitularSeguro_2;
+	private JLabel lblSumaAsegurada_2;
+	private JPanel panelCuotasMensuales;
+	private JPanel panelGeneracionPoliza_2;
+	private JTextField textField_SumaAsegurada_2;
+    private JSeparator separatorSumaAsegurada;
+    private JLabel lblSumaAsegurada_3;
+    private JTextField textField_Premio_2;
+    private JLabel lblPremio;
+    private JSeparator separatorPremio;
+    private JTextField textField_ImportePDesc_1;
+    private JSeparator separatorImportePDesc;
+    private JLabel lblImportePorDesc;
+    private JTextField textFieldCuota1;
+    private JTextField textFieldCuota2;
+    private JTextField textFieldCuota3;
+    private JTextField textFieldCuota4;
+    private JTextField textFieldCuota5;
+    private JTextField textFieldCuota6;
+    private JTextField textFieldMontoTotalAPagar;
+    
+    
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
@@ -110,18 +157,18 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
 
 	//pestañas de la interfaz
+	@SuppressWarnings("serial")
 	public void pestaniaDatosHijos() {
-		List<HijoCliente> listaHijos = new ArrayList<>();
-		
-		JButton btnSiguiente_3 = new JButton("Siguiente");
-		btnSiguiente_3.addActionListener(new ActionListener() {
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				pestaniaConfirmarPoliza();
 			}
 		});
-		btnSiguiente_3.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnSiguiente_3.setFocusable(false);
-		btnSiguiente_3.setBounds(20, 404, 89, 23);
-		datosHijos.add(btnSiguiente_3);
+		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnConfirmar.setFocusable(false);
+		btnConfirmar.setBounds(20, 404, 89, 23);
+		datosHijos.add(btnConfirmar);
 		
 		JButton btnVolver_3 = new JButton("Volver");
 		btnVolver_3.addActionListener(new ActionListener() {
@@ -193,8 +240,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza_2.setBorder(new TitledBorder(null, "Poliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelPoliza_2.setLayout(null);
 		
-		
-		
 		lblAgregarHijo = new JLabel("Agregar hijo");
 		lblAgregarHijo.setFont(new Font("Arial", Font.BOLD, 12));
 		lblAgregarHijo.setBounds(15, 71, 94, 14);
@@ -241,12 +286,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tablaHijos = new JTable();
 		scrollPaneHijos.setViewportView(tablaHijos);
 		tablaHijos.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-				"Fecha nacimiento", "Estado civil", "Sexo"
-				}
-		));
+		        new Object[][]{},
+		        new String[]{"Fecha nacimiento", "Estado civil", "Sexo"}) {
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		        return false;
+		    }
+		}
+		);
+		
 		tablaHijos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 		    @Override
 		    public void valueChanged(ListSelectionEvent e) {
@@ -260,50 +308,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        }
 		    }
 		});
-		JButton btnAgregar = new JButton("Agregar");
-		DefaultTableModel modelo = (DefaultTableModel) tablaHijos.getModel();
-		btnAgregar.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        try {
-		            // Obtener valores seleccionados
-		            String sexo = comboBoxSexo.getSelectedItem().toString();
-		            String estadoCivil = comboBoxEstadoCivil.getSelectedItem().toString();
-		            Date fechaSeleccionada = fechaNacimiento.getDate();
-		            if (verificarEdad(fechaSeleccionada)){
-		            	 // Ajustamos el formato de la fecha para pasarlo a string
-			            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			            String fechaString = dateFormat.format(fechaSeleccionada);
-			            Object[] nuevaFila = { fechaString, estadoCivil, sexo };
-
-			            modelo.addRow(nuevaFila);
-			            modelo.fireTableDataChanged();
-			            textFieldHijos.setText(String.valueOf(modelo.getRowCount()));
-			            comboBoxSexo.setSelectedIndex(0);
-			            comboBoxEstadoCivil.setSelectedIndex(0);
-			            fechaNacimiento.setDate(null);
-			            fechaNacimiento.requestFocus();
-		            }
-		          
-                   
-
-		        } catch (Exception ex) {
-		            
-		        }
-		    }
-		});
-
-		btnAgregar.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAgregar.setFocusable(false);
-		btnAgregar.setBounds(15, 259, 89, 23);
-		panelPoliza_2.add(btnAgregar);
 		
-		
-		
+		btnAgregar = new JButton("Agregar");
+		configuracionBotonAgregarHijo();
+		btnEliminar = new JButton("Eliminar");
+		configuracionBotonEliminarHijo();
 		btnEditar = new JButton("Editar");
         configuracionBotonEditarHijo();
-
-		panelPoliza_2.add(btnEditar);
-		
 		
 		textFieldHijos = new JTextField();
 		textFieldHijos.setFont(new Font("Arial", Font.BOLD, 12));
@@ -313,16 +324,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza_2.add(textFieldHijos);
 		configuracionTextField(textFieldHijos);
 		
-		
 		separator_10_1 = new JSeparator();
 		separator_10_1.setForeground(Color.BLACK);
 		separator_10_1.setBackground(Color.BLACK);
 		separator_10_1.setBounds(177, 41, 29, 2);
 		panelPoliza_2.add(separator_10_1);
-		
-		btnEliminar = new JButton("Eliminar");
-		configuracionBotonEliminarHijo();
-			
 			
 	}
     public void pestaniaDatosDelVehiculo() {
@@ -761,6 +767,144 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
 	public void pestaniaConfirmarPoliza() {
 		tabbedPrincipal.setEnabledAt(0, false);
+		tabbedPrincipal.setEnabledAt(1, true);
+		tabbedPrincipal.setSelectedIndex(1);
+		pestaniaTipoPoliza();	
+	}
+	public void pestaniaTipoPoliza() {
+		configuracionTipoPoliza();
+		
+		JPanel panelContextoCliente_2 = new JPanel();
+		panelContextoCliente_2.setLayout(null);
+		panelContextoCliente_2.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelContextoCliente_2.setBackground(Color.WHITE);
+		panelContextoCliente_2.setBounds(15, 11, 797, 64);
+		tipoPoliza.add(panelContextoCliente_2);
+		
+		JSeparator separator_7_1 = new JSeparator();
+		separator_7_1.setForeground(Color.BLACK);
+		separator_7_1.setBackground(Color.BLACK);
+		separator_7_1.setBounds(441, 39, 123, 2);
+		panelContextoCliente_2.add(separator_7_1);
+		
+		JSeparator separator_6_1 = new JSeparator();
+		separator_6_1.setForeground(Color.BLACK);
+		separator_6_1.setBackground(Color.BLACK);
+		separator_6_1.setBounds(80, 39, 123, 2);
+		panelContextoCliente_2.add(separator_6_1);
+		
+		JLabel lblApellido_1_1 = new JLabel("Apellido");
+		lblApellido_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblApellido_1_1.setBounds(385, 27, 46, 14);
+		panelContextoCliente_2.add(lblApellido_1_1);
+		
+		JLabel lblNombre_1_1 = new JLabel("Nombre");
+		lblNombre_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblNombre_1_1.setBounds(24, 27, 46, 14);
+		panelContextoCliente_2.add(lblNombre_1_1);
+		
+		textField_3 = new JTextField();
+		textField_3.setColumns(10);
+		textField_3.setBounds(441, 19, 123, 20);
+		panelContextoCliente_2.add(textField_3);
+		configuracionTextField(textField_3);
+		
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(80, 19, 123, 20);
+		panelContextoCliente_2.add(textField_4);
+		configuracionTextField(textField_4);
+		
+		panelTipoPoliza = new JPanel();
+		panelTipoPoliza.setLayout(null);
+		panelTipoPoliza.setBorder(new TitledBorder(null, "Tipo de póliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelTipoPoliza.setBackground(Color.WHITE);
+		panelTipoPoliza.setBounds(15, 86, 797, 148);
+		tipoPoliza.add(panelTipoPoliza);
+		
+		lblFechaInicio = new JLabel("Fecha de inicio");
+		lblFechaInicio.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblFechaInicio.setBounds(397, 36, 91, 14);
+		panelTipoPoliza.add(lblFechaInicio);
+		
+		lblTipoCobertura = new JLabel("Tipo de cobertura");
+		lblTipoCobertura.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblTipoCobertura.setBounds(23, 36, 103, 14);
+		panelTipoPoliza.add(lblTipoCobertura);
+		
+		JLabel lblFormaDePago = new JLabel("Forma de pago");
+		lblFormaDePago.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblFormaDePago.setBounds(23, 80, 91, 14);
+		panelTipoPoliza.add(lblFormaDePago);
+		
+		JLabel lblSimbolo_12 = new JLabel("(*)");
+		lblSimbolo_12.setForeground(Color.RED);
+		lblSimbolo_12.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSimbolo_12.setBounds(145, 36, 18, 14);
+		panelTipoPoliza.add(lblSimbolo_12);
+		
+		JLabel lblSimbolo_12_1 = new JLabel("(*)");
+		lblSimbolo_12_1.setForeground(Color.RED);
+		lblSimbolo_12_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSimbolo_12_1.setBounds(145, 80, 18, 14);
+		panelTipoPoliza.add(lblSimbolo_12_1);
+		
+		JLabel lblSimbolo_12_2 = new JLabel("(*)");
+		lblSimbolo_12_2.setForeground(Color.RED);
+		lblSimbolo_12_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSimbolo_12_2.setBounds(505, 36, 18, 14);
+		panelTipoPoliza.add(lblSimbolo_12_2);
+		
+		JComboBox comboBoxTipoCobertura = new JComboBox();
+		comboBoxTipoCobertura.setBounds(173, 32, 154, 22);
+		panelTipoPoliza.add(comboBoxTipoCobertura);
+		
+		JComboBox comboBoxFormaDePago = new JComboBox();
+		comboBoxFormaDePago.setBounds(173, 76, 154, 22);
+		panelTipoPoliza.add(comboBoxFormaDePago);
+		comboBoxFormaDePago.addItem("Mensual");
+		comboBoxFormaDePago.addItem("Semestral");
+		
+
+		JDateChooser fechaInicio = new JDateChooser();
+		fechaInicio.setBounds(533, 32, 154, 20);
+		panelTipoPoliza.add(fechaInicio);
+		Date dateToday = new Date();
+		fechaInicio.setDate(dateToday);
+		
+		JButton btnSiguiente_1_1 = new JButton("Siguiente");
+		btnSiguiente_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnSiguiente_1_1.setFocusable(false);
+		btnSiguiente_1_1.setBounds(20, 404, 89, 23);
+		tipoPoliza.add(btnSiguiente_1_1);
+		
+		btnSiguiente_1_1.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String formaDePagoSeleccionada = comboBoxFormaDePago.getSelectedItem().toString();
+		        tabbedConfirmarPoliza.setSelectedIndex(1);
+		        configuracionGeneracionPoliza();
+		        JPanel panelCuotas = null;
+		        if ("Semestral".equals(formaDePagoSeleccionada)) {
+		        	configuracionPanelCuotasSemestrales();
+		            panelCuotas = panelCuotasSemestral;
+		        } else {
+		        	configuracionPanelCuotasMensuales();
+		            panelCuotas = panelCuotasMensuales;
+		        }
+		        tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
+		    }
+		});
+		
+		JButton btnCancelar_1_1 = new JButton("Cancelar");
+		btnCancelar_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnCancelar_1_1.setFocusable(false);
+		btnCancelar_1_1.setBounds(108, 404, 89, 23);
+		tipoPoliza.add(btnCancelar_1_1);
+		
+	}
+	public void pestaniaGeneracionPoliza(){
+		configuracionGeneracionPoliza();
 	}
 	
     //funciones de configuracion
@@ -806,7 +950,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 	
 		pestaniaDatosHijos();
 		
-		
 		confirmarPoliza = new JPanel();
 		confirmarPoliza.setBackground(new Color(255, 255, 255));
 		tabbedPrincipal.addTab("Confirmar poliza", null, confirmarPoliza, null);
@@ -821,12 +964,563 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tipoPoliza = new JPanel();
 		tipoPoliza.setBackground(Color.WHITE);
 		tabbedConfirmarPoliza.addTab("Tipo de poliza", null, tipoPoliza, null);
+		tipoPoliza.setLayout(null);
+		
 		
 		generacionPoliza = new JPanel();
 		generacionPoliza.setBackground(Color.WHITE);
 		tabbedConfirmarPoliza.addTab("Generacion de poliza", null, generacionPoliza, null);
+		generacionPoliza.setLayout(null);
+		
+		tabbedPaneDatosPoliza = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPaneDatosPoliza.setFont(new Font("Arial", Font.PLAIN, 12));
+		tabbedPaneDatosPoliza.setBounds(0, 0, 843, 448);
+		generacionPoliza.add(tabbedPaneDatosPoliza);
+	
+		configuracionPanelDatosPoliza();
+		pestaniaGeneracionPoliza();
+		pestaniaTipoPoliza();
+        
 	}
-	public void configuracionTextField(JTextField textField) {
+    public void configuracionPanelDatosPoliza() {
+    	JPanel panelDatosPoliza = new JPanel();
+		panelDatosPoliza.setBackground(Color.WHITE);
+		tabbedPaneDatosPoliza.addTab("Datos de póliza", null, panelDatosPoliza, null);
+		panelDatosPoliza.setLayout(null);
+    	JButton btnCancelar_3_1 = new JButton("Cancelar");
+		btnCancelar_3_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnCancelar_3_1.setFocusable(false);
+		btnCancelar_3_1.setBounds(190, 370, 89, 23);
+		panelDatosPoliza.add(btnCancelar_3_1);
+		
+		JButton btnVolver_3_1 = new JButton("Volver");
+		btnVolver_3_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnVolver_3_1.setFocusable(false);
+		btnVolver_3_1.setBounds(109, 370, 82, 23);
+		panelDatosPoliza.add(btnVolver_3_1);
+		configuracionBotonVolverDatosPoliza(btnVolver_3_1);
+		
+		JButton btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnConfirmar.setFocusable(false);
+		btnConfirmar.setBounds(20, 370, 89, 23);
+		panelDatosPoliza.add(btnConfirmar);
+		
+		JPanel panelGeneracionPoliza = new JPanel();
+		panelGeneracionPoliza.setLayout(null);
+		panelGeneracionPoliza.setBorder(new TitledBorder(null, "Generación de póliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelGeneracionPoliza.setBackground(Color.WHITE);
+		panelGeneracionPoliza.setBounds(15, 11, 800, 354);
+		panelDatosPoliza.add(panelGeneracionPoliza);
+		
+		JLabel lblTitularSeguro = new JLabel("Titular del seguro");
+		lblTitularSeguro.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblTitularSeguro.setBounds(15, 30, 101, 14);
+		panelGeneracionPoliza.add(lblTitularSeguro);
+		
+		textFieldTitularSeguro = new JTextField();
+		textFieldTitularSeguro.setColumns(10);
+		textFieldTitularSeguro.setBounds(126, 24, 170, 20);
+		panelGeneracionPoliza.add(textFieldTitularSeguro);
+		configuracionTextField(textFieldTitularSeguro);
+		
+		JSeparator separatorTitularSeguro = new JSeparator();
+		separatorTitularSeguro.setForeground(Color.BLACK);
+		separatorTitularSeguro.setBackground(Color.BLACK);
+		separatorTitularSeguro.setBounds(127, 44, 169, 2);
+		panelGeneracionPoliza.add(separatorTitularSeguro);
+		
+		JLabel lblDatosDelVehiculo = new JLabel("Datos del vehiculo");
+		lblDatosDelVehiculo.setFont(new Font("Arial", Font.BOLD, 14));
+		lblDatosDelVehiculo.setBounds(15, 70, 142, 14);
+		panelGeneracionPoliza.add(lblDatosDelVehiculo);
+		
+		JLabel lblMarca = new JLabel("Marca");
+		lblMarca.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblMarca.setBounds(15, 108, 52, 14);
+		panelGeneracionPoliza.add(lblMarca);
+		
+		textField_Marca = new JTextField();
+		textField_Marca.setColumns(10);
+		textField_Marca.setBounds(126, 105, 170, 20);
+		panelGeneracionPoliza.add(textField_Marca);
+		configuracionTextField(textField_Marca);
+		
+		JSeparator separatorMarca = new JSeparator();
+		separatorMarca.setForeground(Color.BLACK);
+		separatorMarca.setBackground(Color.BLACK);
+		separatorMarca.setBounds(127, 125, 170, 2);
+		panelGeneracionPoliza.add(separatorMarca);
+		
+		JLabel lblModelo = new JLabel("Modelo");
+		lblModelo.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblModelo.setBounds(331, 108, 52, 14);
+		panelGeneracionPoliza.add(lblModelo);
+		
+		textField_Modelo = new JTextField();
+		textField_Modelo.setColumns(10);
+		textField_Modelo.setBounds(434, 105, 170, 20);
+		panelGeneracionPoliza.add(textField_Modelo);
+		configuracionTextField(textField_Modelo);
+		
+		JSeparator separatorModelo = new JSeparator();
+		separatorModelo.setForeground(Color.BLACK);
+		separatorModelo.setBackground(Color.BLACK);
+		separatorModelo.setBounds(434, 125, 170, 2);
+		panelGeneracionPoliza.add(separatorModelo);
+		
+		JLabel lblChasis_1 = new JLabel("Chasis");
+		lblChasis_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblChasis_1.setBounds(15, 145, 52, 14);
+		panelGeneracionPoliza.add(lblChasis_1);
+		
+		textFieldChasis_1 = new JTextField();
+		textFieldChasis_1.setColumns(10);
+		textFieldChasis_1.setBounds(126, 140, 170, 20);
+		panelGeneracionPoliza.add(textFieldChasis_1);
+		configuracionTextField(textFieldChasis_1);
+		
+		JSeparator separatorChasis = new JSeparator();
+		separatorChasis.setForeground(Color.BLACK);
+		separatorChasis.setBackground(Color.BLACK);
+		separatorChasis.setBounds(127, 160, 169, 2);
+		panelGeneracionPoliza.add(separatorChasis);
+		
+		JLabel lblMotor_1 = new JLabel("Motor");
+		lblMotor_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblMotor_1.setBounds(331, 145, 52, 14);
+		panelGeneracionPoliza.add(lblMotor_1);
+		
+		textField_Motor = new JTextField();
+		textField_Motor.setColumns(10);
+		textField_Motor.setBounds(434, 140, 170, 20);
+		panelGeneracionPoliza.add(textField_Motor);
+		configuracionTextField(textField_Motor);
+		
+		JSeparator separatorMotor = new JSeparator();
+		separatorMotor.setForeground(Color.BLACK);
+		separatorMotor.setBackground(Color.BLACK);
+		separatorMotor.setBounds(434, 160, 170, 2);
+		panelGeneracionPoliza.add(separatorMotor);
+		
+		JLabel lblPatente = new JLabel("Patente");
+		lblPatente.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPatente.setBounds(15, 182, 52, 14);
+		panelGeneracionPoliza.add(lblPatente);
+		
+		textField_Patente = new JTextField();
+		textField_Patente.setColumns(10);
+		textField_Patente.setBounds(126, 176, 170, 20);
+		panelGeneracionPoliza.add(textField_Patente);
+		configuracionTextField(textField_Patente);
+		
+		JSeparator separatorPatente = new JSeparator();
+		separatorPatente.setForeground(Color.BLACK);
+		separatorPatente.setBackground(Color.BLACK);
+		separatorPatente.setBounds(127, 196, 169, 2);
+		panelGeneracionPoliza.add(separatorPatente);
+		
+		JLabel lblVigencia = new JLabel("Vigencia");
+		lblVigencia.setFont(new Font("Arial", Font.BOLD, 14));
+		lblVigencia.setBounds(15, 225, 79, 20);
+		panelGeneracionPoliza.add(lblVigencia);
+		
+		JLabel lblFechaInicio_1 = new JLabel("Fecha inicio");
+		lblFechaInicio_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblFechaInicio_1.setBounds(15, 263, 79, 14);
+		panelGeneracionPoliza.add(lblFechaInicio_1);
+		
+		JDateChooser fechaInicio_1 = new JDateChooser();
+		fechaInicio_1.setEnabled(false);
+		fechaInicio_1.setBounds(126, 263, 170, 20);
+		panelGeneracionPoliza.add(fechaInicio_1);
+		
+		JLabel lblFechaInicio_1_1 = new JLabel("Fecha fin");
+		lblFechaInicio_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblFechaInicio_1_1.setBounds(331, 263, 79, 14);
+		panelGeneracionPoliza.add(lblFechaInicio_1_1);
+		
+		JDateChooser fechaFin = new JDateChooser();
+		fechaFin.setEnabled(false);
+		fechaFin.setBounds(434, 263, 170, 20);
+		panelGeneracionPoliza.add(fechaFin);
+		
+		
+    }
+    public void configuracionBotonVolverDatosPoliza(JButton btnVolver) {
+    	btnVolver.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        tabbedConfirmarPoliza.setSelectedIndex(0);
+                pestaniaTipoPoliza();
+		        int indexCuotasSemestral = tabbedPaneDatosPoliza.indexOfTab("Cuotas de la póliza");
+		        if (indexCuotasSemestral != -1) {
+		            tabbedPaneDatosPoliza.removeTabAt(indexCuotasSemestral);
+		        }
+
+		        int indexCuotasMensual = tabbedPaneDatosPoliza.indexOfTab("Cuotas de la póliza");
+		        if (indexCuotasMensual != -1) {
+		            tabbedPaneDatosPoliza.removeTabAt(indexCuotasMensual);
+		        }
+		    }
+		});
+    }
+	public void configuracionPanelCuotasSemestrales() {
+    	panelCuotasSemestral = new JPanel();
+		panelCuotasSemestral.setBackground(Color.WHITE);
+		panelCuotasSemestral.setLayout(null);
+    	panelGeneracionPoliza_1 = new JPanel();
+    	
+		panelGeneracionPoliza_1.setLayout(null);
+		panelGeneracionPoliza_1.setBorder(new TitledBorder(null, "Generación de póliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelGeneracionPoliza_1.setBackground(Color.WHITE);
+		panelGeneracionPoliza_1.setBounds(15, 11, 783, 344);
+		panelCuotasSemestral.add(panelGeneracionPoliza_1);
+		
+		textField_SumaAsegurada = new JTextField();
+		textField_SumaAsegurada.setColumns(10);
+		textField_SumaAsegurada.setBounds(160, 19, 170, 20);
+		panelGeneracionPoliza_1.add(textField_SumaAsegurada);
+		configuracionTextField(textField_SumaAsegurada);
+		
+		separatorTitularSeguro_1 = new JSeparator();
+		separatorTitularSeguro_1.setForeground(Color.BLACK);
+		separatorTitularSeguro_1.setBackground(Color.BLACK);
+		separatorTitularSeguro_1.setBounds(160, 39, 169, 2);
+		panelGeneracionPoliza_1.add(separatorTitularSeguro_1);
+		
+		fechaUltDiaPago = new JDateChooser();
+		fechaUltDiaPago.setEnabled(false);
+		fechaUltDiaPago.setBounds(506, 61, 170, 20);
+		panelGeneracionPoliza_1.add(fechaUltDiaPago);
+		
+		lblSumaAsegurada_1 = new JLabel("Suma asegurada");
+		lblSumaAsegurada_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSumaAsegurada_1.setBounds(15, 27, 101, 14);
+		panelGeneracionPoliza_1.add(lblSumaAsegurada_1);
+		
+		textField_Premio = new JTextField();
+		textField_Premio.setColumns(10);
+		textField_Premio.setBounds(506, 19, 170, 20);
+		panelGeneracionPoliza_1.add(textField_Premio);
+		configuracionTextField(textField_Premio);
+		
+		JSeparator separatorTitularSeguro_1_1 = new JSeparator();
+		separatorTitularSeguro_1_1.setForeground(Color.BLACK);
+		separatorTitularSeguro_1_1.setBackground(Color.BLACK);
+		separatorTitularSeguro_1_1.setBounds(507, 39, 169, 2);
+		panelGeneracionPoliza_1.add(separatorTitularSeguro_1_1);
+		
+		JLabel lblSumaAsegurada_1_1 = new JLabel("Premio");
+		lblSumaAsegurada_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSumaAsegurada_1_1.setBounds(385, 27, 50, 14);
+		panelGeneracionPoliza_1.add(lblSumaAsegurada_1_1);
+		
+		textField_ImportePDesc = new JTextField();
+		textField_ImportePDesc.setColumns(10);
+		textField_ImportePDesc.setBounds(160, 62, 170, 20);
+		panelGeneracionPoliza_1.add(textField_ImportePDesc);
+		configuracionTextField(textField_ImportePDesc);
+		
+		JSeparator separatorTitularSeguro_1_2 = new JSeparator();
+		separatorTitularSeguro_1_2.setForeground(Color.BLACK);
+		separatorTitularSeguro_1_2.setBackground(Color.BLACK);
+		separatorTitularSeguro_1_2.setBounds(160, 82, 169, 2);
+		panelGeneracionPoliza_1.add(separatorTitularSeguro_1_2);
+		
+		JLabel lblSumaAsegurada_1_2 = new JLabel("Importe por descuentos");
+		lblSumaAsegurada_1_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSumaAsegurada_1_2.setBounds(15, 67, 151, 14);
+		panelGeneracionPoliza_1.add(lblSumaAsegurada_1_2);
+		
+		JLabel lblSumaAsegurada_1_3 = new JLabel("Ultimo dia de pago");
+		lblSumaAsegurada_1_3.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSumaAsegurada_1_3.setBounds(385, 68, 112, 14);
+		panelGeneracionPoliza_1.add(lblSumaAsegurada_1_3);
+		
+		textFieldMontoTotal = new JTextField();
+		textFieldMontoTotal.setColumns(10);
+		textFieldMontoTotal.setBounds(160, 306, 170, 20);
+		panelGeneracionPoliza_1.add(textFieldMontoTotal);
+		configuracionTextField(textFieldMontoTotal);
+		
+		separatorTitularSeguro_2 = new JSeparator();
+		separatorTitularSeguro_2.setForeground(Color.BLACK);
+		separatorTitularSeguro_2.setBackground(Color.BLACK);
+		separatorTitularSeguro_2.setBounds(160, 326, 169, 2);
+		panelGeneracionPoliza_1.add(separatorTitularSeguro_2);
+		
+		lblSumaAsegurada_2 = new JLabel("Monto total a abonar       $");
+		lblSumaAsegurada_2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSumaAsegurada_2.setBounds(15, 309, 151, 14);
+		panelGeneracionPoliza_1.add(lblSumaAsegurada_2);
+		
+		JButton btnConfirmar_1 = new JButton("Confirmar");
+		btnConfirmar_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnConfirmar_1.setFocusable(false);
+		btnConfirmar_1.setBounds(20, 370, 89, 23);
+		panelCuotasSemestral.add(btnConfirmar_1);
+		
+		JButton btnVolver_3_1_1 = new JButton("Volver");
+		btnVolver_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnVolver_3_1_1.setFocusable(false);
+		btnVolver_3_1_1.setBounds(109, 370, 82, 23);
+		panelCuotasSemestral.add(btnVolver_3_1_1);
+		configuracionBotonVolverDatosPoliza(btnVolver_3_1_1);
+		
+		JButton btnCancelar_3_1_1 = new JButton("Cancelar");
+		btnCancelar_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnCancelar_3_1_1.setFocusable(false);
+		btnCancelar_3_1_1.setBounds(190, 370, 89, 23);
+		panelCuotasSemestral.add(btnCancelar_3_1_1);
+    }
+    public void configuracionPanelCuotasMensuales(){
+    	panelCuotasMensuales = new JPanel();
+		panelCuotasMensuales.setBackground(Color.WHITE);
+		panelCuotasMensuales.setLayout(null);
+		
+		panelGeneracionPoliza_2 = new JPanel();
+		panelGeneracionPoliza_2.setLayout(null);
+		panelGeneracionPoliza_2.setBorder(new TitledBorder(null, "Generación de póliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelGeneracionPoliza_2.setBackground(Color.WHITE);
+		panelGeneracionPoliza_2.setBounds(15, 11, 800, 354);
+		panelCuotasMensuales.add(panelGeneracionPoliza_2);
+		
+		textField_SumaAsegurada_2 = new JTextField();
+		textField_SumaAsegurada_2.setColumns(10);
+		textField_SumaAsegurada_2.setBounds(160, 19, 170, 20);
+		panelGeneracionPoliza_2.add(textField_SumaAsegurada_2);
+		configuracionTextField(textField_SumaAsegurada_2);
+		
+		separatorSumaAsegurada = new JSeparator();
+		separatorSumaAsegurada.setForeground(Color.BLACK);
+		separatorSumaAsegurada.setBackground(Color.BLACK);
+		separatorSumaAsegurada.setBounds(160, 39, 169, 2);
+		panelGeneracionPoliza_2.add(separatorSumaAsegurada);
+		
+	    
+		lblSumaAsegurada_3 = new JLabel("Suma asegurada");
+		lblSumaAsegurada_3.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSumaAsegurada_3.setBounds(15, 27, 101, 14);
+		panelGeneracionPoliza_2.add(lblSumaAsegurada_3);
+		
+		textField_Premio_2 = new JTextField();
+		textField_Premio_2.setColumns(10);
+		textField_Premio_2.setBounds(479, 19, 170, 20);
+		panelGeneracionPoliza_2.add(textField_Premio_2);
+		configuracionTextField(textField_Premio_2);
+
+		separatorPremio = new JSeparator();
+		separatorPremio.setForeground(Color.BLACK);
+		separatorPremio.setBackground(Color.BLACK);
+		separatorPremio.setBounds(479, 39, 169, 2);
+		panelGeneracionPoliza_2.add(separatorPremio);
+		
+		lblPremio = new JLabel("Premio");
+		lblPremio.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblPremio.setBounds(394, 22, 50, 14);
+		panelGeneracionPoliza_2.add(lblPremio);
+		
+		textField_ImportePDesc_1 = new JTextField();
+		textField_ImportePDesc_1.setColumns(10);
+		textField_ImportePDesc_1.setBounds(160, 62, 170, 20);
+		panelGeneracionPoliza_2.add(textField_ImportePDesc_1);
+		configuracionTextField(textField_ImportePDesc_1);
+		
+		separatorImportePDesc = new JSeparator();
+		separatorImportePDesc.setForeground(Color.BLACK);
+		separatorImportePDesc.setBackground(Color.BLACK);
+		separatorImportePDesc.setBounds(160, 82, 169, 2);
+		panelGeneracionPoliza_2.add(separatorImportePDesc);
+		
+		lblImportePorDesc = new JLabel("Importe por descuentos");
+		lblImportePorDesc.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblImportePorDesc.setBounds(15, 67, 151, 14);
+		panelGeneracionPoliza_2.add(lblImportePorDesc);
+		
+		JLabel lblCuotas = new JLabel("Cuotas");
+		lblCuotas.setFont(new Font("Arial", Font.BOLD, 14));
+		lblCuotas.setBounds(15, 104, 61, 14);
+		panelGeneracionPoliza_2.add(lblCuotas);
+		
+		JLabel lblCuota1 = new JLabel("Cuota 1");
+		lblCuota1.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCuota1.setBounds(15, 138, 61, 14);
+		panelGeneracionPoliza_2.add(lblCuota1);
+		
+		JLabel lblCuota2 = new JLabel("Cuota 2");
+		lblCuota2.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCuota2.setBounds(15, 164, 61, 14);
+		panelGeneracionPoliza_2.add(lblCuota2);
+		
+		JLabel lblCuota3 = new JLabel("Cuota 3");
+		lblCuota3.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCuota3.setBounds(15, 189, 61, 14);
+		panelGeneracionPoliza_2.add(lblCuota3);
+		
+		JLabel lblCuota4 = new JLabel("Cuota 4");
+		lblCuota4.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCuota4.setBounds(15, 214, 61, 14);
+		panelGeneracionPoliza_2.add(lblCuota4);
+		
+		JLabel lblCuota5 = new JLabel("Cuota 5");
+		lblCuota5.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCuota5.setBounds(15, 239, 61, 14);
+		panelGeneracionPoliza_2.add(lblCuota5);
+		
+		JLabel lblCuota6 = new JLabel("Cuota 6");
+		lblCuota6.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCuota6.setBounds(15, 264, 61, 14);
+		panelGeneracionPoliza_2.add(lblCuota6);
+		
+		JLabel lblVencimiento = new JLabel("Vencimiento");
+		lblVencimiento.setFont(new Font("Arial", Font.BOLD, 14));
+		lblVencimiento.setBounds(394, 104, 94, 14);
+		panelGeneracionPoliza_2.add(lblVencimiento);
+		
+		textFieldCuota1 = new JTextField();
+		textFieldCuota1.setColumns(10);
+		textFieldCuota1.setBounds(132, 130, 170, 20);
+		panelGeneracionPoliza_2.add(textFieldCuota1);
+		configuracionTextField(textFieldCuota1);
+		
+		JSeparator separatorCuota1 = new JSeparator();
+		separatorCuota1.setForeground(Color.BLACK);
+		separatorCuota1.setBackground(Color.BLACK);
+		separatorCuota1.setBounds(132, 150, 169, 2);
+		panelGeneracionPoliza_2.add(separatorCuota1);
+		
+		textFieldCuota2 = new JTextField();
+		textFieldCuota2.setColumns(10);
+		textFieldCuota2.setBounds(132, 156, 170, 20);
+		panelGeneracionPoliza_2.add(textFieldCuota2);
+		configuracionTextField(textFieldCuota2);
+		
+		JSeparator separatorCuota2 = new JSeparator();
+		separatorCuota2.setForeground(Color.BLACK);
+		separatorCuota2.setBackground(Color.BLACK);
+		separatorCuota2.setBounds(132, 176, 169, 2);
+		panelGeneracionPoliza_2.add(separatorCuota2);
+		
+		textFieldCuota3 = new JTextField();
+		textFieldCuota3.setColumns(10);
+		textFieldCuota3.setBounds(132, 181, 170, 20);
+		panelGeneracionPoliza_2.add(textFieldCuota3);
+		configuracionTextField(textFieldCuota3);
+		
+		JSeparator separatorCuota3 = new JSeparator();
+		separatorCuota3.setForeground(Color.BLACK);
+		separatorCuota3.setBackground(Color.BLACK);
+		separatorCuota3.setBounds(132, 201, 169, 2);
+		panelGeneracionPoliza_2.add(separatorCuota3);
+		
+		textFieldCuota4 = new JTextField();
+		textFieldCuota4.setColumns(10);
+		textFieldCuota4.setBounds(132, 206, 170, 20);
+		panelGeneracionPoliza_2.add(textFieldCuota4);
+		configuracionTextField(textFieldCuota4);
+		
+		JSeparator separatorCuota4 = new JSeparator();
+		separatorCuota4.setForeground(Color.BLACK);
+		separatorCuota4.setBackground(Color.BLACK);
+		separatorCuota4.setBounds(132, 226, 169, 2);
+		panelGeneracionPoliza_2.add(separatorCuota4);
+		
+		textFieldCuota5 = new JTextField();
+		textFieldCuota5.setColumns(10);
+		textFieldCuota5.setBounds(132, 231, 170, 20);
+		panelGeneracionPoliza_2.add(textFieldCuota5);
+		configuracionTextField(textFieldCuota5);
+		
+		JSeparator separatorCuota5 = new JSeparator();
+		separatorCuota5.setForeground(Color.BLACK);
+		separatorCuota5.setBackground(Color.BLACK);
+		separatorCuota5.setBounds(132, 251, 169, 2);
+		panelGeneracionPoliza_2.add(separatorCuota5);
+		
+		textFieldCuota6 = new JTextField();
+		textFieldCuota6.setColumns(10);
+		textFieldCuota6.setBounds(132, 256, 170, 20);
+		panelGeneracionPoliza_2.add(textFieldCuota6);
+		configuracionTextField(textFieldCuota6);
+		
+		JSeparator separatorCuota6 = new JSeparator();
+		separatorCuota6.setForeground(Color.BLACK);
+		separatorCuota6.setBackground(Color.BLACK);
+		separatorCuota6.setBounds(132, 276, 169, 2);
+		panelGeneracionPoliza_2.add(separatorCuota6);
+		
+		JDateChooser vencimientoCuota1 = new JDateChooser();
+		vencimientoCuota1.setBounds(395, 132, 170, 20);
+		panelGeneracionPoliza_2.add(vencimientoCuota1);
+		vencimientoCuota1.setEnabled(false);
+		
+		
+		JDateChooser vencimientoCuota2 = new JDateChooser();
+		vencimientoCuota2.setBounds(395, 158, 170, 20);
+		panelGeneracionPoliza_2.add(vencimientoCuota2);
+		vencimientoCuota2.setEnabled(false);
+		
+		JDateChooser vencimientoCuota3 = new JDateChooser();
+		vencimientoCuota3.setBounds(395, 183, 170, 20);
+		panelGeneracionPoliza_2.add(vencimientoCuota3);
+		vencimientoCuota3.setEnabled(false);
+		
+		JDateChooser vencimientoCuota4 = new JDateChooser();
+		vencimientoCuota4.setBounds(395, 208, 170, 20);
+		panelGeneracionPoliza_2.add(vencimientoCuota4);
+		vencimientoCuota4.setEnabled(false);
+		
+		JDateChooser vencimientoCuota5 = new JDateChooser();
+		vencimientoCuota5.setBounds(395, 233, 170, 20);
+		panelGeneracionPoliza_2.add(vencimientoCuota5);
+		vencimientoCuota5.setEnabled(false);
+		
+		JDateChooser vencimientoCuota6 = new JDateChooser();
+		vencimientoCuota6.setBounds(395, 258, 170, 20);
+		panelGeneracionPoliza_2.add(vencimientoCuota6);
+		vencimientoCuota6.setEnabled(false);
+		
+		textFieldMontoTotalAPagar = new JTextField();
+		textFieldMontoTotalAPagar.setColumns(10);
+		textFieldMontoTotalAPagar.setBounds(132, 309, 170, 20);
+		panelGeneracionPoliza_2.add(textFieldMontoTotalAPagar);
+		configuracionTextField(textFieldMontoTotalAPagar);
+		
+		JSeparator separatorMontoTotal = new JSeparator();
+		separatorMontoTotal.setForeground(Color.BLACK);
+		separatorMontoTotal.setBackground(Color.BLACK);
+		separatorMontoTotal.setBounds(132, 329, 169, 2);
+		panelGeneracionPoliza_2.add(separatorMontoTotal);
+		
+		JLabel lblMontoTotalA = new JLabel("Monto total a pagar  $");
+		lblMontoTotalA.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblMontoTotalA.setBounds(15, 316, 125, 14);
+		panelGeneracionPoliza_2.add(lblMontoTotalA);
+		
+		JButton btnConfirmar_1 = new JButton("Confirmar");
+		btnConfirmar_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnConfirmar_1.setFocusable(false);
+		btnConfirmar_1.setBounds(20, 370, 89, 23);
+		panelCuotasMensuales.add(btnConfirmar_1);
+		
+		JButton btnVolver_3_1_1 = new JButton("Volver");
+		btnVolver_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnVolver_3_1_1.setFocusable(false);
+		btnVolver_3_1_1.setBounds(109, 370, 82, 23);
+		panelCuotasMensuales.add(btnVolver_3_1_1);
+		configuracionBotonVolverDatosPoliza(btnVolver_3_1_1);
+		
+		JButton btnCancelar_3_1_1 = new JButton("Cancelar");
+		btnCancelar_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnCancelar_3_1_1.setFocusable(false);
+		btnCancelar_3_1_1.setBounds(190, 370, 89, 23);
+		panelCuotasMensuales.add(btnCancelar_3_1_1);
+		
+    }
+    public void mostrarPanelCuotas(JPanel panel) {
+	     tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panel);
+	}
+    public void configuracionTextField(JTextField textField) {
 		textField.setBorder(null);
 		textField.setFocusable(false);
 		textField.setBackground(Color.WHITE);
@@ -848,12 +1542,56 @@ public class InterfazDarAltaPoliza extends JFrame {
 			}
 		}
     }
+    public void configuracionTipoPoliza() {
+    	tabbedConfirmarPoliza.setSelectedIndex(0);
+    	tabbedConfirmarPoliza.setEnabledAt(1, false);
+    	tabbedConfirmarPoliza.setEnabledAt(0, true);
+    }
+    public void configuracionGeneracionPoliza() {
+    	tabbedConfirmarPoliza.setEnabledAt(0, false);
+    	tabbedConfirmarPoliza.setEnabledAt(1,true);
+    }
+    public void configuracionBotonAgregarHijo() {
+    	btnAgregar.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAgregar.setFocusable(false);
+		btnAgregar.setBounds(15, 259, 89, 23);
+		panelPoliza_2.add(btnAgregar);
+		DefaultTableModel modelo = (DefaultTableModel) tablaHijos.getModel();
+		btnAgregar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        try {
+		            // Obtener valores seleccionados
+		            String sexo = comboBoxSexo.getSelectedItem().toString();
+		            String estadoCivil = comboBoxEstadoCivil.getSelectedItem().toString();
+		            Date fechaSeleccionada = fechaNacimiento.getDate();
+		            if (verificarEdad(fechaSeleccionada)){
+		            	// Ajustamos el formato de la fecha para pasarlo a string
+			            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			            String fechaString = dateFormat.format(fechaSeleccionada);
+			            Object[] nuevaFila = { fechaString, estadoCivil, sexo };
+
+			            HijoCliente hijoNuevo = new HijoCliente(fechaSeleccionada,sexo,estadoCivil);
+			            listaHijos.add(hijoNuevo);
+			            modelo.addRow(nuevaFila);
+			            modelo.fireTableDataChanged();
+			    		
+			            textFieldHijos.setText(String.valueOf(modelo.getRowCount()));
+			            comboBoxSexo.setSelectedIndex(0);
+			            comboBoxEstadoCivil.setSelectedIndex(0);
+			            fechaNacimiento.setDate(null);
+			            fechaNacimiento.requestFocus();
+		            }
+		        } catch (Exception ex) {
+		        }
+		    }
+		});
+    }
     public void configuracionBotonEditarHijo(){
     	btnEditar.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnEditar.setFocusable(false);
 		btnEditar.setBounds(299, 259, 89, 23);
 		btnEditar.setEnabled(false);
-    	
+		panelPoliza_2.add(btnEditar);
 		
 		btnEditar.addActionListener(new ActionListener() {
 		    @Override
@@ -920,6 +1658,27 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnEliminar.setEnabled(false);
 		btnEliminar.setBounds(388, 259, 89, 23);
 		panelPoliza_2.add(btnEliminar);
+		btnEliminar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        	int opcion = JOptionPane.showConfirmDialog(
+		                    null,
+		                    "¿Estás seguro que desea eliminar este hijo?",
+		                    "Confirmación",
+		                    JOptionPane.YES_NO_OPTION,
+		                    JOptionPane.QUESTION_MESSAGE
+		                );
+		            if (opcion == JOptionPane.YES_OPTION) {
+		            	DefaultTableModel model = (DefaultTableModel) tablaHijos.getModel();
+		                int filaSeleccionada = tablaHijos.getSelectedRow();
+		                listaHijos.remove(filaSeleccionada); 	
+		                // Eliminar la fila de la tabla
+		                model.removeRow(filaSeleccionada);
+		                model.fireTableDataChanged();
+		                // Actualizar el campo de texto
+		                textFieldHijos.setText(String.valueOf(Integer.parseInt(textFieldHijos.getText()) - 1));
+		            }
+		    }
+		});
 
     	
     }
@@ -938,6 +1697,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 	    chckbxRastreoVehicular.setSelected(false);
 	    chckbxTuercasAntirrobos.setSelected(false);
 	}
+    public void limpiarCamposHijos() {
+    	textFieldHijos.setText("0");
+    	fechaNacimiento.setDate(null);
+    	comboBoxEstadoCivil.setSelectedIndex(0);
+    	comboBoxSexo.setSelectedIndex(0);
+    	DefaultTableModel model = (DefaultTableModel) tablaHijos.getModel();
+    	model.setRowCount(0);
+    	listaHijos.clear();
+    }
     public void dialogoVolver(int index) {
 		switch (index) {
 		case 1:
@@ -946,6 +1714,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 			tabbedCrearPoliza.setSelectedIndex(index-1);
 			configuracionBuscarCliente();
 			limpiarCamposVehiculo();
+			limpiarCamposHijos();
 			break;
 			case JOptionPane.NO_OPTION:
 			break;

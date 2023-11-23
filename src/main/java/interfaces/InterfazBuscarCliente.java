@@ -247,12 +247,7 @@ public class InterfazBuscarCliente extends JFrame {
 	    trs = new TableRowSorter<>(dtmDatos);
 	    tablaClientes.setRowSorter(trs);
 	}
-
-	public ClienteDTO devolverClienteBuscado() {
-		return clienteBuscado;
-	}
-
-	private String[][] cargarDatosClientes(List<ClienteDTO> listaClientes) {
+    private String[][] cargarDatosClientes(List<ClienteDTO> listaClientes) {
 	    int cantidadClientes = listaClientes.size();
 	    String[][] datosClientes = new String[cantidadClientes][5];
 

@@ -140,6 +140,12 @@ public class InterfazDarAltaPoliza extends JFrame {
     private JTextField textFieldCuota6;
     private JTextField textFieldMontoTotalAPagar;
     private ClienteDTO clienteBuscado = new ClienteDTO();
+    private JLabel lblProvinciaDeRiesgo;
+    private JLabel lblSimbolo_9;
+    private JComboBox<Object> comboBoxProvinciaRiesgo;
+    private JLabel lblLocalidadDeRiesgo;
+    private JLabel lblSimbolo_10;
+    private JComboBox<Object> comboBoxLocalidadRiesgo;
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -337,12 +343,12 @@ public class InterfazDarAltaPoliza extends JFrame {
     public void pestaniaDatosDelVehiculo() {
 		comboBoxMarcaVehiculo = new JComboBox<>();
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
-		comboBoxMarcaVehiculo.setBounds(541, 150, 154, 22);
+		comboBoxMarcaVehiculo.setBounds(541, 157, 154, 22);
 		datosVehiculo.add(comboBoxMarcaVehiculo);
 		
 		comboBoxAnioVehiculo = new JComboBox<>();
 		comboBoxAnioVehiculo.setBackground(Color.WHITE);
-		comboBoxAnioVehiculo.setBounds(541, 181, 154, 22);
+		comboBoxAnioVehiculo.setBounds(541, 185, 154, 22);
 		datosVehiculo.add(comboBoxAnioVehiculo);
 		
 		textFieldMotor = new JTextField();
@@ -355,77 +361,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldPatenteVehiculo.setBounds(541, 237, 154, 20);
 		datosVehiculo.add(textFieldPatenteVehiculo);
 		
-		comboBoxSiniestrosUltAnio = new JComboBox<>();
-		comboBoxSiniestrosUltAnio.setBackground(Color.WHITE);
-		comboBoxSiniestrosUltAnio.setBounds(178, 284, 154, 22);
-		datosVehiculo.add(comboBoxSiniestrosUltAnio);
-		
-		comboBoxKmsPorAnio = new JComboBox<>();
-		comboBoxKmsPorAnio.setBackground(Color.WHITE);
-		comboBoxKmsPorAnio.setBounds(178, 251, 154, 22);
-		datosVehiculo.add(comboBoxKmsPorAnio);
-		
-		textFieldChasis = new JTextField();
-		textFieldChasis.setBounds(178, 220, 154, 20);
-		datosVehiculo.add(textFieldChasis);
-		textFieldChasis.setColumns(10);
-		
-		separator_8 = new JSeparator();
-		separator_8.setForeground(Color.BLACK);
-		separator_8.setBackground(Color.BLACK);
-		separator_8.setBounds(178, 201, 154, 2);
-		datosVehiculo.add(separator_8);
-		
-		textFieldSumaAsegurada = new JTextField();
-		textFieldSumaAsegurada.setBounds(178, 183, 154, 17);
-		datosVehiculo.add(textFieldSumaAsegurada);
-		textFieldSumaAsegurada.setColumns(10);
-		configuracionTextField(textFieldSumaAsegurada);
-		
-		comboBoxModeloVehiculo = new JComboBox<>();
-		comboBoxModeloVehiculo.setBackground(Color.WHITE);
-		comboBoxModeloVehiculo.setBounds(178, 150, 154, 22);
-		datosVehiculo.add(comboBoxModeloVehiculo);
-		
 		lblMotor = new JLabel("Motor");
 		lblMotor.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblMotor.setBounds(398, 215, 40, 14);
+		lblMotor.setBounds(398, 216, 40, 14);
 		datosVehiculo.add(lblMotor);
-		
-		lblAoDelVehiculo = new JLabel("Año del vehiculo");
-		lblAoDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblAoDelVehiculo.setBounds(398, 186, 94, 14);
-		datosVehiculo.add(lblAoDelVehiculo);
-		
-		lblMarcaDelVehiculo = new JLabel("Marca del vehiculo");
-		lblMarcaDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblMarcaDelVehiculo.setBounds(398, 154, 107, 14);
-		datosVehiculo.add(lblMarcaDelVehiculo);
-		
-		lblNroSiniestros = new JLabel("Nro. Siniestros / ult. año");
-		lblNroSiniestros.setFont(new Font("Arial", Font.PLAIN, 10));
-		lblNroSiniestros.setBounds(40, 288, 113, 14);
-		datosVehiculo.add(lblNroSiniestros);
-		
-		lblKmsAnio = new JLabel("Kilometros por año");
-		lblKmsAnio.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblKmsAnio.setBounds(40, 255, 113, 14);
-		datosVehiculo.add(lblKmsAnio);
-		
-		lblChasis = new JLabel("Chasis");
-		lblChasis.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblChasis.setBounds(40, 220, 46, 14);
-		datosVehiculo.add(lblChasis);
-		
-		lblSumaAsegurada = new JLabel("Suma asegurada");
-		lblSumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSumaAsegurada.setBounds(40, 186, 113, 14);
-		datosVehiculo.add(lblSumaAsegurada);
-		
-		lblModeloVehiculo = new JLabel("Modelo del vehiculo");
-		lblModeloVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblModeloVehiculo.setBounds(40, 154, 113, 14);
-		datosVehiculo.add(lblModeloVehiculo);
 		
 		btnSiguiente_2 = new JButton("Siguiente");
 		btnSiguiente_2.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -567,62 +506,167 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblSimbolo_6.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_5 = new JLabel("(*)");
-		lblSimbolo_5.setBounds(501, 98, 19, 14);
+		lblSimbolo_5.setBounds(501, 103, 19, 14);
 		panelPoliza.add(lblSimbolo_5);
 		lblSimbolo_5.setForeground(Color.RED);
 		lblSimbolo_5.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_4 = new JLabel("(*)");
-		lblSimbolo_4.setBounds(501, 67, 19, 14);
+		lblSimbolo_4.setBounds(501, 78, 19, 14);
 		panelPoliza.add(lblSimbolo_4);
 		lblSimbolo_4.setForeground(Color.RED);
 		lblSimbolo_4.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo = new JLabel("(*)");
-		lblSimbolo.setBounds(138, 67, 19, 14);
+		lblSimbolo.setBounds(138, 82, 19, 14);
 		panelPoliza.add(lblSimbolo);
 		lblSimbolo.setForeground(Color.RED);
 		lblSimbolo.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_2 = new JLabel("(*)");
-		lblSimbolo_2.setBounds(138, 138, 19, 14);
+		lblSimbolo_2.setBounds(138, 139, 19, 14);
 		panelPoliza.add(lblSimbolo_2);
 		lblSimbolo_2.setForeground(Color.RED);
 		lblSimbolo_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_3 = new JLabel("(*)");
-		lblSimbolo_3.setBounds(138, 169, 19, 14);
+		lblSimbolo_3.setBounds(138, 167, 19, 14);
 		panelPoliza.add(lblSimbolo_3);
 		lblSimbolo_3.setForeground(Color.RED);
 		lblSimbolo_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_1 = new JLabel("(*)");
-		lblSimbolo_1.setBounds(138, 203, 19, 14);
+		lblSimbolo_1.setBounds(138, 196, 19, 14);
 		panelPoliza.add(lblSimbolo_1);
 		lblSimbolo_1.setForeground(Color.RED);
 		lblSimbolo_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		JLabel lblPais = new JLabel("Pais de riesgo");
+		lblPais.setBounds(20, 25, 113, 14);
+		lblPais.setFont(new Font("Arial", Font.PLAIN, 12));
+		panelPoliza.add(lblPais);
+		
+		JLabel lblSimbolo_8 = new JLabel("(*)");
+		lblSimbolo_8.setBounds(138, 24, 19, 14);
+		lblSimbolo_8.setForeground(Color.RED);
+		lblSimbolo_8.setFont(new Font("Arial", Font.PLAIN, 12));
+		panelPoliza.add(lblSimbolo_8);
+		
+		JComboBox<Object> comboBoxPaisRiesgo = new JComboBox<Object>();
+		comboBoxPaisRiesgo.setBounds(158, 21, 154, 22);
+		comboBoxPaisRiesgo.setBackground(Color.WHITE);
+		panelPoliza.add(comboBoxPaisRiesgo);
+		
+		lblNroSiniestros = new JLabel("Nro. Siniestros / ult. año");
+		lblNroSiniestros.setBounds(20, 196, 113, 14);
+		panelPoliza.add(lblNroSiniestros);
+		lblNroSiniestros.setFont(new Font("Arial", Font.PLAIN, 10));
+		
+		comboBoxSiniestrosUltAnio = new JComboBox<>();
+		comboBoxSiniestrosUltAnio.setBounds(158, 190, 154, 22);
+		panelPoliza.add(comboBoxSiniestrosUltAnio);
+		comboBoxSiniestrosUltAnio.setBackground(Color.WHITE);
+		
+		lblKmsAnio = new JLabel("Kilometros por año");
+		lblKmsAnio.setBounds(20, 167, 113, 14);
+		panelPoliza.add(lblKmsAnio);
+		lblKmsAnio.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		comboBoxKmsPorAnio = new JComboBox<>();
+		comboBoxKmsPorAnio.setBounds(158, 163, 154, 22);
+		panelPoliza.add(comboBoxKmsPorAnio);
+		comboBoxKmsPorAnio.setBackground(Color.WHITE);
+		
+		lblAoDelVehiculo = new JLabel("Año del vehiculo");
+		lblAoDelVehiculo.setBounds(378, 103, 94, 14);
+		panelPoliza.add(lblAoDelVehiculo);
+		lblAoDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblMarcaDelVehiculo = new JLabel("Marca del vehiculo");
+		lblMarcaDelVehiculo.setBounds(378, 76, 107, 14);
+		panelPoliza.add(lblMarcaDelVehiculo);
+		lblMarcaDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblChasis = new JLabel("Chasis");
+		lblChasis.setBounds(20, 139, 46, 14);
+		panelPoliza.add(lblChasis);
+		lblChasis.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		textFieldChasis = new JTextField();
+		textFieldChasis.setBounds(158, 138, 154, 20);
+		panelPoliza.add(textFieldChasis);
+		textFieldChasis.setColumns(10);
+		
+		separator_8 = new JSeparator();
+		separator_8.setBounds(158, 129, 154, 2);
+		panelPoliza.add(separator_8);
+		separator_8.setForeground(Color.BLACK);
+		separator_8.setBackground(Color.BLACK);
+		
+		textFieldSumaAsegurada = new JTextField();
+		textFieldSumaAsegurada.setBounds(158, 110, 154, 17);
+		panelPoliza.add(textFieldSumaAsegurada);
+		textFieldSumaAsegurada.setColumns(10);
+		configuracionTextField(textFieldSumaAsegurada);
+		
+		lblSumaAsegurada = new JLabel("Suma asegurada");
+		lblSumaAsegurada.setBounds(20, 110, 113, 14);
+		panelPoliza.add(lblSumaAsegurada);
+		lblSumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		lblModeloVehiculo = new JLabel("Modelo del vehiculo");
+		lblModeloVehiculo.setBounds(20, 82, 113, 14);
+		panelPoliza.add(lblModeloVehiculo);
+		lblModeloVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		comboBoxModeloVehiculo = new JComboBox<>();
+		comboBoxModeloVehiculo.setBounds(158, 78, 154, 22);
+		panelPoliza.add(comboBoxModeloVehiculo);
+		comboBoxModeloVehiculo.setBackground(Color.WHITE);
+		
+		lblProvinciaDeRiesgo = new JLabel("Provincia de riesgo");
+		lblProvinciaDeRiesgo.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblProvinciaDeRiesgo.setBounds(20, 53, 113, 14);
+		panelPoliza.add(lblProvinciaDeRiesgo);
+		
+		lblSimbolo_9 = new JLabel("(*)");
+		lblSimbolo_9.setForeground(Color.RED);
+		lblSimbolo_9.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSimbolo_9.setBounds(138, 52, 19, 14);
+		panelPoliza.add(lblSimbolo_9);
+		
+		comboBoxProvinciaRiesgo = new JComboBox<Object>();
+		comboBoxProvinciaRiesgo.setBackground(Color.WHITE);
+		comboBoxProvinciaRiesgo.setBounds(158, 49, 154, 22);
+		panelPoliza.add(comboBoxProvinciaRiesgo);
+		
+		lblLocalidadDeRiesgo = new JLabel("Localidad de riesgo");
+		lblLocalidadDeRiesgo.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblLocalidadDeRiesgo.setBounds(378, 49, 113, 14);
+		panelPoliza.add(lblLocalidadDeRiesgo);
+		
+		lblSimbolo_10 = new JLabel("(*)");
+		lblSimbolo_10.setForeground(Color.RED);
+		lblSimbolo_10.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblSimbolo_10.setBounds(501, 49, 19, 14);
+		panelPoliza.add(lblSimbolo_10);
+		
+		comboBoxLocalidadRiesgo = new JComboBox<Object>();
+		comboBoxLocalidadRiesgo.setBackground(Color.WHITE);
+		comboBoxLocalidadRiesgo.setBounds(521, 43, 154, 22);
+		panelPoliza.add(comboBoxLocalidadRiesgo);
 		
 		
 	}
     public void pestaniaBuscarCliente() {
 		configuracionBuscarCliente();
-		
 		btnSiguiente_1 = new JButton("Siguiente");
 		btnSiguiente_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnSiguiente_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
-					tabbedCrearPoliza.setEnabledAt(i, true);
-					 if (i != 1) {
-					        tabbedCrearPoliza.setEnabledAt(i, false);
-					    }
-				}
-				tabbedCrearPoliza.setSelectedIndex(1);
-			}
-		});
+		btnSiguiente_1.setEnabled(true);
 		btnSiguiente_1.setBounds(20, 404, 89, 23);
 		buscarCliente.add(btnSiguiente_1);
 		btnSiguiente_1.setFocusable(false);
+		
 		
 		btnCancelar_1 = new JButton("Cancelar");
 		btnCancelar_1.addActionListener(new ActionListener() {
@@ -641,8 +685,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		buscarCliente.add(btnBuscarCliente);
 		btnBuscarCliente.setFocusable(false);
 		
-		
-			
 		btnDarAltaCliente = new JButton("Dar de alta cliente");
 		btnDarAltaCliente.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnDarAltaCliente.setBounds(129, 220, 134, 23);
@@ -661,12 +703,32 @@ public class InterfazDarAltaPoliza extends JFrame {
 				try {
 					InterfazBuscarCliente buscarCliente = new InterfazBuscarCliente(InterfazDarAltaPoliza.this);
 					buscarCliente.setVisible(true);
-					clienteBuscado = buscarCliente.devolverClienteBuscado();
 				} catch (Exception e1) {
 				}
 			}
 		});
 		
+	
+		btnSiguiente_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try { 
+				if (!clienteBuscado.getNombre().isEmpty()) {	
+				for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
+					if (i==1) {
+						tabbedCrearPoliza.setEnabledAt(i,true);
+					}
+					else {
+						tabbedCrearPoliza.setEnabledAt(i,false);
+					}
+				}
+				tabbedCrearPoliza.setSelectedIndex(1);
+			    }
+				}
+				catch (Exception e1) {
+					  JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this, "No se encontró ningún cliente. Por favor, realice una búsqueda e inténtelo nuevamente.", "Cliente no encontrado", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 		
 		separator_5 = new JSeparator();
 		separator_5.setBounds(469, 137, 123, 2);
@@ -707,15 +769,14 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldApellido);
 		textFieldApellido.setColumns(10);
 		configuracionTextField(textFieldApellido);
-		textFieldApellido.setText(clienteBuscado.getApellido());
-		
+
 		textFieldNombre = new JTextField();
 		textFieldNombre.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldNombre.setBounds(469, 81, 123, 20);
 		panelCliente.add(textFieldNombre);
 		textFieldNombre.setColumns(10);
 		configuracionTextField(textFieldNombre);
-		textFieldNombre.setText(clienteBuscado.getNombre());
+
 		
 		textFieldDomicilio = new JTextField();
 		textFieldDomicilio.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -763,17 +824,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldNroCliente);
 		textFieldNroCliente.setColumns(10);
 		configuracionTextField(textFieldNroCliente);
-		textFieldNroCliente.setText(clienteBuscado.getNroCliente());
-		
+	
 		textFieldTipoDocumento = new JTextField();
 		textFieldTipoDocumento.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldTipoDocumento.setBounds(136, 81, 123, 20);
 		panelCliente.add(textFieldTipoDocumento);
 		textFieldTipoDocumento.setColumns(10);
 		configuracionTextField(textFieldTipoDocumento);
-		textFieldTipoDocumento.setText(clienteBuscado.getTipoDocumento());
 		
-		textFieldNroDNI = new JTextField();
+		textFieldNroDNI = new JTextField();	
 		textFieldNroDNI.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldNroDNI.setBounds(136, 114, 123, 20);
 		panelCliente.add(textFieldNroDNI);
@@ -828,15 +887,17 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldApellido_3.setColumns(10);
 		textFieldApellido_3.setBounds(441, 19, 123, 20);
-		panelContextoCliente_2.add(textFieldApellido_3);
 		configuracionTextField(textFieldApellido_3);
+		panelContextoCliente_2.add(textFieldApellido_3);
+		
 		
 		textFieldNombre_3 = new JTextField();
 		textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldNombre_3.setColumns(10);
 		textFieldNombre_3.setBounds(80, 19, 123, 20);
-		panelContextoCliente_2.add(textFieldNombre_3);
 		configuracionTextField(textFieldNombre_3);
+		panelContextoCliente_2.add(textFieldNombre_3);
+		
 		
 		panelTipoPoliza = new JPanel();
 		panelTipoPoliza.setLayout(null);
@@ -1192,6 +1253,7 @@ public class InterfazDarAltaPoliza extends JFrame {
         textFieldNombre_3.setText(cliente.getNombre());
         textFieldApellido_3.setText(cliente.getApellido());
         textFieldTitularSeguro.setText(cliente.getNombre() + " " + cliente.getApellido());
+        this.clienteBuscado = cliente;
     }
     public void configuracionBotonVolverDatosPoliza(JButton btnVolver) {
     	btnVolver.addActionListener(new ActionListener() {

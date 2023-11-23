@@ -151,7 +151,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
 		
-		GestorVehiculo.getInstance().recuperarMarcas();
+		
 		
 		pestaniaCrearPoliza();
 	}

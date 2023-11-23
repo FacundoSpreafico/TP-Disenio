@@ -60,7 +60,7 @@ public class Cliente {
 	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
 
-	@Column(name = "anioregistro")
+	@Column(name = "anio_registro")
 	private Integer anioRegistro;
 
 	@Column(name = "nro_documento")

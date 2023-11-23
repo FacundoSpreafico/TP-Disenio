@@ -10,6 +10,7 @@ import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.hibernate.query.criteria.JpaCriteriaQuery;
 import org.hibernate.query.criteria.JpaRoot;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.internal.SessionCreationOptions;
 
 import DTO.ClienteDTO;
 import entidades.Cliente;
@@ -44,7 +45,7 @@ public class ClienteDAOImp implements ClienteDAO {
             criteriaQuery.where(restricciones);
             
             Query<Cliente> query = session.createQuery(criteriaQuery);
-           
+            session.close();
             return query.getResultList();
         }
     }

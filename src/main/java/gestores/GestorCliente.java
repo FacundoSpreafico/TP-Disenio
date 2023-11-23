@@ -11,8 +11,7 @@ import entidades.Cliente;
 public class GestorCliente{
 
 	private static GestorCliente _INSTANCE;
-	private ClienteDAO clienteDAO = new ClienteDAOImp();
-
+	private ClienteDAOImp clienteDAO = new ClienteDAOImp();
 	
 	public static GestorCliente getInstance() {
 		if (_INSTANCE == null) {

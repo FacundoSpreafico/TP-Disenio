@@ -28,6 +28,7 @@ import java.util.List;
 
 
 import DTO.ClienteDTO;
+import constantes.Images;
 import entidades.Cliente;
 import gestores.GestorCliente;
 
@@ -47,6 +48,7 @@ public class InterfazBuscarCliente extends JFrame {
 		this.interfazDarAltaPoliza = interfazDarAltaPoliza;
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setTitle("Productor de seguro - Buscar cliente");
+		setIconImage(Images.MILEI.getImage());
 		setResizable(false);
 		setBounds(100, 100, 869, 547);
 		contentPane = new JPanel();

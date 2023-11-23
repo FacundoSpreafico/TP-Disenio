@@ -1,23 +1,15 @@
 package interfaces;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,26 +21,23 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
 import constantes.Images;
 import entidades.HijoCliente;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JScrollBar;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import entidades.Marca;
+import gestores.GestorVehiculo;
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -77,7 +66,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JSeparator separator_1, separator_2, separator_3, separator_4, separator_5, separator_6, separator_7, separator_8, separator_9, separator_10, separator_10_1;
 
 	// JComboBoxes
-	private JComboBox comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxMarcaVehiculo, comboBoxModeloVehiculo;
+	private JComboBox comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;
 	private JComboBox comboBoxEstadoCivil, comboBoxSexo;
 
 	// JScrollPane
@@ -147,11 +136,12 @@ public class InterfazDarAltaPoliza extends JFrame {
     private JLabel lblSimbolo_10;
     private JComboBox<Object> comboBoxLocalidadRiesgo;
     
+    
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setIconImage(Images.LOGO.getImage());
+		setIconImage(Images.MILEI.getImage());
 		setBounds(100, 100, 869, 547);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -160,6 +150,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		contentPane.setLayout(null);
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
+		
+		GestorVehiculo.getInstance().recuperarMarcas();
+		
 		pestaniaCrearPoliza();
 	}
 
@@ -340,11 +333,12 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza_2.add(separator_10_1);
 			
 	}
-    public void pestaniaDatosDelVehiculo() {
-		comboBoxMarcaVehiculo = new JComboBox<>();
-		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
-		comboBoxMarcaVehiculo.setBounds(541, 157, 154, 22);
-		datosVehiculo.add(comboBoxMarcaVehiculo);
+ 
+	public void pestaniaDatosDelVehiculo() {
+		comboBoxModeloVehiculo = new JComboBox<>();
+		comboBoxModeloVehiculo.setBackground(Color.WHITE);
+		comboBoxModeloVehiculo.setBounds(541, 157, 154, 22);
+		datosVehiculo.add(comboBoxModeloVehiculo);
 		
 		comboBoxAnioVehiculo = new JComboBox<>();
 		comboBoxAnioVehiculo.setBackground(Color.WHITE);
@@ -404,17 +398,14 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnVolver_2.setFocusable(false);
 		btnVolver_2.setBounds(108, 404, 82, 23);
 		datosVehiculo.add(btnVolver_2);
-		
-		
-		
+	
 		panelContextoCliente = new JPanel();
 		panelContextoCliente.setBackground(Color.WHITE);
 		panelContextoCliente.setBounds(15, 11, 797, 64);
 		datosVehiculo.add(panelContextoCliente);
 		panelContextoCliente.setLayout(null);
 		panelContextoCliente.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
-		
+			
 		separator_7 = new JSeparator();
 		separator_7.setBounds(441, 42, 123, 2);
 		panelContextoCliente.add(separator_7);
@@ -450,7 +441,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelContextoCliente.add(textFieldNombre_1);
 		textFieldNombre_1.setColumns(10);
 		configuracionTextField(textFieldNombre_1);
-
 		
 		panelPoliza = new JPanel();
 		panelPoliza.setBackground(Color.WHITE);
@@ -582,8 +572,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza.add(lblAoDelVehiculo);
 		lblAoDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		lblMarcaDelVehiculo = new JLabel("Marca del vehiculo");
-		lblMarcaDelVehiculo.setBounds(378, 76, 107, 14);
+		lblMarcaDelVehiculo = new JLabel("Modelo del vehiculo");
+		lblMarcaDelVehiculo.setBounds(378, 78, 113, 14);
 		panelPoliza.add(lblMarcaDelVehiculo);
 		lblMarcaDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
 		
@@ -614,15 +604,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza.add(lblSumaAsegurada);
 		lblSumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		lblModeloVehiculo = new JLabel("Modelo del vehiculo");
+		lblModeloVehiculo = new JLabel("Marca del vehiculo");
 		lblModeloVehiculo.setBounds(20, 82, 113, 14);
 		panelPoliza.add(lblModeloVehiculo);
 		lblModeloVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		comboBoxModeloVehiculo = new JComboBox<>();
-		comboBoxModeloVehiculo.setBounds(158, 78, 154, 22);
-		panelPoliza.add(comboBoxModeloVehiculo);
-		comboBoxModeloVehiculo.setBackground(Color.WHITE);
+		comboBoxMarcaVehiculo = new JComboBox<>();
+		comboBoxMarcaVehiculo.setBounds(158, 78, 154, 22);
+		panelPoliza.add(comboBoxMarcaVehiculo);
+		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
 		
 		lblProvinciaDeRiesgo = new JLabel("Provincia de riesgo");
 		lblProvinciaDeRiesgo.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -642,7 +632,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		lblLocalidadDeRiesgo = new JLabel("Localidad de riesgo");
 		lblLocalidadDeRiesgo.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblLocalidadDeRiesgo.setBounds(378, 49, 113, 14);
+		lblLocalidadDeRiesgo.setBounds(378, 52, 113, 14);
 		panelPoliza.add(lblLocalidadDeRiesgo);
 		
 		lblSimbolo_10 = new JLabel("(*)");
@@ -686,6 +676,16 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnBuscarCliente.setFocusable(false);
 		
 		btnDarAltaCliente = new JButton("Dar de alta cliente");
+		btnDarAltaCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this,
+					    "Función no implementada.",
+					    "MILEI 2023",
+					    JOptionPane.WARNING_MESSAGE
+					);
+				
+			}
+		});
 		btnDarAltaCliente.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnDarAltaCliente.setBounds(129, 220, 134, 23);
 		buscarCliente.add(btnDarAltaCliente);
@@ -838,8 +838,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldNroDNI);
 		textFieldNroDNI.setColumns(10);
 		configuracionTextField(textFieldNroDNI);
-		textFieldNroDNI.setText(clienteBuscado.getNroDocumento());
-		
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);
@@ -884,6 +882,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelContextoCliente_2.add(lblNombre_1_1);
 		
 		textFieldApellido_3 = new JTextField();
+		textFieldApellido_3.setBackground(new Color(255, 255, 255));
 		textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldApellido_3.setColumns(10);
 		textFieldApellido_3.setBounds(441, 19, 123, 20);
@@ -892,6 +891,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		
 		textFieldNombre_3 = new JTextField();
+		textFieldNombre_3.setBackground(new Color(255, 255, 255));
 		textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldNombre_3.setColumns(10);
 		textFieldNombre_3.setBounds(80, 19, 123, 20);
@@ -1801,12 +1801,12 @@ public class InterfazDarAltaPoliza extends JFrame {
     	
     }
     public void limpiarCamposVehiculo() {
-		comboBoxModeloVehiculo.setSelectedItem(null);
+		comboBoxMarcaVehiculo.setSelectedItem(null);
 		textFieldSumaAsegurada.setText(null);
 		textFieldChasis.setText(null);
 		comboBoxKmsPorAnio.setSelectedItem(null);
 		comboBoxSiniestrosUltAnio.setSelectedItem(null);
-		comboBoxMarcaVehiculo.setSelectedItem(null);
+		comboBoxModeloVehiculo.setSelectedItem(null);
 	    comboBoxAnioVehiculo.setSelectedItem(null);	
 	    textFieldMotor.setText(null);
 	    textFieldPatenteVehiculo.setText(null);

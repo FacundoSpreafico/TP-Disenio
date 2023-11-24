@@ -29,8 +29,19 @@ public class ModeloDAOImp implements ModeloDAO {
         }
         return Collections.emptyList();
 	}
-
 	
+	public Modelo recuperarModeloPorNombre(String nombre) {
+		try (Session session = sessionFactory.openSession()) {
+            try {
+                String hql = "FROM Modelo WHERE nombreModelo = :nombre";
+                Query<Modelo> query = session.createQuery(hql,Modelo.class);
+                query.setParameter("nombre", nombre);
+                return query.getSingleResult();
+            } catch (Exception e) {
+            }
+        }
+		return null;
+	}
 	
 	
 }

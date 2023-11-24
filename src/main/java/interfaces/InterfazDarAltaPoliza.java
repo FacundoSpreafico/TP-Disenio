@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -34,12 +35,14 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
+import DTO.ModeloDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
 import constantes.Images;
 import entidades.HijoCliente;
 import entidades.Marca;
 import entidades.Modelo;
+import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
 
 public class InterfazDarAltaPoliza extends JFrame {
@@ -141,8 +144,6 @@ public class InterfazDarAltaPoliza extends JFrame {
     private VehiculoDTO vehiculoDTO;
     private ClienteDTO clienteDTO;
     private PolizaDTO polizaDTO;
-    
-    
     
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -347,11 +348,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxModeloVehiculo.setBackground(Color.WHITE);
 		comboBoxModeloVehiculo.setBounds(541, 157, 154, 22);
 		datosVehiculo.add(comboBoxModeloVehiculo);
+		comboBoxModeloVehiculo.addItem("<Seleccione>");
+		
 		
 		comboBoxAnioVehiculo = new JComboBox<>();
 		comboBoxAnioVehiculo.setBackground(Color.WHITE);
 		comboBoxAnioVehiculo.setBounds(541, 185, 154, 22);
 		datosVehiculo.add(comboBoxAnioVehiculo);
+		comboBoxAnioVehiculo.addItem("<Seleccione>");
+		
 		
 		textFieldMotor = new JTextField();
 		textFieldMotor.setColumns(10);
@@ -621,26 +626,57 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxMarcaVehiculo.setBounds(158, 78, 154, 22);
 		panelPoliza.add(comboBoxMarcaVehiculo);
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
-		
-		
+		comboBoxMarcaVehiculo.addItem("<Seleccione>");
 		
 		for (Marca marca: GestorVehiculo.getInstance().recuperarMarcas()) {
 			comboBoxMarcaVehiculo.addItem(marca.getNombreMarca());
 		}
-
+		
+		
 		comboBoxMarcaVehiculo.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        comboBoxModeloVehiculo.removeAllItems();
-		        
-		       Marca marca = GestorVehiculo.getInstance().recuperarMarcaPorNombre(comboBoxMarcaVehiculo.getSelectedItem().toString());
-		        if (marca!=null) {
+		        String selectedItem = comboBoxMarcaVehiculo.getSelectedItem() != null
+		                ? comboBoxMarcaVehiculo.getSelectedItem().toString()
+		                : "";
+
+		        Marca marca = GestorVehiculo.getInstance().recuperarMarcaPorNombre(selectedItem);
+		        if (marca != null) {
+		            comboBoxModeloVehiculo.removeAllItems();
+		            comboBoxAnioVehiculo.removeAllItems();
+
 		            List<Modelo> modelos = GestorVehiculo.getInstance().recuperarModelosPorMarca(marca);
-		           for (Modelo modelo : modelos) {
+		            comboBoxModeloVehiculo.addItem("<Seleccione>");
+
+		            for (Modelo modelo : modelos) {
 		                comboBoxModeloVehiculo.addItem(modelo.getNombreModelo());
+		            }
+
+		            comboBoxModeloVehiculo.setSelectedIndex(0);
+		        }
+		    }
+		});
+
+		comboBoxModeloVehiculo.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String selectedModel = comboBoxModeloVehiculo.getSelectedItem() != null
+		                ? comboBoxModeloVehiculo.getSelectedItem().toString()
+		                : "";
+		        comboBoxAnioVehiculo.removeAllItems();
+		        comboBoxAnioVehiculo.addItem("<Seleccione>");
+
+		        if (!"<Seleccione>".equals(selectedModel)) {
+		            Modelo modelo = GestorVehiculo.getInstance().recuperarModeloPorNombre(selectedModel);
+
+		            if (modelo != null) {
+		                for (int i = modelo.getAniofabricacionDesde(); i <= modelo.getAniofabricacionHasta(); i++) {
+		                    comboBoxAnioVehiculo.addItem(i);
+		                }
 		            }
 		        }
 		    }
 		});
+
+
 	    
 		
 		
@@ -878,6 +914,19 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldNroDNI);
 		textFieldNroDNI.setColumns(10);
 		configuracionTextField(textFieldNroDNI);
+		
+		JButton btnSiguiente_1_1 = new JButton("Pasar");
+		btnSiguiente_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedCrearPoliza.setSelectedIndex(1);
+				
+			}
+		});
+		btnSiguiente_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnSiguiente_1_1.setFocusable(false);
+		btnSiguiente_1_1.setEnabled(true);
+		btnSiguiente_1_1.setBounds(20, 358, 89, 23);
+		buscarCliente.add(btnSiguiente_1_1);
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);

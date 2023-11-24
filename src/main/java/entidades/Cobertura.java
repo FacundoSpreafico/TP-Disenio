@@ -16,7 +16,9 @@ public class Cobertura {
 	private int idCobertura;
 	@Column(name = "nombre_cobertura")
 	private String nombreCobertura;
-
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_historial_porcentaje_cobertura")
+	private HistorialPorcentajeCobertura valorActual;
 
 	public String getNombreCobertura() {
 		return nombreCobertura;

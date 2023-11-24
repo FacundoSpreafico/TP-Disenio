@@ -8,22 +8,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-
 @Entity
-@Table (name = "medida_de_seguridad")
+@Table (name = "porcentaje_por_hijo")
+public class PorcentajePorHijo {
 
-public class MedidaDeSeguridad {
-
-	
 	@Id
-	@Column(name = "id_medida")
-	private int idMedida;
-	@Column(name = "tipo_medida")
-	private String tipoMedida;
+	@Column(name = "id_porcentaje_hijo")
+	private int idPorcentajeHijo;
+	@Column(name = "cantidad_hijos")
+	private String cantidadHijos;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_historial_porcentaje_medida")
-	private HistorialPorcentajeMedida valorActual;
-	
+	@JoinColumn(name = "id_historial_porcentaje_hijo")
+	private HistorialPorcentajeHijo actual;
 	
 }

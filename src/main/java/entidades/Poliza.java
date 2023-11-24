@@ -18,8 +18,136 @@ public class Poliza {
 	@Id
 	@Column(name = "id_poliza")
 	private int idPoliza;
+	public int getIdPoliza() {
+		return idPoliza;
+	}
+
+	public void setIdPoliza(int idPoliza) {
+		this.idPoliza = idPoliza;
+	}
+
+	public String getNumeroPoliza() {
+		return numeroPoliza;
+	}
+
+	public void setNumeroPoliza(String numeroPoliza) {
+		this.numeroPoliza = numeroPoliza;
+	}
+
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+	public float getFechaEmision() {
+		return fechaEmision;
+	}
+
+	public void setFechaEmision(float fechaEmision) {
+		this.fechaEmision = fechaEmision;
+	}
+
+	public String getFormaPago() {
+		return formaPago;
+	}
+
+	public void setFormaPago(String formaPago) {
+		this.formaPago = formaPago;
+	}
+
+	public Date getUltimoDiaPago() {
+		return ultimoDiaPago;
+	}
+
+	public void setUltimoDiaPago(Date ultimoDiaPago) {
+		this.ultimoDiaPago = ultimoDiaPago;
+	}
+
+	public Date getVencimiento() {
+		return vencimiento;
+	}
+
+	public void setVencimiento(Date vencimiento) {
+		this.vencimiento = vencimiento;
+	}
+
+	public String getNroSiniestros() {
+		return nroSiniestros;
+	}
+
+	public void setNroSiniestros(String nroSiniestros) {
+		this.nroSiniestros = nroSiniestros;
+	}
+
+	public String getEstadoPoliza() {
+		return estadoPoliza;
+	}
+
+	public void setEstadoPoliza(String estadoPoliza) {
+		this.estadoPoliza = estadoPoliza;
+	}
+
+	public int getCantKmsPorAnio() {
+		return cantKmsPorAnio;
+	}
+
+	public void setCantKmsPorAnio(int cantKmsPorAnio) {
+		this.cantKmsPorAnio = cantKmsPorAnio;
+	}
+
+	public Vehiculo getVehiculo() {
+		return vehiculo;
+	}
+
+	public void setVehiculo(Vehiculo vehiculo) {
+		this.vehiculo = vehiculo;
+	}
+
+	public Cobertura getTipoCobertura() {
+		return tipoCobertura;
+	}
+
+	public void setTipoCobertura(Cobertura tipoCobertura) {
+		this.tipoCobertura = tipoCobertura;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public SumaAsegurada getSumaAsegurada() {
+		return sumaAsegurada;
+	}
+
+	public void setSumaAsegurada(SumaAsegurada sumaAsegurada) {
+		this.sumaAsegurada = sumaAsegurada;
+	}
+
+	public HistorialPolizaModificada getUltimaModificacion() {
+		return ultimaModificacion;
+	}
+
+	public void setUltimaModificacion(HistorialPolizaModificada ultimaModificacion) {
+		this.ultimaModificacion = ultimaModificacion;
+	}
+
 	@Column(name = "numero")
-	private String numero;
+	private String numeroPoliza;
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 	@Column(name = "fecha_fin")

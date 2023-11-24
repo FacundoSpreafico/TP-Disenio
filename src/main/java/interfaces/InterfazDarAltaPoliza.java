@@ -191,7 +191,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		                JOptionPane.YES_NO_OPTION);
 				
 				if (respuesta == JOptionPane.YES_OPTION) {
-					
+					textField_Marca.setText(vehiculoDTO.getModelo().getNombreMarca());
+					textField_Modelo.setText(vehiculoDTO.getModelo().getNombreModelo());
+					textFieldChasis_1.setText(vehiculoDTO.getChasis());
+					textField_Motor.setText(vehiculoDTO.getMotor());
+					textField_Patente.setText(vehiculoDTO.getPatente());
+				//	fechaInicio_1.setText(vehiculoDTO)
+				//	fechaFin
 					List<HijoClienteDTO> hijosCliente = new ArrayList<HijoClienteDTO>();
 					int cantFilas = tablaHijos.getRowCount();
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -427,6 +433,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				try {
 					if(comboBoxCorrectos() && camposIngresados()) {
 						polizaDTO = new PolizaDTO();
+						
 						List<MedidaDeSeguridadDTO> listaMedidas = new ArrayList<>();
 						agregarMedida(chckbxGuardaGarage.isSelected(), "Guarda en garage", listaMedidas);
 			            agregarMedida(chckbxtieneAlarma.isSelected(), "Tiene alarma", listaMedidas);
@@ -452,7 +459,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 						
 						//Implementar
 						GestorVehiculo.getInstance().validarDatosVehiculo(vehiculoDTO);
-
+						
 						for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
 							tabbedCrearPoliza.setEnabledAt(i, true);
 							 if (i != 2) {
@@ -1184,6 +1191,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxTipoCobertura.addItem("<Seleccione>");
 		panelTipoPoliza.add(comboBoxTipoCobertura);
 		
+		/*for (CoberturaDTO coberturas: GestorCobertura.getInstance().recuperarCoberturas()) {
+		comboBoxTipoCobertura.addItem(coberturas.getNombreCobertura());	
+		}
+		*/
+		
 		JComboBox comboBoxFormaDePago = new JComboBox();
 		comboBoxFormaDePago.setBounds(173, 76, 154, 22);
 		panelTipoPoliza.add(comboBoxFormaDePago);
@@ -1235,6 +1247,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
 	public void pestaniaGeneracionPoliza(){
 		configuracionGeneracionPoliza();
+
 	}
 	
     //funciones de configuracion
@@ -1312,7 +1325,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		pestaniaTipoPoliza();
         
 	}
-	 public void agregarMedida(boolean isSelected, String medida, List<MedidaDeSeguridadDTO> listaMedidas) {
+	public void agregarMedida(boolean isSelected, String medida, List<MedidaDeSeguridadDTO> listaMedidas) {
 	        if (isSelected) {
 	            listaMedidas.add(new MedidaDeSeguridadDTO(medida));
 	        }
@@ -1485,7 +1498,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		fechaFin.setEnabled(false);
 		fechaFin.setBounds(434, 263, 170, 20);
 		panelGeneracionPoliza.add(fechaFin);
-		
 		
     }
     public void actualizarCamposCliente(ClienteDTO cliente) {

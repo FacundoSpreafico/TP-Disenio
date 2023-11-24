@@ -15,18 +15,15 @@ import entidades.Modelo;
 public class GestorVehiculo {
 
 	private static GestorVehiculo _INSTANCE;	
-	private VehiculoDAO vehiculoDAO = new VehiculoDAOImp();
 	private MarcaDAO marcaDAO = new MarcaDAOImp();
-	private ModeloDAO modeloDAO = new ModeloDAOImp();
-	
-	
+	private ModeloDAO modeloDAO = new ModeloDAOImp(); 
+
 	public static GestorVehiculo getInstance() {
 		if (_INSTANCE == null) {
 			_INSTANCE = new GestorVehiculo();
 		}
 		return _INSTANCE;
 	}
-
 	public void create(VehiculoDTO vehiculo) {
 	}
 	
@@ -43,13 +40,14 @@ public class GestorVehiculo {
 		return modeloDAO.recuperarModelosPorMarca(marca);
 	}
 	
-	public Modelo recuperarModeloPorNombre(String nombre) {
-		return modeloDAO.recuperarModeloPorNombre(nombre);
-	}
-	
 	//Implementar funcion
 	public boolean validarDatosVehiculo(VehiculoDTO vehiculoDTO) {
 		return false;
 	}
+	
+	public Modelo recuperarModeloPorNombre(String nombre) {
+		return modeloDAO.recuperarModeloPorNombre(nombre);
+	}
+	
 	
 }

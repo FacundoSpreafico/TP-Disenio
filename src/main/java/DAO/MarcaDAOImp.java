@@ -5,17 +5,24 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import entidades.Cliente;
+import entidades.HistorialEstadisticaRobo;
 import entidades.Marca;
 import entidades.Modelo;
+import entidades.PerfilUsuario;
+import entidades.Usuario;
 
 
 public class MarcaDAOImp implements MarcaDAO{
-	public static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Marca.class).buildSessionFactory();
+	public static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml")
+			.addAnnotatedClass(Marca.class)
+			.addAnnotatedClass(Modelo.class)
+			.addAnnotatedClass(HistorialEstadisticaRobo.class)
+			.addAnnotatedClass(Usuario.class)
+			.addAnnotatedClass(PerfilUsuario.class)
+			.buildSessionFactory();
 	@Override
 	public List<Marca> recuperarMarcas() {
         try (Session session = sessionFactory.openSession()) {
@@ -42,9 +49,6 @@ public class MarcaDAOImp implements MarcaDAO{
             } catch (Exception e) {
             }
         }
-		
-		
-		
 		return null;
 	}
 	

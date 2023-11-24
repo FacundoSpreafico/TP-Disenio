@@ -1,14 +1,15 @@
 package gestores;
 
+
 import DAO.SumaAseguradaDAO;
 import DAO.SumaAseguradaDAOImp;
 import DTO.ModeloDTO;
 
+
 public class GestorSumaAsegurada {
-
 	private SumaAseguradaDAO sumaAseguradaDAO = new SumaAseguradaDAOImp();
-
 	private static GestorSumaAsegurada _INSTANCE;	
+
 
 	public static GestorSumaAsegurada getInstance() {
 		if (_INSTANCE == null) {
@@ -17,8 +18,15 @@ public class GestorSumaAsegurada {
 		return _INSTANCE;
 	}
 
+
 	public double devolverSumaAsegurada (ModeloDTO modelo) {
-		return sumaAseguradaDAO.devolverSumaAsegurada(modelo);
+		try { 
+		return sumaAseguradaDAO.devolverSumaAsegurada(modelo).getMonto();
+		}
+		catch(Exception e) {
+		}
+		return 0;
 	}
+
 
 }

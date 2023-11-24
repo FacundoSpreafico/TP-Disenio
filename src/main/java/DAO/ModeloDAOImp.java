@@ -10,11 +10,20 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
 import entidades.Cliente;
+import entidades.HistorialEstadisticaRobo;
 import entidades.Marca;
 import entidades.Modelo;
+import entidades.PerfilUsuario;
+import entidades.Usuario;
 
 public class ModeloDAOImp implements ModeloDAO {
-	 private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Modelo.class).addAnnotatedClass(Marca.class).buildSessionFactory();
+	 private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml")
+			    .addAnnotatedClass(Marca.class)
+				.addAnnotatedClass(Modelo.class)
+				.addAnnotatedClass(HistorialEstadisticaRobo.class)
+				.addAnnotatedClass(Usuario.class)
+				.addAnnotatedClass(PerfilUsuario.class)
+				.buildSessionFactory();
 	@Override
 	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
 		try (Session session = sessionFactory.openSession()) {
@@ -42,6 +51,7 @@ public class ModeloDAOImp implements ModeloDAO {
         }
 		return null;
 	}
+
 	
 	
 }

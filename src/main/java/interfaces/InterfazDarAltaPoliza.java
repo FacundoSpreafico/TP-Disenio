@@ -49,6 +49,9 @@ import entidades.Provincia;
 import excepciones.DatosNoIngresadosException;
 import gestores.GestorLocalidad;
 import gestores.GestorVehiculo;
+import DTO.MedidaDeSeguridadDTO;
+import gestores.GestorSumaAsegurada;
+
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -200,7 +203,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 						hijosCliente.add(new HijoClienteDTO(fechaNacimiento, estadoCivil, sexo));
 						
 					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 				}
@@ -388,8 +391,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxModeloVehiculo.addItem("<Seleccione>");
 		comboBoxModeloVehiculo.setEnabled(false);
 		datosVehiculo.add(comboBoxModeloVehiculo);
-		
-		
 		//campo anio
 		comboBoxAnioVehiculo = new JComboBox<>();
 		comboBoxAnioVehiculo.setBackground(Color.WHITE);
@@ -423,8 +424,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 				try {
 					if(comboBoxCorrectos() && camposIngresados()) {
 						polizaDTO = new PolizaDTO();
-						//Faltan agregar las medidas de seguridad
-						
+						List<MedidaDeSeguridadDTO> listaMedidas = new ArrayList<>();
+
+						agregarMedida(chckbxGuardaGarage.isSelected(), "Guarda en garage", listaMedidas);
+			            agregarMedida(chckbxtieneAlarma.isSelected(), "Tiene alarma", listaMedidas);
+			            agregarMedida(chckbxRastreoVehicular.isSelected(), "Posee dispositivo de rastreo vehicular", listaMedidas);
+			            agregarMedida(chckbxTuercasAntirrobos.isSelected(), "Posee tuercas antirrobo en las cuatro ruedas", listaMedidas);
+					
+			            polizaDTO.setMedidasDeclaradas(listaMedidas);
+			            
 						vehiculoDTO = new VehiculoDTO();
 						vehiculoDTO.setMotor(textFieldMotor.getText());
 						vehiculoDTO.setChasis(textFieldChasis.getText());
@@ -437,6 +445,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 						vehiculoDTO.setDomicilio(new DomicilioRiesgoDTO(comboBoxPaisRiesgo.getSelectedItem().toString(),
 					                                                    comboBoxProvinciaRiesgo.getSelectedItem().toString(),
 					                                                    comboBoxLocalidadRiesgo.getSelectedItem().toString()));
+						
+						vehiculoDTO.setIdModelo(GestorVehiculo.getInstance().recuperarModeloPorNombre(vehiculoDTO.getModelo().getNombreModelo()).getIdModelo());
 						
 						//Implementar
 						GestorVehiculo.getInstance().validarDatosVehiculo(vehiculoDTO);
@@ -733,21 +743,23 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza.add(comboBoxMarcaVehiculo);
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
 		
-		
 		for (Marca marca: GestorVehiculo.getInstance().recuperarMarcas()) {
 			comboBoxMarcaVehiculo.addItem(marca.getNombreMarca());
 		}
 
 		comboBoxMarcaVehiculo.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+
 		        String selectedItem = comboBoxMarcaVehiculo.getSelectedItem() != null
 		                ? comboBoxMarcaVehiculo.getSelectedItem().toString()
 		                : "";
 		        comboBoxModeloVehiculo.removeAllItems();
+		        textFieldSumaAsegurada.setText("");
 		        comboBoxModeloVehiculo.addItem("<Seleccione>");
-		      
+
 		        Marca marca = GestorVehiculo.getInstance().recuperarMarcaPorNombre(selectedItem);
 		        if (marca != null) {
+		        	textFieldSumaAsegurada.setText("");
 		            comboBoxModeloVehiculo.removeAllItems();
 		            comboBoxAnioVehiculo.removeAllItems();
 
@@ -770,13 +782,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        String selectedItem = comboBoxModeloVehiculo.getSelectedItem() != null
 		                ? comboBoxModeloVehiculo.getSelectedItem().toString()
 		                : "";
+		        textFieldSumaAsegurada.setText("");
 		        comboBoxAnioVehiculo.removeAllItems();
 		        comboBoxAnioVehiculo.addItem("<Seleccione>");
 
 		        if (!"<Seleccione>".equals(selectedItem)) {
 		            Modelo modelo = GestorVehiculo.getInstance().recuperarModeloPorNombre(selectedItem);
-
+		            textFieldSumaAsegurada.setText("");
 		            if (modelo != null) {
+
 			            comboBoxAnioVehiculo.setEnabled(true);
 		                for (int i = modelo.getAniofabricacionDesde(); i <= modelo.getAniofabricacionHasta(); i++) {
 		                    comboBoxAnioVehiculo.addItem(i);
@@ -785,6 +799,29 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        }
 		    }
 		});
+
+		comboBoxAnioVehiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModeloDTO modelo = new ModeloDTO();
+                  if (comboBoxAnioVehiculo.getSelectedItem() != null && !comboBoxAnioVehiculo.getSelectedItem().toString().equals("<Seleccione>")) {
+                	modelo.setNombreModelo(comboBoxModeloVehiculo.getSelectedItem().toString()); 
+                	modelo.setAnioFabricacion(Integer.parseInt(comboBoxAnioVehiculo.getSelectedItem().toString()));
+                	modelo.setIdModelo(GestorVehiculo.getInstance().recuperarModeloPorNombre(modelo.getNombreModelo()).getIdModelo());
+                	GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo);
+                	
+                	if (GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo) == 0) {
+                		textFieldSumaAsegurada.setText("");
+                	}
+                	else {
+                    textFieldSumaAsegurada.setText(String.valueOf(GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo)));
+                	}
+                  }
+                  else {
+                	  textFieldSumaAsegurada.setText("");
+                  }
+				  }
+		});
+
 
 		lblProvinciaDeRiesgo = new JLabel("Provincia de riesgo");
 		lblProvinciaDeRiesgo.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -1270,6 +1307,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		pestaniaTipoPoliza();
         
 	}
+	 public void agregarMedida(boolean isSelected, String medida, List<MedidaDeSeguridadDTO> listaMedidas) {
+	        if (isSelected) {
+	            listaMedidas.add(new MedidaDeSeguridadDTO(medida));
+	        }
+	    }
     public void configuracionPanelDatosPoliza() {
     	JPanel panelDatosPoliza = new JPanel();
 		panelDatosPoliza.setBackground(Color.WHITE);
@@ -2072,7 +2114,6 @@ public class InterfazDarAltaPoliza extends JFrame {
     	else
     		return false;
     }
-    
     public boolean camposIngresados() {
     	if(textFieldChasis.getText().isEmpty() || textFieldPatenteVehiculo.getText().isEmpty()  
     			|| textFieldMotor.getText().isEmpty()) {
@@ -2081,7 +2122,6 @@ public class InterfazDarAltaPoliza extends JFrame {
     	else
     		return true;
     }
-    
     public boolean verificarEdad(Date fechaNacimiento) {
     	  // Verificar que se haya seleccionado una fecha
         if (fechaNacimiento == null) {

@@ -16,6 +16,13 @@ public class Marca {
 	@Column(name = "nombre_marca")
 	private String nombreMarca;
 	
+	
+	//Tratar de arreglarlo
+		/*
+	    @OneToMany(mappedBy = "marca") 
+	    private List<Modelo> modelo = new ArrayList<Modelo>();
+	    */
+	
 	public int getIdMarca() {
 		return idMarca;
 	}

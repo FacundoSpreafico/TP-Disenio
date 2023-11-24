@@ -17,7 +17,8 @@ public class SumaAsegurada {
 	@Column(name = "anio_fabricacion")
 	private int anioFabricacion;
 	@Column(name = "monto")
-	private float monto;
+	private double montoTotal;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_modelo")
 	private Modelo modelo;
@@ -29,11 +30,11 @@ public class SumaAsegurada {
 	public void setAnioFabricacion(int anioFabricacion) {
 		this.anioFabricacion = anioFabricacion;
 	}
-	public float getMonto() {
-		return monto;
+	public double getMonto() {
+		return montoTotal;
 	}
-	public void setMonto(float monto) {
-		this.monto = monto;
+	public void setMonto(double monto) {
+		this.montoTotal = monto;
 	}
 	
 }

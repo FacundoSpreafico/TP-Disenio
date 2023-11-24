@@ -5,7 +5,7 @@ public class ModeloDTO {
 	private String nombreMarca;
 	private String nombreModelo;
 	private int anioFabricacion;
-		
+	private double monto;
 	
 	public ModeloDTO() {
 		
@@ -40,5 +40,13 @@ public class ModeloDTO {
 	}
 	public void setIdModelo(int idModelo) {
 		this.idModelo = idModelo;
+	}
+
+	public double getMonto() {
+		return monto;
+	}
+
+	public void setMonto(double monto) {
+		this.monto = monto;
 	}	
 }

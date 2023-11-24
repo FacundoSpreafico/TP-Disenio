@@ -34,6 +34,12 @@ public class HijoClienteDTO {
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+
+	@Override
+	public String toString() {
+		return "HijoClienteDTO [sexo=" + sexo + ", estadoCivil=" + estadoCivil + ", fechaNacimiento=" + fechaNacimiento
+				+ "]";
+	}
 	
 	
 }

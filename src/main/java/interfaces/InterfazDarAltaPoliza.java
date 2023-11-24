@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,11 +36,11 @@ import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
 import DTO.DomicilioRiesgoDTO;
+import DTO.HijoClienteDTO;
 import DTO.ModeloDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
 import constantes.Images;
-import entidades.HijoCliente;
 import entidades.Localidad;
 import entidades.Marca;
 import entidades.Modelo;
@@ -88,8 +89,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JDateChooser fechaNacimiento;
 
 	// Arrays de opciones
-	private String[] optionsEstadoCivil = {"Soltero/a", "Casado/a", "Divorciado/a", "Separado/A", "Viudo/A"};
-	private String[] optionsSexo = {"Masculino", "Femenino"};
+	private String[] optionsEstadoCivil = {"<Seleccione>","Soltero/a", "Casado/a", "Divorciado/a", "Separado/A", "Viudo/A"};
+	private String[] optionsSexo = {"<Seleccione>","Masculino", "Femenino"};
 
 	// JTable
 	private JTable tablaHijos;
@@ -103,7 +104,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 	comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;
 	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor;
 	
-	List<HijoCliente> listaHijos = new ArrayList<>();
 	private JTextField textFieldApellido_3;
 	private JTextField textFieldNombre_3;
 	private JPanel panelTipoPoliza;
@@ -183,6 +183,28 @@ public class InterfazDarAltaPoliza extends JFrame {
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				List<HijoClienteDTO> hijosCliente = new ArrayList<HijoClienteDTO>();
+				int cantFilas = tablaHijos.getRowCount();
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				//int cantColumnas = tablaHijos.getColumnCount();
+				
+				for(int i = 0; i < cantFilas; i++) {
+					
+					try {
+						
+						Date fechaNacimiento = dateFormat.parse(tablaHijos.getValueAt(i, 0).toString());
+						String estadoCivil = tablaHijos.getValueAt(i, 1).toString();
+						String sexo = tablaHijos.getValueAt(i,1).toString();
+						
+						hijosCliente.add(new HijoClienteDTO(fechaNacimiento, estadoCivil, sexo));
+						
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				polizaDTO.setHijos(hijosCliente);
 				pestaniaConfirmarPoliza();
 			}
 		});
@@ -242,7 +264,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblNombre_2.setBounds(24, 27, 46, 14);
 		panelContextoCliente_1.add(lblNombre_2);
 		
-		//campo apellido del hijo
+		//campo apellido
 		textFieldApellido_2 = new JTextField();
 		textFieldApellido_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldApellido_2.setColumns(10);
@@ -250,7 +272,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelContextoCliente_1.add(textFieldApellido_2);
 		configuracionTextField(textFieldApellido_2);
 		
-		//campo nombre del hijo
+		//campo nombre
 		textFieldNombre_2 = new JTextField();
 		textFieldNombre_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldNombre_2.setColumns(10);
@@ -1117,11 +1139,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		JComboBox comboBoxTipoCobertura = new JComboBox();
 		comboBoxTipoCobertura.setBounds(173, 32, 154, 22);
+		comboBoxTipoCobertura.addItem("<Seleccione>");
 		panelTipoPoliza.add(comboBoxTipoCobertura);
 		
 		JComboBox comboBoxFormaDePago = new JComboBox();
 		comboBoxFormaDePago.setBounds(173, 76, 154, 22);
 		panelTipoPoliza.add(comboBoxFormaDePago);
+		comboBoxFormaDePago.addItem("<Seleccione>");
 		comboBoxFormaDePago.addItem("Mensual");
 		comboBoxFormaDePago.addItem("Semestral");
 		
@@ -1856,27 +1880,35 @@ public class InterfazDarAltaPoliza extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        try {
 		            // Obtener valores seleccionados
-		            String sexo = comboBoxSexo.getSelectedItem().toString();
-		            String estadoCivil = comboBoxEstadoCivil.getSelectedItem().toString();
-		            Date fechaSeleccionada = fechaNacimiento.getDate();
-		            if (verificarEdad(fechaSeleccionada)){
-		            	// Ajustamos el formato de la fecha para pasarlo a string
-			            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			            String fechaString = dateFormat.format(fechaSeleccionada);
-			            Object[] nuevaFila = { fechaString, estadoCivil, sexo };
+		        	if(comboBoxSexo.getSelectedItem().toString() != "<Seleccione>" 
+		            && comboBoxEstadoCivil.getSelectedItem().toString() != "<Seleccione>"
+		        		 && fechaNacimiento.getDate() != null) {
+		        		
+		        		
+		        		 String sexo = comboBoxSexo.getSelectedItem().toString();
+				            String estadoCivil = comboBoxEstadoCivil.getSelectedItem().toString();
+				            Date fechaSeleccionada = fechaNacimiento.getDate();
+				            if (verificarEdad(fechaSeleccionada)){
+				            	// Ajustamos el formato de la fecha para pasarlo a string
+					            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					            String fechaString = dateFormat.format(fechaSeleccionada);
+					            Object[] nuevaFila = { fechaString, estadoCivil, sexo };
 
-			            HijoCliente hijoNuevo = new HijoCliente(fechaSeleccionada,sexo,estadoCivil);
-			            listaHijos.add(hijoNuevo);
-			            modelo.addRow(nuevaFila);
-			            modelo.fireTableDataChanged();
-			    		
-			            textFieldHijos.setText(String.valueOf(modelo.getRowCount()));
-			            comboBoxSexo.setSelectedIndex(0);
-			            comboBoxEstadoCivil.setSelectedIndex(0);
-			            fechaNacimiento.setDate(null);
-			            fechaNacimiento.requestFocus();
-		            }
-		        } catch (Exception ex) {
+					            modelo.addRow(nuevaFila);
+					            modelo.fireTableDataChanged();
+					    		
+					            textFieldHijos.setText(String.valueOf(modelo.getRowCount()));
+					            comboBoxSexo.setSelectedIndex(0);
+					            comboBoxEstadoCivil.setSelectedIndex(0);
+					            fechaNacimiento.setDate(null);
+					            fechaNacimiento.requestFocus();
+				            }
+		        	}else {
+				       throw(new DatosNoIngresadosException());
+				            }
+		        	
+		        } catch (DatosNoIngresadosException ex) {
+		        	JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this, "Alguno/s de los datos (*) no fueron ingresados. Por favor, ingréselo/s", "Datos no rellenados", JOptionPane.WARNING_MESSAGE);
 		        }
 		    }
 		});
@@ -1910,9 +1942,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 	            } 
 	         catch (Exception ex) { 
 	            }
-	         JComboBox sexo_editar = new JComboBox(optionsSexo);
+	         
+	         String[] optionsEstadoCivilEdicion = {"Soltero/a", "Casado/a", "Divorciado/a", "Separado/A", "Viudo/A"};
+	     	 String[] optionsSexoEdicion = {"Masculino", "Femenino"};
+	         
+	     	 JComboBox sexo_editar = new JComboBox(optionsSexoEdicion);
 	         sexo_editar.setSelectedItem(sexo_seleccionado);
-	         JComboBox estadoCivil_editar = new JComboBox(optionsEstadoCivil);
+	         JComboBox estadoCivil_editar = new JComboBox(optionsEstadoCivilEdicion);
 	         estadoCivil_editar.setSelectedItem(estadoCivil_seleccionado);
 	            
 	         panel.add(new JLabel("Fecha de nacimiento: "));
@@ -1964,8 +2000,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		                );
 		            if (opcion == JOptionPane.YES_OPTION) {
 		            	DefaultTableModel model = (DefaultTableModel) tablaHijos.getModel();
-		                int filaSeleccionada = tablaHijos.getSelectedRow();
-		                listaHijos.remove(filaSeleccionada); 	
+		                int filaSeleccionada = tablaHijos.getSelectedRow();	
 
 		                model.removeRow(filaSeleccionada);
 		                model.fireTableDataChanged();
@@ -1999,7 +2034,6 @@ public class InterfazDarAltaPoliza extends JFrame {
     	comboBoxSexo.setSelectedIndex(0);
     	DefaultTableModel model = (DefaultTableModel) tablaHijos.getModel();
     	model.setRowCount(0);
-    	listaHijos.clear();
     }
     public void dialogoVolver(int index) {
 		switch (index) {
@@ -2032,7 +2066,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     	   && comboBoxKmsPorAnio.getSelectedItem().toString() != "<Seleccione>"
     	   && comboBoxMarcaVehiculo.getSelectedItem().toString() != "<Seleccione>"
     	   && comboBoxModeloVehiculo.getSelectedItem().toString() != "<Seleccione>"
-    	   /*&& comboBoxAnioVehiculo.getSelectedItem().toString() != "<Seleccione>"*/) {
+    	   && comboBoxAnioVehiculo.getSelectedItem().toString() != "<Seleccione>") {
     		return true;
     	}
     	else

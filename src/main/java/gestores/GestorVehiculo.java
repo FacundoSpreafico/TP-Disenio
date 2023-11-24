@@ -42,6 +42,10 @@ public class GestorVehiculo {
 	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
 		return modeloDAO.recuperarModelosPorMarca(marca);
 	}
+
+	public Modelo recuperarModeloPorNombre(String nombre) {
+		return modeloDAO.recuperarModeloPorNombre(nombre);
+	}
 	
 	//Implementar funcion
 	public boolean validarDatosVehiculo(VehiculoDTO vehiculoDTO) {

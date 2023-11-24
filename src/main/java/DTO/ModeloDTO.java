@@ -27,11 +27,28 @@ public class ModeloDTO {
 	}
 	public void setNombreModelo(String nombreModelo) {
 		this.nombreModelo = nombreModelo;
+=======
+
+	private int idModelo;
+	private int anioFabricacion;
+	
+	public int getIdModelo() {
+		return idModelo;
+	}
+	public void setIdModelo(int idModelo) {
+		this.idModelo = idModelo;
+>>>>>>> ramaNuevaFacu
 	}
 	public int getAnioFabricacion() {
 		return anioFabricacion;
 	}
 	public void setAnioFabricacion(int anioFabricacion) {
 		this.anioFabricacion = anioFabricacion;
+<<<<<<< HEAD
 	}	
+=======
+	}
+
+	
+>>>>>>> ramaNuevaFacu
 }

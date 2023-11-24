@@ -43,5 +43,9 @@ public class GestorVehiculo {
 		return modeloDAO.recuperarModelosPorMarca(marca);
 	}
 	
+	//Implementar funcion
+	public boolean validarDatosVehiculo(VehiculoDTO vehiculoDTO) {
+		return false;
+	}
 	
 }

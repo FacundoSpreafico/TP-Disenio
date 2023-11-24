@@ -4,9 +4,11 @@ public class VehiculoDTO {
 	private String motor;
 	private String chasis;
 	private String patente;
-	private Integer kmsUltAnio;
+	private String kmsUltAnio;
 	private String nroSiniestros;
-	private MarcaDTO marca;
+	private ModeloDTO modelo;
+	private DomicilioRiesgoDTO domicilio;
+	
 	public String getMotor() {
 		return motor;
 	}
@@ -25,10 +27,10 @@ public class VehiculoDTO {
 	public void setPatente(String patente) {
 		this.patente = patente;
 	}
-	public Integer getKmsUltAnio() {
+	public String getKmsUltAnio() {
 		return kmsUltAnio;
 	}
-	public void setKmsUltAnio(Integer kmsUltAnio) {
+	public void setKmsUltAnio(String kmsUltAnio) {
 		this.kmsUltAnio = kmsUltAnio;
 	}
 	public String getNroSiniestros() {
@@ -37,11 +39,17 @@ public class VehiculoDTO {
 	public void setNroSiniestros(String nroSiniestros) {
 		this.nroSiniestros = nroSiniestros;
 	}
-	public MarcaDTO getMarca() {
-		return marca;
+	public ModeloDTO getModelo() {
+		return modelo;
 	}
-	public void setMarca(MarcaDTO marca) {
-		this.marca = marca;
+	public void setModelo(ModeloDTO modelo) {
+		this.modelo = modelo;
+	}
+	public DomicilioRiesgoDTO getDomicilio() {
+		return domicilio;
+	}
+	public void setDomicilio(DomicilioRiesgoDTO domicilio) {
+		this.domicilio = domicilio;
 	}
 	
 	

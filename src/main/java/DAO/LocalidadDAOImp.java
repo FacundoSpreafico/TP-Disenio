@@ -9,9 +9,7 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 
-import entidades.Cliente;
 import entidades.Localidad;
-import entidades.Marca;
 import entidades.Pais;
 import entidades.Provincia;
 
@@ -21,26 +19,63 @@ public class LocalidadDAOImp implements LocalidadDAO {
 				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
 		
 		try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
+            //Transaction transaction = session.beginTransaction();
 
             try {
                 String hql = "FROM Pais";
                 Query<Pais> query = session.createQuery(hql, Pais.class);
                 List<Pais> paises  = query.getResultList();
 
-                transaction.commit();
+                //transaction.commit();
+                session.close();
                 return paises;
                 
                 
             } catch (Exception e) {
-                if (transaction != null) {
+                /*if (transaction != null) {
                     transaction.rollback();
-                }
+                }*/
                 e.printStackTrace();
             }
         }
 		return Collections.emptyList();
 	}
+	
+	public Pais recuperarPaisPorNombre(String nombre) {
+		SessionFactory sessionFactory = new Configuration()
+				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
+		
+		try (Session session = sessionFactory.openSession()) {
+            try {
+                String hql = "FROM Pais WHERE nombrePais = :nombre";
+                Query<Pais> query = session.createQuery(hql,Pais.class);
+                query.setParameter("nombre", nombre);
+                return query.getSingleResult();
+                
+            } catch (Exception e) {
+            }
+        }
+		return null;
+	}
+	
+	public Provincia recuperarProvinciaPorNombre(String nombre) {
+		SessionFactory sessionFactory = new Configuration()
+				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
+		
+		try (Session session = sessionFactory.openSession()) {
+            try {
+                String hql = "FROM Provincia WHERE nombreProvincia = :nombre";
+                Query<Provincia> query = session.createQuery(hql,Provincia.class);
+                query.setParameter("nombre", nombre);
+                return query.getSingleResult();
+                
+            } catch (Exception e) {
+            }
+        }
+		return null;
+	}
+	
+	
 	public List<Provincia> obtenerProvincias(Pais pais){
 		SessionFactory sessionFactory = new Configuration()
 				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
@@ -53,6 +88,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
                 Query<Provincia> query = session.createQuery(hql, Provincia.class);
                 query.setParameter("pais", pais);
                 List<Provincia> provincias = query.getResultList();
+                pais.setProvincias(provincias);
 
                 transaction.commit();
                 return provincias;
@@ -66,6 +102,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
                 }
                 e.printStackTrace();
             }
+            session.close();
         }
 		return Collections.emptyList();
 	}
@@ -95,4 +132,6 @@ public class LocalidadDAOImp implements LocalidadDAO {
         }
 		return Collections.emptyList();
 	}
+	
+	
 }

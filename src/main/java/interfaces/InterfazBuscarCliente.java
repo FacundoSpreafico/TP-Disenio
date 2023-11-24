@@ -174,6 +174,7 @@ public class InterfazBuscarCliente extends JFrame {
 		            if (interfazDarAltaPoliza != null) {
 		                interfazDarAltaPoliza.actualizarCamposCliente(clienteSeleccionado);
 		            }
+		            
 		            dispose();
 		        
 		    }

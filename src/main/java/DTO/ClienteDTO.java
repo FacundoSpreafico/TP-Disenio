@@ -1,9 +1,15 @@
 package DTO;
 
 public class ClienteDTO {
-	String nombre,apellido,tipoDocumento,nroCliente,nroDocumento;
+	private String nombre,apellido,tipoDocumento,nroCliente,nroDocumento;
+	private int idCliente;
 	
-	
+	public int getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
 	public String getNroCliente() {
 		return nroCliente;
 	}

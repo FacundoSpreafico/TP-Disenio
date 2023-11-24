@@ -23,6 +23,12 @@ public class GestorCliente{
 	public void create(Cliente cliente) {
 	clienteDAO.create(cliente);
 	}
+	
+	
+	public int recuperarID(String nroCliente) {
+		return clienteDAO.recuperarID(nroCliente);
+	}
+	
 
 	public List<ClienteDTO> buscar(ClienteDTO cliente) {
 		 List<ClienteDTO> resultado = new ArrayList<>();

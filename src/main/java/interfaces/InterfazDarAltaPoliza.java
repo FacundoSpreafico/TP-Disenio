@@ -47,6 +47,7 @@ import entidades.Modelo;
 import entidades.Pais;
 import entidades.Provincia;
 import excepciones.DatosNoIngresadosException;
+import gestores.GestorCliente;
 import gestores.GestorLocalidad;
 import gestores.GestorVehiculo;
 import DTO.MedidaDeSeguridadDTO;
@@ -157,10 +158,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     private VehiculoDTO vehiculoDTO;
     private ClienteDTO clienteDTO;
     private PolizaDTO polizaDTO;
-    
-    
-    
-    
+
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
@@ -186,29 +184,34 @@ public class InterfazDarAltaPoliza extends JFrame {
 		JButton btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				int respuesta = JOptionPane.showConfirmDialog(
+		                InterfazDarAltaPoliza.this,
+		                "¿Estás seguro de que deseas confirmar la generación de la póliza?",
+		                "Confirmar Generación de Póliza",
+		                JOptionPane.YES_NO_OPTION);
 				
-				List<HijoClienteDTO> hijosCliente = new ArrayList<HijoClienteDTO>();
-				int cantFilas = tablaHijos.getRowCount();
-				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-				//int cantColumnas = tablaHijos.getColumnCount();
-				
-				for(int i = 0; i < cantFilas; i++) {
+				if (respuesta == JOptionPane.YES_OPTION) {
 					
-					try {
+					List<HijoClienteDTO> hijosCliente = new ArrayList<HijoClienteDTO>();
+					int cantFilas = tablaHijos.getRowCount();
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					
+					for(int i = 0; i < cantFilas; i++) {
 						
-						Date fechaNacimiento = dateFormat.parse(tablaHijos.getValueAt(i, 0).toString());
-						String estadoCivil = tablaHijos.getValueAt(i, 1).toString();
-						String sexo = tablaHijos.getValueAt(i,1).toString();
-						
-						hijosCliente.add(new HijoClienteDTO(fechaNacimiento, estadoCivil, sexo));
-						
-					} catch (ParseException e1) {
-						
-						e1.printStackTrace();
+						try {
+							Date fechaNacimiento = dateFormat.parse(tablaHijos.getValueAt(i, 0).toString());
+							String estadoCivil = tablaHijos.getValueAt(i, 1).toString();
+							String sexo = tablaHijos.getValueAt(i,1).toString();
+							hijosCliente.add(new HijoClienteDTO(fechaNacimiento, estadoCivil, sexo));
+						} catch (ParseException e1) {
+							
+							e1.printStackTrace();
+						}
 					}
-				}
-				polizaDTO.setHijos(hijosCliente);
-				pestaniaConfirmarPoliza();
+					polizaDTO.setHijos(hijosCliente);
+				
+					pestaniaConfirmarPoliza();
+		        } 
 			}
 		});
 		btnConfirmar.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -356,6 +359,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            btnEditar.setEnabled(false);
 		            btnEliminar.setEnabled(false);
 		        }
+
 		    }
 		});
 		
@@ -383,7 +387,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
  
 	public void pestaniaDatosDelVehiculo() {
-		
 		//campo modelo
 		comboBoxModeloVehiculo = new JComboBox<>();
 		comboBoxModeloVehiculo.setBackground(Color.WHITE);
@@ -425,7 +428,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 					if(comboBoxCorrectos() && camposIngresados()) {
 						polizaDTO = new PolizaDTO();
 						List<MedidaDeSeguridadDTO> listaMedidas = new ArrayList<>();
-
 						agregarMedida(chckbxGuardaGarage.isSelected(), "Guarda en garage", listaMedidas);
 			            agregarMedida(chckbxtieneAlarma.isSelected(), "Tiene alarma", listaMedidas);
 			            agregarMedida(chckbxRastreoVehicular.isSelected(), "Posee dispositivo de rastreo vehicular", listaMedidas);
@@ -914,7 +916,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnDarAltaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this,
-					    "Función no implementada.",
+					    "Proximamente.",
 					    "MILEI 2023",
 					    JOptionPane.WARNING_MESSAGE
 					);
@@ -947,7 +949,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnSiguiente_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try { 
-				if (!clienteBuscado.getNombre().isEmpty()) {	
+				if (!clienteDTO.getNombre().isEmpty()) {
+				clienteDTO.setIdCliente(GestorCliente.getInstance().recuperarID(clienteDTO.getNroCliente()));
+				
 				for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
 					if (i==1) {
 						tabbedCrearPoliza.setEnabledAt(i,true);
@@ -957,7 +961,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 					}
 				}
 				tabbedCrearPoliza.setSelectedIndex(1);
-			    }
+			    
+				}
 				}
 				catch (Exception e1) {
 					  JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this, "No se encontró ningún cliente. Por favor, realice una búsqueda e inténtelo nuevamente.", "Cliente no encontrado", JOptionPane.WARNING_MESSAGE);
@@ -1496,7 +1501,7 @@ public class InterfazDarAltaPoliza extends JFrame {
         textFieldNombre_3.setText(cliente.getNombre());
         textFieldApellido_3.setText(cliente.getApellido());
         textFieldTitularSeguro.setText(cliente.getNombre() + " " + cliente.getApellido());
-        this.clienteBuscado = cliente;
+        clienteDTO = cliente;
     }
     public void configuracionBotonVolverDatosPoliza(JButton btnVolver) {
     	btnVolver.addActionListener(new ActionListener() {
@@ -2099,11 +2104,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		}
 	}
-    
 
     public boolean comboBoxCorrectos() {
     	if(comboBoxPaisRiesgo.getSelectedItem().toString() != "<Seleccione>"
-    	   && comboBoxLocalidadRiesgo.getSelectedItem().toString() != "<Seleccione>"
+    	   && comboBoxLocalidadRiesgo.getSelectedItem().toString() != "<Seleccione>" 
     	   && comboBoxProvinciaRiesgo.getSelectedItem().toString() != "<Seleccione>"
     	   && comboBoxKmsPorAnio.getSelectedItem().toString() != "<Seleccione>"
     	   && comboBoxMarcaVehiculo.getSelectedItem().toString() != "<Seleccione>"

@@ -14,6 +14,7 @@ import org.hibernate.internal.SessionCreationOptions;
 
 import DTO.ClienteDTO;
 import entidades.Cliente;
+import entidades.Marca;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -78,6 +79,22 @@ public class ClienteDAOImp implements ClienteDAO {
             return Arrays.copyOf(restricciones, indice);
         }
     }
+    
+    public int recuperarID(String nroCliente) {
+    	try(Session session = sessionFactory.openSession()){
+    		try {
+                String hql = "SELECT idCliente FROM Cliente WHERE nroCliente = :nro";
+                Query<Integer> query = session.createQuery(hql,Integer.class);
+                query.setParameter("nro",nroCliente);
+                return query.getSingleResult();
+            } catch (Exception e) {
+            }
+    	}
+		return 0;
+    }
+    
+    
+    
 }
 	
 

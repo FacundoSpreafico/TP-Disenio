@@ -30,7 +30,7 @@ public class MarcaDAOImp implements MarcaDAO{
                 if (transaction != null) {
                     transaction.rollback();
                 }
-                e.printStackTrace(); // O manejo de excepciones adecuado
+                e.printStackTrace(); //
             }
         }
         return Collections.emptyList();

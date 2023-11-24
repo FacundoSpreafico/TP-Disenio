@@ -18,23 +18,34 @@ public class MarcaDAOImp implements MarcaDAO{
 	@Override
 	public List<Marca> recuperarMarcas() {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
             try {
                 String hql = "FROM Marca";
                 Query<Marca> query = session.createQuery(hql,Marca.class);
                 List<Marca> marcas = query.getResultList();
-
-                transaction.commit();
+                session.close();
                 return marcas;
             } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
-                e.printStackTrace(); //
             }
         }
         return Collections.emptyList();
+       
     }
+	@Override
+	public Marca recuperarMarcaPorNombre(String nombre) {
+		try (Session session = sessionFactory.openSession()) {
+            try {
+                String hql = "FROM Marca WHERE nombreMarca = :nombre";
+                Query<Marca> query = session.createQuery(hql,Marca.class);
+                query.setParameter("nombre", nombre);
+                return query.getSingleResult();
+            } catch (Exception e) {
+            }
+        }
+		
+		
+		
+		return null;
+	}
 	
 	
 	

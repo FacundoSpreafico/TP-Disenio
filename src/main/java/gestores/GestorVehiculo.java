@@ -4,12 +4,11 @@ import java.util.List;
 
 import DAO.MarcaDAO;
 import DAO.MarcaDAOImp;
-import DAO.VehiculoDAO;
-import DAO.VehiculoDAOImp;
-import DTO.MarcaDTO;
-import DTO.VehiculoDTO;
 import DAO.ModeloDAO;
 import DAO.ModeloDAOImp;
+import DAO.VehiculoDAO;
+import DAO.VehiculoDAOImp;
+import DTO.VehiculoDTO;
 import entidades.Marca;
 import entidades.Modelo;
 
@@ -34,8 +33,14 @@ public class GestorVehiculo {
 	public List<Marca> recuperarMarcas() {
 		return marcaDAO.recuperarMarcas();
 	}
-	public List<Modelo> recuperarModelosPorMarca() {
-		return modeloDAO.recuperarModelosPorMarca();
+	
+	public Marca recuperarMarcaPorNombre(String nombre) {
+		return marcaDAO.recuperarMarcaPorNombre(nombre);
+	}
+	
+	
+	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
+		return modeloDAO.recuperarModelosPorMarca(marca);
 	}
 	
 	

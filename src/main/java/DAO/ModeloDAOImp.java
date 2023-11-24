@@ -16,21 +16,15 @@ import entidades.Modelo;
 public class ModeloDAOImp implements ModeloDAO {
 	 private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Modelo.class).addAnnotatedClass(Marca.class).buildSessionFactory();
 	@Override
-	public List<Modelo> recuperarModelosPorMarca() {
+	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
 		try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
             try {
-                String hql = "FROM Modelo";
+                String hql = "FROM Modelo WHERE marca = :idMarca";
                 Query<Modelo> query = session.createQuery(hql,Modelo.class);
+                query.setParameter("idMarca", marca);
                 List<Modelo> marcas = query.getResultList();
-
-                transaction.commit();
                 return marcas;
             } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
-                e.printStackTrace(); //
             }
         }
         return Collections.emptyList();

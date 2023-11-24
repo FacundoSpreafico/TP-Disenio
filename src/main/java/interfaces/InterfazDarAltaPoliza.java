@@ -34,6 +34,8 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
+import DTO.PolizaDTO;
+import DTO.VehiculoDTO;
 import constantes.Images;
 import entidades.HijoCliente;
 import entidades.Marca;
@@ -67,7 +69,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JSeparator separator_1, separator_2, separator_3, separator_4, separator_5, separator_6, separator_7, separator_8, separator_9, separator_10, separator_10_1;
 
 	// JComboBoxes
-	private JComboBox comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;
+	private JComboBox<Object> comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;
 	private JComboBox comboBoxEstadoCivil, comboBoxSexo;
 
 	// JScrollPane
@@ -136,6 +138,11 @@ public class InterfazDarAltaPoliza extends JFrame {
     private JLabel lblLocalidadDeRiesgo;
     private JLabel lblSimbolo_10;
     private JComboBox<Object> comboBoxLocalidadRiesgo;
+    private VehiculoDTO vehiculoDTO;
+    private ClienteDTO clienteDTO;
+    private PolizaDTO polizaDTO;
+    
+    
     
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -615,26 +622,27 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza.add(comboBoxMarcaVehiculo);
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
 		
+		
+		
 		for (Marca marca: GestorVehiculo.getInstance().recuperarMarcas()) {
 			comboBoxMarcaVehiculo.addItem(marca.getNombreMarca());
 		}
 
-	    
 		comboBoxMarcaVehiculo.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        comboBoxModeloVehiculo.removeAllItems();
 		        
-		        String nombreMarca = comboBoxMarcaVehiculo.getSelectedItem().toString();
-
-		        if (!nombreMarca.isEmpty()) {
-		            List<Modelo> modelos = GestorVehiculo.getInstance().recuperarModelosPorMarca();
+		       Marca marca = GestorVehiculo.getInstance().recuperarMarcaPorNombre(comboBoxMarcaVehiculo.getSelectedItem().toString());
+		        if (marca!=null) {
+		            List<Modelo> modelos = GestorVehiculo.getInstance().recuperarModelosPorMarca(marca);
 		           for (Modelo modelo : modelos) {
 		                comboBoxModeloVehiculo.addItem(modelo.getNombreModelo());
 		            }
 		        }
 		    }
-		    
 		});
+	    
+		
 		
 		
 		

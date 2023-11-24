@@ -8,6 +8,8 @@ public class PolizaDTO {
 	private Double sumaAsegurada;	
 	private List<MedidaDeSeguridadDTO> medidasDeclaradas = new ArrayList<>();
 	private List<HijoClienteDTO> hijos = new ArrayList<>();
+	private CoberturaDTO cobertura = new CoberturaDTO();
+	
 	
 	public List<HijoClienteDTO> getHijos() {
 		return hijos;

@@ -397,8 +397,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnSiguiente_2 = new JButton("Siguiente");
 		btnSiguiente_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSiguiente_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+			public void actionPerformed(ActionEvent e) {	
 				try {
 					if(comboBoxCorrectos() && camposIngresados()) {
 						polizaDTO = new PolizaDTO();
@@ -408,14 +407,14 @@ public class InterfazDarAltaPoliza extends JFrame {
 						vehiculoDTO.setMotor(textFieldMotor.getText());
 						vehiculoDTO.setChasis(textFieldChasis.getText());
 						vehiculoDTO.setPatente(textFieldPatenteVehiculo.getText());
-						vehiculoDTO.setKmsUltAnio(comboBoxKmsPorAnio.toString());
-						vehiculoDTO.setNroSiniestros(comboBoxSiniestrosUltAnio.toString());
-						vehiculoDTO.setModelo(new ModeloDTO(comboBoxMarcaVehiculo.toString(),
-								                         comboBoxModeloVehiculo.toString(),
-								                         Integer.parseInt(comboBoxAnioVehiculo.toString())));
-						vehiculoDTO.setDomicilio(new DomicilioRiesgoDTO(comboBoxPaisRiesgo.toString(),
-					                                                    comboBoxProvinciaRiesgo.toString(),
-					                                                    comboBoxLocalidadRiesgo.toString()));
+						vehiculoDTO.setKmsUltAnio(comboBoxKmsPorAnio.getSelectedItem().toString());
+						vehiculoDTO.setNroSiniestros(comboBoxSiniestrosUltAnio.getSelectedItem().toString());
+						vehiculoDTO.setModelo(new ModeloDTO(comboBoxMarcaVehiculo.getSelectedItem().toString(),
+								                         comboBoxModeloVehiculo.getSelectedItem().toString(),
+								                         Integer.parseInt(comboBoxAnioVehiculo.getSelectedItem().toString())));
+						vehiculoDTO.setDomicilio(new DomicilioRiesgoDTO(comboBoxPaisRiesgo.getSelectedItem().toString(),
+					                                                    comboBoxProvinciaRiesgo.getSelectedItem().toString(),
+					                                                    comboBoxLocalidadRiesgo.getSelectedItem().toString()));
 						
 						//Implementar
 						GestorVehiculo.getInstance().validarDatosVehiculo(vehiculoDTO);

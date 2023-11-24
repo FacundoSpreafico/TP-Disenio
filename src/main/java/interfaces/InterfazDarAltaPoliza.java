@@ -914,19 +914,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldNroDNI);
 		textFieldNroDNI.setColumns(10);
 		configuracionTextField(textFieldNroDNI);
-		
-		JButton btnSiguiente_1_1 = new JButton("Pasar");
-		btnSiguiente_1_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				tabbedCrearPoliza.setSelectedIndex(1);
-				
-			}
-		});
-		btnSiguiente_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnSiguiente_1_1.setFocusable(false);
-		btnSiguiente_1_1.setEnabled(true);
-		btnSiguiente_1_1.setBounds(20, 358, 89, 23);
-		buscarCliente.add(btnSiguiente_1_1);
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);

@@ -627,11 +627,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        String nombreMarca = comboBoxMarcaVehiculo.getSelectedItem().toString();
 
 		        if (!nombreMarca.isEmpty()) {
-		//            List<Modelo> modelos = GestorVehiculo.getInstance().
-
-		       //     for (Modelo modelo : modelos) {
-		      //          comboBoxModeloVehiculo.addItem(modelo.getNombreModelo());
-		       //     }
+		            List<Modelo> modelos = GestorVehiculo.getInstance().recuperarModelosPorMarca();
+		           for (Modelo modelo : modelos) {
+		                comboBoxModeloVehiculo.addItem(modelo.getNombreModelo());
+		            }
 		        }
 		    }
 		    

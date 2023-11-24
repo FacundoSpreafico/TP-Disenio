@@ -2,7 +2,10 @@ package entidades;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -20,7 +23,9 @@ public class Modelo {
 	private Integer aniofabricacionDesde;
 	@Column(name = "fabricacionHasta")
 	private Integer aniofabricacionHasta;
-	@OneToOne
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_marca")
 	private Marca marca;
 	
 	public String getNombreModelo() {

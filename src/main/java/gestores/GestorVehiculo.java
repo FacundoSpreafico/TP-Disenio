@@ -34,9 +34,9 @@ public class GestorVehiculo {
 	public List<Marca> recuperarMarcas() {
 		return marcaDAO.recuperarMarcas();
 	}
-	//public List<Modelo> recuperarModelosPorMarca() {
-	//	return modeloDAO.recuperarModelosPorMarca();
-	//}
+	public List<Modelo> recuperarModelosPorMarca() {
+		return modeloDAO.recuperarModelosPorMarca();
+	}
 	
 	
 }

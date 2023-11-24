@@ -35,12 +35,14 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
+import DTO.CoberturaDTO;
 import DTO.DomicilioRiesgoDTO;
 import DTO.HijoClienteDTO;
 import DTO.ModeloDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
 import constantes.Images;
+import entidades.Cobertura;
 import entidades.Localidad;
 import entidades.Marca;
 import entidades.Modelo;
@@ -48,6 +50,7 @@ import entidades.Pais;
 import entidades.Provincia;
 import excepciones.DatosNoIngresadosException;
 import gestores.GestorCliente;
+import gestores.GestorCobertura;
 import gestores.GestorLocalidad;
 import gestores.GestorVehiculo;
 import DTO.MedidaDeSeguridadDTO;
@@ -107,7 +110,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JComboBox<Object> comboBoxPaisRiesgo, comboBoxLocalidadRiesgo, comboBoxProvinciaRiesgo,
 	comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;
 	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor;
-	
+	JDateChooser fechaInicio;
 	private JTextField textFieldApellido_3;
 	private JTextField textFieldNombre_3;
 	private JPanel panelTipoPoliza;
@@ -196,8 +199,14 @@ public class InterfazDarAltaPoliza extends JFrame {
 					textFieldChasis_1.setText(vehiculoDTO.getChasis());
 					textField_Motor.setText(vehiculoDTO.getMotor());
 					textField_Patente.setText(vehiculoDTO.getPatente());
-				//	fechaInicio_1.setText(vehiculoDTO)
-				//	fechaFin
+					fechaInicio = new JDateChooser();
+					Calendar calendar = Calendar.getInstance();
+			        // Sumar un día
+			        calendar.add(Calendar.DAY_OF_YEAR, 1);
+			        Date dateTomorrow = calendar.getTime();
+					fechaInicio.setDate(dateTomorrow);
+					
+					
 					List<HijoClienteDTO> hijosCliente = new ArrayList<HijoClienteDTO>();
 					int cantFilas = tablaHijos.getRowCount();
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1099,6 +1108,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 	public void pestaniaTipoPoliza() {
 		configuracionTipoPoliza();
 		
+		
+		
 		JPanel panelContextoCliente_2 = new JPanel();
 		panelContextoCliente_2.setLayout(null);
 		panelContextoCliente_2.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -1128,22 +1139,23 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblNombre_1_1.setBounds(24, 27, 46, 14);
 		panelContextoCliente_2.add(lblNombre_1_1);
 		
-		textFieldApellido_3 = new JTextField();
-		textFieldApellido_3.setBackground(new Color(255, 255, 255));
-		textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
-		textFieldApellido_3.setColumns(10);
-		textFieldApellido_3.setBounds(441, 19, 123, 20);
-		configuracionTextField(textFieldApellido_3);
-		panelContextoCliente_2.add(textFieldApellido_3);
+			
+			textFieldNombre_3 = new JTextField();
+			textFieldNombre_3.setBackground(new Color(255, 255, 255));
+			textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
+			textFieldNombre_3.setColumns(10);
+			textFieldNombre_3.setBounds(80, 19, 123, 20);
+			configuracionTextField(textFieldNombre_3);
+			panelContextoCliente_2.add(textFieldNombre_3);
+			textFieldApellido_3 = new JTextField();
+			textFieldApellido_3.setBackground(new Color(255, 255, 255));
+			textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
+			textFieldApellido_3.setColumns(10);
+			textFieldApellido_3.setBounds(441, 19, 123, 20);
+			configuracionTextField(textFieldApellido_3);
+			panelContextoCliente_2.add(textFieldApellido_3);
 		
-		
-		textFieldNombre_3 = new JTextField();
-		textFieldNombre_3.setBackground(new Color(255, 255, 255));
-		textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
-		textFieldNombre_3.setColumns(10);
-		textFieldNombre_3.setBounds(80, 19, 123, 20);
-		configuracionTextField(textFieldNombre_3);
-		panelContextoCliente_2.add(textFieldNombre_3);
+	
 		
 		
 		panelTipoPoliza = new JPanel();
@@ -1191,10 +1203,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxTipoCobertura.addItem("<Seleccione>");
 		panelTipoPoliza.add(comboBoxTipoCobertura);
 		
-		/*for (CoberturaDTO coberturas: GestorCobertura.getInstance().recuperarCoberturas()) {
+		for (Cobertura coberturas: GestorCobertura.getInstance().recuperarCoberturas()) {
 		comboBoxTipoCobertura.addItem(coberturas.getNombreCobertura());	
 		}
-		*/
+		
 		
 		JComboBox comboBoxFormaDePago = new JComboBox();
 		comboBoxFormaDePago.setBounds(173, 76, 154, 22);
@@ -1204,11 +1216,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxFormaDePago.addItem("Semestral");
 		
 
-		JDateChooser fechaInicio = new JDateChooser();
+		fechaInicio = new JDateChooser();
 		fechaInicio.setBounds(533, 32, 154, 20);
 		panelTipoPoliza.add(fechaInicio);
-		Date dateToday = new Date();
-		fechaInicio.setDate(dateToday);
+		Calendar calendar = Calendar.getInstance();
+		Date dateToday = calendar.getTime();
+        // Sumar un día
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date dateTomorrow = calendar.getTime();
+		fechaInicio.setDate(dateTomorrow);
 		
 		JButton btnSiguiente_1_1 = new JButton("Siguiente");
 		btnSiguiente_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -1221,7 +1237,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        String formaDePagoSeleccionada = comboBoxFormaDePago.getSelectedItem().toString();
 		        tabbedConfirmarPoliza.setSelectedIndex(1);
 		        configuracionGeneracionPoliza();
+		        
 		        JPanel panelCuotas = null;
+		        
 		        if ("Semestral".equals(formaDePagoSeleccionada)) {
 		        	configuracionPanelCuotasSemestrales();
 		            panelCuotas = panelCuotasSemestral;
@@ -1308,7 +1326,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tipoPoliza.setBackground(Color.WHITE);
 		tabbedConfirmarPoliza.addTab("Tipo de poliza", null, tipoPoliza, null);
 		tipoPoliza.setLayout(null);
-		
 		
 		generacionPoliza = new JPanel();
 		generacionPoliza.setBackground(Color.WHITE);
@@ -1493,12 +1510,20 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblFechaInicio_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblFechaInicio_1_1.setBounds(331, 263, 79, 14);
 		panelGeneracionPoliza.add(lblFechaInicio_1_1);
+	    /*
+		Date fechaInicio_1_date = fechaInicio_1.getDate();
+
+		Calendar calendar = Calendar.getInstance();
+	    calendar.setTime(fechaInicio_1_date);
+	    calendar.add(Calendar.DAY_OF_YEAR, 30);
+	    Date fechaFin_date = calendar.getTime();
+	    */
 		
 		JDateChooser fechaFin = new JDateChooser();
 		fechaFin.setEnabled(false);
 		fechaFin.setBounds(434, 263, 170, 20);
 		panelGeneracionPoliza.add(fechaFin);
-		
+	//	fechaFin.setDate(fechaFin_date);
     }
     public void actualizarCamposCliente(ClienteDTO cliente) {
         textFieldApellido.setText(cliente.getApellido());

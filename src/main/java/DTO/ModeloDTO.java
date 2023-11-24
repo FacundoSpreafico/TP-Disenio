@@ -1,6 +1,7 @@
 package DTO;
 
 public class ModeloDTO {
+	private int idModelo;
 	private String nombreMarca;
 	private String nombreModelo;
 	private int anioFabricacion;
@@ -33,5 +34,11 @@ public class ModeloDTO {
 	}
 	public void setAnioFabricacion(int anioFabricacion) {
 		this.anioFabricacion = anioFabricacion;
+	}
+	public int getIdModelo() {
+		return idModelo;
+	}
+	public void setIdModelo(int idModelo) {
+		this.idModelo = idModelo;
 	}	
 }

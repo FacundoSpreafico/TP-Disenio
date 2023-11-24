@@ -367,6 +367,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxModeloVehiculo.setEnabled(false);
 		datosVehiculo.add(comboBoxModeloVehiculo);
 		
+		
 		//campo anio
 		comboBoxAnioVehiculo = new JComboBox<>();
 		comboBoxAnioVehiculo.setBackground(Color.WHITE);
@@ -374,6 +375,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxAnioVehiculo.addItem("<Seleccione>");
 		comboBoxAnioVehiculo.setEnabled(false);
 		datosVehiculo.add(comboBoxAnioVehiculo);
+		
 		
 		//campo motor
 		textFieldMotor = new JTextField();
@@ -410,7 +412,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 						vehiculoDTO.setNroSiniestros(comboBoxSiniestrosUltAnio.toString());
 						vehiculoDTO.setModelo(new ModeloDTO(comboBoxMarcaVehiculo.toString(),
 								                         comboBoxModeloVehiculo.toString(),
-								                         /*Integer.parseInt(comboBoxAnioVehiculo.toString())*/2000));
+								                         Integer.parseInt(comboBoxAnioVehiculo.toString())));
 						vehiculoDTO.setDomicilio(new DomicilioRiesgoDTO(comboBoxPaisRiesgo.toString(),
 					                                                    comboBoxProvinciaRiesgo.toString(),
 					                                                    comboBoxLocalidadRiesgo.toString()));
@@ -717,19 +719,47 @@ public class InterfazDarAltaPoliza extends JFrame {
 
 		comboBoxMarcaVehiculo.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+		        String selectedItem = comboBoxMarcaVehiculo.getSelectedItem() != null
+		                ? comboBoxMarcaVehiculo.getSelectedItem().toString()
+		                : "";
 		        comboBoxModeloVehiculo.removeAllItems();
-		        comboBoxAnioVehiculo.removeAllItems();
-		        
 		        comboBoxModeloVehiculo.addItem("<Seleccione>");
-				comboBoxAnioVehiculo.addItem("<Seleccione>");
-		        
-		       Marca marca = GestorVehiculo.getInstance().recuperarMarcaPorNombre(comboBoxMarcaVehiculo.getSelectedItem().toString());
-		        if (marca!=null) {
+		      
+		        Marca marca = GestorVehiculo.getInstance().recuperarMarcaPorNombre(selectedItem);
+		        if (marca != null) {
+		            comboBoxModeloVehiculo.removeAllItems();
+		            comboBoxAnioVehiculo.removeAllItems();
+
 		            List<Modelo> modelos = GestorVehiculo.getInstance().recuperarModelosPorMarca(marca);
+		            comboBoxModeloVehiculo.addItem("<Seleccione>");
 		            comboBoxModeloVehiculo.setEnabled(true);
 		            comboBoxAnioVehiculo.setEnabled(false);
-		           for (Modelo modelo : modelos) {
+
+		            for (Modelo modelo : modelos) {
 		                comboBoxModeloVehiculo.addItem(modelo.getNombreModelo());
+		            }
+
+		            comboBoxModeloVehiculo.setSelectedIndex(0);
+		        }
+		    }
+		});
+
+		comboBoxModeloVehiculo.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String selectedItem = comboBoxModeloVehiculo.getSelectedItem() != null
+		                ? comboBoxModeloVehiculo.getSelectedItem().toString()
+		                : "";
+		        comboBoxAnioVehiculo.removeAllItems();
+		        comboBoxAnioVehiculo.addItem("<Seleccione>");
+
+		        if (!"<Seleccione>".equals(selectedItem)) {
+		            Modelo modelo = GestorVehiculo.getInstance().recuperarModeloPorNombre(selectedItem);
+
+		            if (modelo != null) {
+			            comboBoxAnioVehiculo.setEnabled(true);
+		                for (int i = modelo.getAniofabricacionDesde(); i <= modelo.getAniofabricacionHasta(); i++) {
+		                    comboBoxAnioVehiculo.addItem(i);
+		                }
 		            }
 		        }
 		    }

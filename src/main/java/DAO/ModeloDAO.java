@@ -7,7 +7,7 @@ import entidades.Modelo;
 
 public interface ModeloDAO {
 	
-	List<Modelo> recuperarModelosPorMarca(Marca marca);
-	
+	public List<Modelo> recuperarModelosPorMarca(Marca marca);
+	public Modelo recuperarModeloPorNombre(String modelo);
 	
 }

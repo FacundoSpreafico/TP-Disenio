@@ -27,6 +27,12 @@ public class Modelo {
 	@JoinColumn(name = "id_marca")
 	private Marca marca;
 	
+	public int getIdModelo() {
+		return idModelo;
+	}
+	public void setIdModelo(int idModelo) {
+		this.idModelo = idModelo;
+	}
 	public String getNombreModelo() {
 		return nombreModelo;
 	}

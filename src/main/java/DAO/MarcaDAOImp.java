@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 
 import entidades.Cliente;
 import entidades.Marca;
+import entidades.Modelo;
 
 
 public class MarcaDAOImp implements MarcaDAO{
@@ -46,8 +47,6 @@ public class MarcaDAOImp implements MarcaDAO{
 		
 		return null;
 	}
-	
-	
 	
 	
 	

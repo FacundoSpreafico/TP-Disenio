@@ -1,13 +1,26 @@
 package entidades;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table (name = "modelo")
 
 public class Modelo {
+	
+	@Id
+	@Column(name = "id_modelo")
+	private int idModelo;
+	@Column(name = "nombre_modelo")
 	private String nombreModelo;
+	@Column(name = "fabricacionDesde")
 	private Integer aniofabricacionDesde;
+	@Column(name = "fabricacionHasta")
 	private Integer aniofabricacionHasta;
+	@OneToOne
 	private Marca marca;
 	
 	public String getNombreModelo() {

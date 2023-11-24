@@ -14,15 +14,14 @@ import entidades.Marca;
 
 
 public class MarcaDAOImp implements MarcaDAO{
-	 public static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Cliente.class).buildSessionFactory();
+	public static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Marca.class).buildSessionFactory();
 	@Override
 	public List<Marca> recuperarMarcas() {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-
             try {
                 String hql = "FROM Marca";
-                Query<Marca> query = session.createQuery(hql, Marca.class);
+                Query<Marca> query = session.createQuery(hql,Marca.class);
                 List<Marca> marcas = query.getResultList();
 
                 transaction.commit();
@@ -36,6 +35,9 @@ public class MarcaDAOImp implements MarcaDAO{
         }
         return Collections.emptyList();
     }
+	
+	
+	
 	
 	
 	

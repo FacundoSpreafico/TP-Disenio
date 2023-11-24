@@ -33,7 +33,7 @@ public class Cliente {
 	@Column(name = "sexo")
 	private String sexo;
 
-	@Column(name = "nro_cliente")
+	@Column(name = "nro_cliente",unique=true)
 	private String nroCliente;
 
 	@Column(name = "tipo_documento")

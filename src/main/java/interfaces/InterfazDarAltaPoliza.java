@@ -37,6 +37,7 @@ import DTO.ClienteDTO;
 import constantes.Images;
 import entidades.HijoCliente;
 import entidades.Marca;
+import entidades.Modelo;
 import gestores.GestorVehiculo;
 
 public class InterfazDarAltaPoliza extends JFrame {
@@ -613,6 +614,38 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxMarcaVehiculo.setBounds(158, 78, 154, 22);
 		panelPoliza.add(comboBoxMarcaVehiculo);
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
+		
+		for (Marca marca: GestorVehiculo.getInstance().recuperarMarcas()) {
+			comboBoxMarcaVehiculo.addItem(marca.getNombreMarca());
+		}
+
+	    
+		comboBoxMarcaVehiculo.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        comboBoxModeloVehiculo.removeAllItems();
+		        
+		        String nombreMarca = comboBoxMarcaVehiculo.getSelectedItem().toString();
+
+		        if (!nombreMarca.isEmpty()) {
+		//            List<Modelo> modelos = GestorVehiculo.getInstance().
+
+		       //     for (Modelo modelo : modelos) {
+		      //          comboBoxModeloVehiculo.addItem(modelo.getNombreModelo());
+		       //     }
+		        }
+		    }
+		    
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		lblProvinciaDeRiesgo = new JLabel("Provincia de riesgo");
 		lblProvinciaDeRiesgo.setFont(new Font("Arial", Font.PLAIN, 12));

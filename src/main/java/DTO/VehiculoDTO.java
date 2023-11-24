@@ -9,6 +9,10 @@ public class VehiculoDTO {
 	private ModeloDTO modelo;
 	private DomicilioRiesgoDTO domicilio;
 	
+	public void setIdModelo(int idModelo) {
+		this.modelo.setIdModelo(idModelo);
+	}
+	
 	public String getMotor() {
 		return motor;
 	}

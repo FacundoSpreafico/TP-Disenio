@@ -14,10 +14,11 @@ import entidades.Pais;
 import entidades.Provincia;
 
 public class LocalidadDAOImp implements LocalidadDAO {
+	
+	private static SessionFactory sessionFactory = new Configuration()
+			.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
+	
 	public List<Pais> obtenerPaises(){
-		SessionFactory sessionFactory = new Configuration()
-				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
-		
 		try (Session session = sessionFactory.openSession()) {
             //Transaction transaction = session.beginTransaction();
 
@@ -42,9 +43,6 @@ public class LocalidadDAOImp implements LocalidadDAO {
 	}
 	
 	public Pais recuperarPaisPorNombre(String nombre) {
-		SessionFactory sessionFactory = new Configuration()
-				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
-		
 		try (Session session = sessionFactory.openSession()) {
             try {
                 String hql = "FROM Pais WHERE nombrePais = :nombre";
@@ -59,9 +57,6 @@ public class LocalidadDAOImp implements LocalidadDAO {
 	}
 	
 	public Provincia recuperarProvinciaPorNombre(String nombre) {
-		SessionFactory sessionFactory = new Configuration()
-				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
-		
 		try (Session session = sessionFactory.openSession()) {
             try {
                 String hql = "FROM Provincia WHERE nombreProvincia = :nombre";
@@ -77,12 +72,8 @@ public class LocalidadDAOImp implements LocalidadDAO {
 	
 	
 	public List<Provincia> obtenerProvincias(Pais pais){
-		SessionFactory sessionFactory = new Configuration()
-				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
-		
 		try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-
             try {
             	String hql = "FROM Provincia WHERE pais = :pais";
                 Query<Provincia> query = session.createQuery(hql, Provincia.class);
@@ -107,9 +98,6 @@ public class LocalidadDAOImp implements LocalidadDAO {
 		return Collections.emptyList();
 	}
 	public List<Localidad> obtenerLocalidades(Provincia provincia){
-		SessionFactory sessionFactory = new Configuration()
-				.configure("hibernate.cfg.xml").addAnnotatedClass(Pais.class).addAnnotatedClass(Provincia.class).addAnnotatedClass(Localidad.class).buildSessionFactory();
-		
 		try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
 

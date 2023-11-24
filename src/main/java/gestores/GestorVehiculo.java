@@ -15,10 +15,12 @@ import entidades.Modelo;
 public class GestorVehiculo {
 
 	private static GestorVehiculo _INSTANCE;	
-	private VehiculoDAO vehiculoDAO = new VehiculoDAOImp();
 	private MarcaDAO marcaDAO = new MarcaDAOImp();
 	private ModeloDAO modeloDAO = new ModeloDAOImp();
 	
+	public GestorVehiculo() {
+		
+	}
 	
 	public static GestorVehiculo getInstance() {
 		if (_INSTANCE == null) {

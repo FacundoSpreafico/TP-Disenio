@@ -42,9 +42,6 @@ public class MarcaDAOImp implements MarcaDAO{
             } catch (Exception e) {
             }
         }
-		
-		
-		
 		return null;
 	}
 	

@@ -1,9 +1,12 @@
 package entidades;
 
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 @Entity
 @Table(name = "marca")
@@ -16,6 +19,11 @@ public class Marca {
 	@Column(name = "nombre_marca")
 	private String nombreMarca;
 	
+	//Tratar de arreglarlo
+	/*
+    @OneToMany(mappedBy = "marca") 
+    private List<Modelo> modelo = new ArrayList<Modelo>();
+    */
 	public int getIdMarca() {
 		return idMarca;
 	}

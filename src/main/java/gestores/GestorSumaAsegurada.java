@@ -18,7 +18,12 @@ public class GestorSumaAsegurada {
 	}
 
 	public double devolverSumaAsegurada (ModeloDTO modelo) {
-		return sumaAseguradaDAO.devolverSumaAsegurada(modelo);
+		try { 
+		return sumaAseguradaDAO.devolverSumaAsegurada(modelo).getMonto();
+		}
+		catch(Exception e) {
+		}
+		return 0;
 	}
 
 }

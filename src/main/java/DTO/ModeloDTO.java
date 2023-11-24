@@ -5,7 +5,7 @@ public class ModeloDTO {
 	private String nombreMarca;
 	private String nombreModelo;
 	private int anioFabricacion;
-		
+    private double monto = 0.0;
 	
 	public ModeloDTO() {
 		

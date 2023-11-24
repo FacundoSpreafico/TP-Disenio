@@ -23,6 +23,7 @@ public class Modelo {
 	private Integer aniofabricacionDesde;
 	@Column(name = "fabricacionHasta")
 	private Integer aniofabricacionHasta;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_marca")
 	private Marca marca;

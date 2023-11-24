@@ -35,6 +35,7 @@ import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
 import DTO.DomicilioRiesgoDTO;
+import DTO.MedidaDeSeguridadDTO;
 import DTO.ModeloDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
@@ -47,6 +48,7 @@ import entidades.Pais;
 import entidades.Provincia;
 import excepciones.DatosNoIngresadosException;
 import gestores.GestorLocalidad;
+import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
 
 public class InterfazDarAltaPoliza extends JFrame {
@@ -154,8 +156,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     private VehiculoDTO vehiculoDTO;
     private ClienteDTO clienteDTO;
     private PolizaDTO polizaDTO;
-    
-    
+
     
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -171,8 +172,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		contentPane.setLayout(null);
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
-		
-		
+
 		
 		pestaniaCrearPoliza();
 	}
@@ -208,6 +208,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				dialogoCancelar();
 			}
 		});
+		
 		btnCancelar_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_3.setFocusable(false);
 		btnCancelar_3.setBounds(190, 404, 89, 23);
@@ -401,8 +402,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 				try {
 					if(comboBoxCorrectos() && camposIngresados()) {
 						polizaDTO = new PolizaDTO();
-						//Faltan agregar las medidas de seguridad
+						List<MedidaDeSeguridadDTO> listaMedidas = new ArrayList<>();
 						
+						agregarMedida(chckbxGuardaGarage.isSelected(), "Guarda en garage", listaMedidas);
+			            agregarMedida(chckbxtieneAlarma.isSelected(), "Tiene alarma", listaMedidas);
+			            agregarMedida(chckbxRastreoVehicular.isSelected(), "Posee dispositivo de rastreo vehicular", listaMedidas);
+			            agregarMedida(chckbxTuercasAntirrobos.isSelected(), "Posee tuercas antirrobo en las cuatro ruedas", listaMedidas);
+						
+			            polizaDTO.setMedidasDeclaradas(listaMedidas);
+			            
 						vehiculoDTO = new VehiculoDTO();
 						vehiculoDTO.setMotor(textFieldMotor.getText());
 						vehiculoDTO.setChasis(textFieldChasis.getText());
@@ -416,7 +424,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 					                                                    comboBoxProvinciaRiesgo.getSelectedItem().toString(),
 					                                                    comboBoxLocalidadRiesgo.getSelectedItem().toString()));
 						
-						//Implementar
+						vehiculoDTO.setIdModelo(GestorVehiculo.getInstance().recuperarModeloPorNombre(vehiculoDTO.getModelo().getNombreModelo()).getIdModelo());
+						
+						
 						GestorVehiculo.getInstance().validarDatosVehiculo(vehiculoDTO);
 
 						for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
@@ -711,21 +721,24 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza.add(comboBoxMarcaVehiculo);
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
 		
-		
+	
 		for (Marca marca: GestorVehiculo.getInstance().recuperarMarcas()) {
 			comboBoxMarcaVehiculo.addItem(marca.getNombreMarca());
 		}
 
 		comboBoxMarcaVehiculo.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
+				
 		        String selectedItem = comboBoxMarcaVehiculo.getSelectedItem() != null
 		                ? comboBoxMarcaVehiculo.getSelectedItem().toString()
 		                : "";
 		        comboBoxModeloVehiculo.removeAllItems();
+		        textFieldSumaAsegurada.setText("");
 		        comboBoxModeloVehiculo.addItem("<Seleccione>");
 		      
 		        Marca marca = GestorVehiculo.getInstance().recuperarMarcaPorNombre(selectedItem);
 		        if (marca != null) {
+		        	textFieldSumaAsegurada.setText("");
 		            comboBoxModeloVehiculo.removeAllItems();
 		            comboBoxAnioVehiculo.removeAllItems();
 
@@ -748,13 +761,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        String selectedItem = comboBoxModeloVehiculo.getSelectedItem() != null
 		                ? comboBoxModeloVehiculo.getSelectedItem().toString()
 		                : "";
+		        textFieldSumaAsegurada.setText("");
 		        comboBoxAnioVehiculo.removeAllItems();
 		        comboBoxAnioVehiculo.addItem("<Seleccione>");
 
 		        if (!"<Seleccione>".equals(selectedItem)) {
 		            Modelo modelo = GestorVehiculo.getInstance().recuperarModeloPorNombre(selectedItem);
-
+		            textFieldSumaAsegurada.setText("");
 		            if (modelo != null) {
+		            	
 			            comboBoxAnioVehiculo.setEnabled(true);
 		                for (int i = modelo.getAniofabricacionDesde(); i <= modelo.getAniofabricacionHasta(); i++) {
 		                    comboBoxAnioVehiculo.addItem(i);
@@ -762,6 +777,27 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            }
 		        }
 		    }
+		});
+		
+		comboBoxAnioVehiculo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModeloDTO modelo = new ModeloDTO();
+                  if (comboBoxAnioVehiculo.getSelectedItem() != null && !comboBoxAnioVehiculo.getSelectedItem().toString().equals("<Seleccione>")) {
+                	modelo.setNombreModelo(comboBoxModeloVehiculo.getSelectedItem().toString()); 
+                	modelo.setAnioFabricacion(Integer.parseInt(comboBoxAnioVehiculo.getSelectedItem().toString()));
+                	modelo.setIdModelo(GestorVehiculo.getInstance().recuperarModeloPorNombre(modelo.getNombreModelo()).getIdModelo());
+                	GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo);
+                	if (GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo) == 0) {
+                		textFieldSumaAsegurada.setText("");
+                	}
+                	else {
+                    textFieldSumaAsegurada.setText(String.valueOf(GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo)));
+                	}
+                  }
+                  else {
+                	  textFieldSumaAsegurada.setText("");
+                  }
+				  }
 		});
 
 		lblProvinciaDeRiesgo = new JLabel("Provincia de riesgo");
@@ -819,11 +855,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxLocalidadRiesgo.addItem("<Seleccione>");
 		comboBoxLocalidadRiesgo.setEnabled(false);
 		panelPoliza.add(comboBoxLocalidadRiesgo);
-		
-		
-		
-		
 	}
+	
+	
     public void pestaniaBuscarCliente() {
 		configuracionBuscarCliente();
 		btnSiguiente_1 = new JButton("Siguiente");
@@ -855,7 +889,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnDarAltaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this,
-					    "Función no implementada.",
+					    "Proximamente.",
 					    "MILEI 2023",
 					    JOptionPane.WARNING_MESSAGE
 					);
@@ -1112,7 +1146,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		JLabel lblSimbolo_12_2 = new JLabel("(*)");
 		lblSimbolo_12_2.setForeground(Color.RED);
 		lblSimbolo_12_2.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSimbolo_12_2.setBounds(505, 36, 18, 14);
+		lblSimbolo_12_2.setBounds(514, 36, 18, 14);
 		panelTipoPoliza.add(lblSimbolo_12_2);
 		
 		JComboBox comboBoxTipoCobertura = new JComboBox();
@@ -1938,8 +1972,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		                    model.fireTableDataChanged();
 	        			}
 	        		}
-			 
-			 
         } else {
             System.out.println("No hay fila seleccionada. Deshabilitando el botón.");
             btnEditar.setEnabled(false);
@@ -2019,12 +2051,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tabbedCrearPoliza.setSelectedIndex(index-1);
 		configuracionDatosVehiculo();
 		break;
-		
-		
 		}
 	}
-    
-
+    public void agregarMedida(boolean isSelected, String medida, List<MedidaDeSeguridadDTO> listaMedidas) {
+        if (isSelected) {
+            listaMedidas.add(new MedidaDeSeguridadDTO(medida));
+        }
+    }
     public boolean comboBoxCorrectos() {
     	if(comboBoxPaisRiesgo.getSelectedItem().toString() != "<Seleccione>"
     	   && comboBoxLocalidadRiesgo.getSelectedItem().toString() != "<Seleccione>"

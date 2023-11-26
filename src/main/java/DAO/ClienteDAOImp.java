@@ -21,10 +21,9 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
 public class ClienteDAOImp implements ClienteDAO {
-    private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").addAnnotatedClass(Cliente.class).buildSessionFactory();
-
+    
     public void create(Cliente cliente) {
-		Session session = sessionFactory.openSession();
+		Session session = SessionHibernate.getInstance().getSession().openSession();
     	try {
         session.beginTransaction();
 	    session.save(cliente);
@@ -36,7 +35,7 @@ public class ClienteDAOImp implements ClienteDAO {
 	}
     
     public List<Cliente> buscarClientes(ClienteDTO clienteDTO) {
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = SessionHibernate.getInstance().getSession().openSession()) {
         	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
             Root<Cliente> root = criteriaQuery.from(Cliente.class);
@@ -81,7 +80,7 @@ public class ClienteDAOImp implements ClienteDAO {
     }
     
     public int recuperarID(String nroCliente) {
-    	try(Session session = sessionFactory.openSession()){
+    	try(Session session = SessionHibernate.getInstance().getSession().openSession()){
     		try {
                 String hql = "SELECT idCliente FROM Cliente WHERE nroCliente = :nro";
                 Query<Integer> query = session.createQuery(hql,Integer.class);

@@ -24,6 +24,7 @@ public class ModeloDAOImp implements ModeloDAO {
 				.addAnnotatedClass(Usuario.class)
 				.addAnnotatedClass(PerfilUsuario.class)
 				.buildSessionFactory();
+	 
 	@Override
 	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
 		try (Session session = sessionFactory.openSession()) {

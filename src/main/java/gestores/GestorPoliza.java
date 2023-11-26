@@ -26,8 +26,6 @@ public class GestorPoliza {
 		Poliza poliza = new Poliza();
 		setearAtributosSimples(poliza,polizaDTO);
 		
-		
-		
 		return "return";
 	}
 	

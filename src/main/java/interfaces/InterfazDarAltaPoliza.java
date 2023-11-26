@@ -176,8 +176,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
 		
-		
-		
 		pestaniaCrearPoliza();
 	}
 
@@ -932,8 +930,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnDarAltaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this,
-					    "Proximamente.",
-					    "MILEI 2023",
+					    "Funcion no implementada :(",
+					    "Proximamente",
 					    JOptionPane.WARNING_MESSAGE
 					);
 				
@@ -1927,7 +1925,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textField.setBorder(null);
 		textField.setFocusable(false);
 		textField.setBackground(Color.WHITE);
-		textField.setEnabled(false);
+		textField.setEnabled(true);
 	}
 	public void configuracionBuscarCliente() {
 		tabbedCrearPoliza.setSelectedIndex(0);

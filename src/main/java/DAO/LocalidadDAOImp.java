@@ -16,20 +16,9 @@ import entidades.PerfilUsuario;
 import entidades.Provincia;
 import entidades.Usuario;
 
-public class LocalidadDAOImp implements LocalidadDAO {
-	private static SessionFactory sessionFactory = new Configuration()
-			.configure("hibernate.cfg.xml")
-			.addAnnotatedClass(Localidad.class)
-			.addAnnotatedClass(Pais.class)
-			.addAnnotatedClass(Provincia.class)
-			.addAnnotatedClass(HistorialPorcentajeRiesgo.class)
-			.addAnnotatedClass(Usuario.class)
-			.addAnnotatedClass(PerfilUsuario.class)
-			.buildSessionFactory();
-	
-	
+public class LocalidadDAOImp implements LocalidadDAO {	
 	public List<Pais> obtenerPaises(){
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             //Transaction transaction = session.beginTransaction();
 
             try {
@@ -53,7 +42,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
 	}
 	
 	public Pais recuperarPaisPorNombre(String nombre) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
                 String hql = "FROM Pais WHERE nombrePais = :nombre";
                 Query<Pais> query = session.createQuery(hql,Pais.class);
@@ -67,7 +56,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
 	}
 	
 	public Provincia recuperarProvinciaPorNombre(String nombre) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
                 String hql = "FROM Provincia WHERE nombreProvincia = :nombre";
                 Query<Provincia> query = session.createQuery(hql,Provincia.class);
@@ -82,7 +71,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
 	
 	
 	public List<Provincia> obtenerProvincias(Pais pais){
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
             try {
@@ -109,7 +98,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
 		return Collections.emptyList();
 	}
 	public List<Localidad> obtenerLocalidades(Provincia provincia){
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
             try {

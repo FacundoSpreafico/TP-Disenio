@@ -16,16 +16,9 @@ import entidades.Usuario;
 
 
 public class MarcaDAOImp implements MarcaDAO{
-	public static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml")
-			.addAnnotatedClass(Marca.class)
-			.addAnnotatedClass(Modelo.class)
-			.addAnnotatedClass(HistorialEstadisticaRobo.class)
-			.addAnnotatedClass(Usuario.class)
-			.addAnnotatedClass(PerfilUsuario.class)
-			.buildSessionFactory();
 	@Override
 	public List<Marca> recuperarMarcas() {
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
                 String hql = "FROM Marca";
                 Query<Marca> query = session.createQuery(hql,Marca.class);
@@ -40,7 +33,7 @@ public class MarcaDAOImp implements MarcaDAO{
     }
 	@Override
 	public Marca recuperarMarcaPorNombre(String nombre) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
                 String hql = "FROM Marca WHERE nombreMarca = :nombre";
                 Query<Marca> query = session.createQuery(hql,Marca.class);

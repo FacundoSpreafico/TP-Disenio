@@ -13,15 +13,8 @@ import entidades.PerfilUsuario;
 import entidades.Usuario;
 
 public class CoberturaDAOImp implements CoberturaDAO{
-	public static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml")
-			.addAnnotatedClass(Cobertura.class)
-			.addAnnotatedClass(HistorialPorcentajeCobertura.class)
-			.addAnnotatedClass(Usuario.class)
-			.addAnnotatedClass(PerfilUsuario.class)
-			.buildSessionFactory();
-	
 	public List<Cobertura> recuperarCoberturas(){
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
                 String hql = "FROM Cobertura";
                 Query<Cobertura> query = session.createQuery(hql,Cobertura.class);

@@ -23,7 +23,7 @@ import jakarta.persistence.criteria.Root;
 public class ClienteDAOImp implements ClienteDAO {
     
     public void create(Cliente cliente) {
-		Session session = SessionHibernate.getInstance().getSession().openSession();
+		Session session = SessionHibernate.getInstance().getSessionFactory().openSession();
     	try {
         session.beginTransaction();
 	    session.save(cliente);
@@ -35,7 +35,7 @@ public class ClienteDAOImp implements ClienteDAO {
 	}
     
     public List<Cliente> buscarClientes(ClienteDTO clienteDTO) {
-        try (Session session = SessionHibernate.getInstance().getSession().openSession()) {
+        try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
         	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
             Root<Cliente> root = criteriaQuery.from(Cliente.class);
@@ -80,7 +80,7 @@ public class ClienteDAOImp implements ClienteDAO {
     }
     
     public int recuperarID(String nroCliente) {
-    	try(Session session = SessionHibernate.getInstance().getSession().openSession()){
+    	try(Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
     		try {
                 String hql = "SELECT idCliente FROM Cliente WHERE nroCliente = :nro";
                 Query<Integer> query = session.createQuery(hql,Integer.class);

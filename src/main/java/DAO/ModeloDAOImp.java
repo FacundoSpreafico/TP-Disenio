@@ -17,17 +17,9 @@ import entidades.PerfilUsuario;
 import entidades.Usuario;
 
 public class ModeloDAOImp implements ModeloDAO {
-	 private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml")
-			    .addAnnotatedClass(Marca.class)
-				.addAnnotatedClass(Modelo.class)
-				.addAnnotatedClass(HistorialEstadisticaRobo.class)
-				.addAnnotatedClass(Usuario.class)
-				.addAnnotatedClass(PerfilUsuario.class)
-				.buildSessionFactory();
-	 
 	@Override
 	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
                 String hql = "FROM Modelo WHERE marca = :idMarca";
                 Query<Modelo> query = session.createQuery(hql,Modelo.class);
@@ -41,7 +33,7 @@ public class ModeloDAOImp implements ModeloDAO {
 	}
 
 	public Modelo recuperarModeloPorNombre(String nombre) {
-		try (Session session = sessionFactory.openSession()) {
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
                 String hql = "FROM Modelo WHERE nombreModelo = :nombre";
                 Query<Modelo> query = session.createQuery(hql,Modelo.class);

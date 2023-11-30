@@ -14,17 +14,9 @@ import entidades.SumaAsegurada;
 import entidades.Usuario;
 
 public class SumaAseguradaDAOImp implements SumaAseguradaDAO{
-	private static final SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml")
-			.addAnnotatedClass(SumaAsegurada.class)
-			.addAnnotatedClass(Marca.class)
-			.addAnnotatedClass(Modelo.class)
-			.addAnnotatedClass(HistorialEstadisticaRobo.class)
-			.addAnnotatedClass(Usuario.class)
-			.addAnnotatedClass(PerfilUsuario.class)
-			.buildSessionFactory();
 	public SumaAsegurada devolverSumaAsegurada(ModeloDTO modelo) {
 	    
-		try (Session session = sessionFactory.openSession()){
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
     	 try {
              String hql = "FROM SumaAsegurada WHERE modelo.idModelo = :idModelo AND anioFabricacion = :anio";
              Query<SumaAsegurada> query = session.createQuery(hql,SumaAsegurada.class);

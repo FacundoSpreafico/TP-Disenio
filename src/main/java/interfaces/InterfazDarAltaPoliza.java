@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -35,9 +36,9 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
-import DTO.CoberturaDTO;
 import DTO.DomicilioRiesgoDTO;
 import DTO.HijoClienteDTO;
+import DTO.MedidaDeSeguridadDTO;
 import DTO.ModeloDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
@@ -49,12 +50,12 @@ import entidades.Modelo;
 import entidades.Pais;
 import entidades.Provincia;
 import excepciones.DatosNoIngresadosException;
+import excepciones.FechaInicioInvalidaException;
 import gestores.GestorCliente;
 import gestores.GestorCobertura;
 import gestores.GestorLocalidad;
-import gestores.GestorVehiculo;
-import DTO.MedidaDeSeguridadDTO;
 import gestores.GestorSumaAsegurada;
+import gestores.GestorVehiculo;
 
 
 public class InterfazDarAltaPoliza extends JFrame {
@@ -1198,7 +1199,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblSimbolo_12_2.setBounds(505, 36, 18, 14);
 		panelTipoPoliza.add(lblSimbolo_12_2);
 		
-		JComboBox comboBoxTipoCobertura = new JComboBox();
+		JComboBox<String> comboBoxTipoCobertura = new JComboBox<String>();
 		comboBoxTipoCobertura.setBounds(173, 32, 154, 22);
 		comboBoxTipoCobertura.addItem("<Seleccione>");
 		panelTipoPoliza.add(comboBoxTipoCobertura);
@@ -1208,7 +1209,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		}
 		
 		
-		JComboBox comboBoxFormaDePago = new JComboBox();
+		JComboBox<String> comboBoxFormaDePago = new JComboBox<String>();
 		comboBoxFormaDePago.setBounds(173, 76, 154, 22);
 		panelTipoPoliza.add(comboBoxFormaDePago);
 		comboBoxFormaDePago.addItem("<Seleccione>");
@@ -1220,7 +1221,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		fechaInicio.setBounds(533, 32, 154, 20);
 		panelTipoPoliza.add(fechaInicio);
 		Calendar calendar = Calendar.getInstance();
-		Date dateToday = calendar.getTime();
+		//Date dateToday = calendar.getTime();
         // Sumar un día
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date dateTomorrow = calendar.getTime();
@@ -1233,21 +1234,34 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tipoPoliza.add(btnSiguiente_1_1);
 		
 		btnSiguiente_1_1.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        String formaDePagoSeleccionada = comboBoxFormaDePago.getSelectedItem().toString();
-		        tabbedConfirmarPoliza.setSelectedIndex(1);
-		        configuracionGeneracionPoliza();
-		        
+		    public void actionPerformed(ActionEvent e) {		        
 		        JPanel panelCuotas = null;
-		        
-		        if ("Semestral".equals(formaDePagoSeleccionada)) {
-		        	configuracionPanelCuotasSemestrales();
-		            panelCuotas = panelCuotasSemestral;
-		        } else {
-		        	configuracionPanelCuotasMensuales();
-		            panelCuotas = panelCuotasMensuales;
-		        }
-		        tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
+		        try {
+		        	if(comboBoxTipoCobertura.getSelectedItem().toString() != "<Seleccione>"
+		        	&& comboBoxFormaDePago.getSelectedItem().toString() != "<Seleccione>"
+		        	&& fechaInicioEsValida(fechaInicio.getDate())) {
+		        		
+				        String formaDePagoSeleccionada = comboBoxFormaDePago.getSelectedItem().toString();
+				        tabbedConfirmarPoliza.setSelectedIndex(1);
+				        configuracionGeneracionPoliza();
+		        		if ("Semestral".equals(formaDePagoSeleccionada)) {
+				        	configuracionPanelCuotasSemestrales();
+				            panelCuotas = panelCuotasSemestral;
+				        } else if ("Mensual".equals(formaDePagoSeleccionada)){
+				        	configuracionPanelCuotasMensuales();
+				            panelCuotas = panelCuotasMensuales;
+				        }
+		        		 tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
+		        	} else if(!fechaInicioEsValida(fechaInicio.getDate())){
+		        		throw(new FechaInicioInvalidaException());
+		        	} else {
+						throw(new DatosNoIngresadosException());
+			        }
+		        } catch(DatosNoIngresadosException e1) {
+					JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this, "Alguno/s de los datos (*) no fueron ingresados. Por favor, ingréselo/s", "Datos no rellenados", JOptionPane.WARNING_MESSAGE);
+				} catch(FechaInicioInvalidaException e2) {
+					JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this, "La fecha de inicio debe ser a partir de mañana(inclusive) ", "Fecha de inicio inválida", JOptionPane.WARNING_MESSAGE);
+				}
 		    }
 		});
 		
@@ -1544,7 +1558,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     	btnVolver.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        tabbedConfirmarPoliza.setSelectedIndex(0);
-                pestaniaTipoPoliza();
+                //pestaniaTipoPoliza();
 		        int indexCuotasSemestral = tabbedPaneDatosPoliza.indexOfTab("Cuotas de la póliza");
 		        if (indexCuotasSemestral != -1) {
 		            tabbedPaneDatosPoliza.removeTabAt(indexCuotasSemestral);
@@ -2190,6 +2204,24 @@ public class InterfazDarAltaPoliza extends JFrame {
         }
         return true;
     }
+    
+    public boolean fechaInicioEsValida(Date fechaInicio) {
+    	if (fechaInicio == null) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de inicio válida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return false; 
+        }
+        
+    	Calendar fechaInicioCal = Calendar.getInstance();
+        fechaInicioCal.setTime(fechaInicio);
+        Calendar fechaActual = Calendar.getInstance();
+
+        if ((fechaActual.getTime().compareTo(fechaInicioCal.getTime())) > 0) {
+            return false;
+        } else {
+        	return true;
+        }
+    }
+    
     public void dialogoCancelar() {
 
     	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar el alta de la poliza?","Confirmación",

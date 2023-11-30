@@ -1095,13 +1095,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);
+		//tabbedCrearPoliza.setSelectedIndex(0);
 		pestaniaBuscarCliente();
 	}
 	public void pestaniaConfirmarPoliza() {
 		tabbedPrincipal.setEnabledAt(0, false);
 		tabbedPrincipal.setEnabledAt(1, true);
 		tabbedPrincipal.setSelectedIndex(1);
-		pestaniaTipoPoliza();	
+		tabbedConfirmarPoliza.setSelectedIndex(0);
+		//pestaniaTipoPoliza();	
 	}
 	public void pestaniaTipoPoliza() {
 		configuracionTipoPoliza();
@@ -1137,21 +1139,21 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblNombre_1_1.setBounds(24, 27, 46, 14);
 		panelContextoCliente_2.add(lblNombre_1_1);
 		
-			
+		
 			textFieldNombre_3 = new JTextField();
-			textFieldNombre_3.setBackground(new Color(255, 255, 255));
 			textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
-			textFieldNombre_3.setColumns(10);
 			textFieldNombre_3.setBounds(80, 19, 123, 20);
-			configuracionTextField(textFieldNombre_3);
 			panelContextoCliente_2.add(textFieldNombre_3);
+			textFieldNombre_3.setColumns(10);
+			configuracionTextField(textFieldNombre_3);
+			
 			textFieldApellido_3 = new JTextField();
-			textFieldApellido_3.setBackground(new Color(255, 255, 255));
 			textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
 			textFieldApellido_3.setColumns(10);
 			textFieldApellido_3.setBounds(441, 19, 123, 20);
-			configuracionTextField(textFieldApellido_3);
 			panelContextoCliente_2.add(textFieldApellido_3);
+			configuracionTextField(textFieldApellido_3);
+			
 		
 	
 		

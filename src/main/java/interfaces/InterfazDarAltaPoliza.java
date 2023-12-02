@@ -161,7 +161,10 @@ public class InterfazDarAltaPoliza extends JFrame {
     private VehiculoDTO vehiculoDTO;
     private ClienteDTO clienteDTO;
     private PolizaDTO polizaDTO;
-
+    private JButton btnAtajo;
+    private JDateChooser fechaInicio_1, fechaFin;
+    
+    
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
@@ -391,8 +394,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza_2.add(separator_10_1);
 			
 	}
- 
-	public void pestaniaDatosDelVehiculo() {
+    public void pestaniaDatosDelVehiculo() {
 		//campo modelo
 		comboBoxModeloVehiculo = new JComboBox<>();
 		comboBoxModeloVehiculo.setBackground(Color.WHITE);
@@ -1085,6 +1087,17 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldNroDNI);
 		textFieldNroDNI.setColumns(10);
 		configuracionTextField(textFieldNroDNI);
+		
+		btnAtajo = new JButton("Atajo");
+		btnAtajo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPrincipal.setSelectedIndex(1);
+			}
+		});
+		btnAtajo.setFont(new Font("Arial", Font.PLAIN, 12));
+		btnAtajo.setFocusable(false);
+		btnAtajo.setBounds(20, 301, 111, 23);
+		buscarCliente.add(btnAtajo);
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);
@@ -1100,9 +1113,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
 	public void pestaniaTipoPoliza() {
 		configuracionTipoPoliza();
-		
-		
-		
+
 		JPanel panelContextoCliente_2 = new JPanel();
 		panelContextoCliente_2.setLayout(null);
 		panelContextoCliente_2.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -1232,7 +1243,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        	if(comboBoxTipoCobertura.getSelectedItem().toString() != "<Seleccione>"
 		        	&& comboBoxFormaDePago.getSelectedItem().toString() != "<Seleccione>"
 		        	&& fechaInicioEsValida(fechaInicio.getDate())) {
-		  
 				        String formaDePagoSeleccionada = comboBoxFormaDePago.getSelectedItem().toString();
 				        tabbedConfirmarPoliza.setSelectedIndex(1);
 				        configuracionGeneracionPoliza();
@@ -1243,7 +1253,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 				        	configuracionPanelCuotasMensuales();
 				            panelCuotas = panelCuotasMensuales;
 				        }
-		        		 tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
+		            	rellenarFechas();
+		        		tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
+		        		 
 		        	} else
 						try {
 							if(!fechaInicioEsValida(fechaInicio.getDate())){
@@ -1369,6 +1381,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     			dialogoCancelar();
     		}
     	});
+    	
 		btnCancelar_3_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_3_1.setFocusable(false);
 		btnCancelar_3_1.setBounds(190, 370, 89, 23);
@@ -1512,7 +1525,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblFechaInicio_1.setBounds(15, 263, 79, 14);
 		panelGeneracionPoliza.add(lblFechaInicio_1);
 		
-		JDateChooser fechaInicio_1 = new JDateChooser();
+	    fechaInicio_1 = new JDateChooser();
 		fechaInicio_1.setEnabled(false);
 		fechaInicio_1.setBounds(126, 263, 170, 20);
 		panelGeneracionPoliza.add(fechaInicio_1);
@@ -1530,7 +1543,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	    Date fechaFin_date = calendar.getTime();
 	    */
 		
-		JDateChooser fechaFin = new JDateChooser();
+		fechaFin = new JDateChooser();
 		fechaFin.setEnabled(false);
 		fechaFin.setBounds(434, 263, 170, 20);
 		panelGeneracionPoliza.add(fechaFin);
@@ -1560,11 +1573,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        if (indexCuotasSemestral != -1) {
 		            tabbedPaneDatosPoliza.removeTabAt(indexCuotasSemestral);
 		        }
-
 		        int indexCuotasMensual = tabbedPaneDatosPoliza.indexOfTab("Cuotas de la póliza");
 		        if (indexCuotasMensual != -1) {
 		            tabbedPaneDatosPoliza.removeTabAt(indexCuotasMensual);
 		        }
+		        tabbedConfirmarPoliza.setEnabledAt(1, false);
+		        tabbedConfirmarPoliza.setEnabledAt(0, true);
+		        
 		    }
 		});
     }
@@ -1964,6 +1979,14 @@ public class InterfazDarAltaPoliza extends JFrame {
     public void configuracionGeneracionPoliza() {
     	tabbedConfirmarPoliza.setEnabledAt(0, false);
     	tabbedConfirmarPoliza.setEnabledAt(1,true);
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
     }
     public void configuracionBotonAgregarHijo() {
     	btnAgregar.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -2152,7 +2175,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		}
 	}
-
     public boolean comboBoxCorrectos() {
     	if(comboBoxPaisRiesgo.getSelectedItem().toString() != "<Seleccione>"
     	   && comboBoxLocalidadRiesgo.getSelectedItem().toString() != "<Seleccione>" 
@@ -2217,7 +2239,17 @@ public class InterfazDarAltaPoliza extends JFrame {
 
 
     }
-    
+    public void rellenarFechas() {
+    	fechaInicio_1.setDate(fechaInicio.getDate());
+    	
+    	Calendar cal = Calendar.getInstance();
+        cal.setTime(fechaInicio.getDate());
+        // Agregar 6 meses
+        cal.add(Calendar.MONTH, 6);
+        // Establecer la fecha de fechaFin
+        fechaFin.setDate(cal.getTime());
+    	
+    }
     
     public void dialogoCancelar() {
 

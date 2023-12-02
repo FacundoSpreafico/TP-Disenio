@@ -153,7 +153,6 @@ public class InterfazDarAltaPoliza extends JFrame {
     private JTextField textFieldCuota5;
     private JTextField textFieldCuota6;
     private JTextField textFieldMontoTotalAPagar;
-    private ClienteDTO clienteBuscado = new ClienteDTO();
     private JLabel lblProvinciaDeRiesgo;
     private JLabel lblSimbolo_9;
     private JLabel lblLocalidadDeRiesgo;
@@ -198,13 +197,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 					textFieldChasis_1.setText(vehiculoDTO.getChasis());
 					textField_Motor.setText(vehiculoDTO.getMotor());
 					textField_Patente.setText(vehiculoDTO.getPatente());
-					fechaInicio = new JDateChooser();
-					Calendar calendar = Calendar.getInstance();
-			        // Sumar un día
-			        calendar.add(Calendar.DAY_OF_YEAR, 1);
-			        Date dateTomorrow = calendar.getTime();
-					fechaInicio.setDate(dateTomorrow);
-					
 					
 					List<HijoClienteDTO> hijosCliente = new ArrayList<HijoClienteDTO>();
 					int cantFilas = tablaHijos.getRowCount();
@@ -1141,24 +1133,20 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelContextoCliente_2.add(lblNombre_1_1);
 		
 		
-			textFieldNombre_3 = new JTextField();
-			textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
-			textFieldNombre_3.setBounds(80, 19, 123, 20);
-			panelContextoCliente_2.add(textFieldNombre_3);
-			textFieldNombre_3.setColumns(10);
-			configuracionTextField(textFieldNombre_3);
+		textFieldNombre_3 = new JTextField();
+		textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
+		textFieldNombre_3.setBounds(80, 19, 123, 20);
+		panelContextoCliente_2.add(textFieldNombre_3);
+		textFieldNombre_3.setColumns(10);
+		configuracionTextField(textFieldNombre_3);
 			
-			textFieldApellido_3 = new JTextField();
-			textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
-			textFieldApellido_3.setColumns(10);
-			textFieldApellido_3.setBounds(441, 19, 123, 20);
-			panelContextoCliente_2.add(textFieldApellido_3);
-			configuracionTextField(textFieldApellido_3);
+		textFieldApellido_3 = new JTextField();
+		textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
+		textFieldApellido_3.setColumns(10);
+		textFieldApellido_3.setBounds(441, 19, 123, 20);
+		panelContextoCliente_2.add(textFieldApellido_3);
+		configuracionTextField(textFieldApellido_3);
 			
-		
-	
-		
-		
 		panelTipoPoliza = new JPanel();
 		panelTipoPoliza.setLayout(null);
 		panelTipoPoliza.setBorder(new TitledBorder(null, "Tipo de póliza", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -1227,6 +1215,10 @@ public class InterfazDarAltaPoliza extends JFrame {
         Date dateTomorrow = calendar.getTime();
 		fechaInicio.setDate(dateTomorrow);
 		
+		
+		
+		
+		
 		JButton btnSiguiente_1_1 = new JButton("Siguiente");
 		btnSiguiente_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSiguiente_1_1.setFocusable(false);
@@ -1234,13 +1226,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tipoPoliza.add(btnSiguiente_1_1);
 		
 		btnSiguiente_1_1.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {		        
+		    public void actionPerformed(ActionEvent e) {
 		        JPanel panelCuotas = null;
 		        try {
 		        	if(comboBoxTipoCobertura.getSelectedItem().toString() != "<Seleccione>"
 		        	&& comboBoxFormaDePago.getSelectedItem().toString() != "<Seleccione>"
 		        	&& fechaInicioEsValida(fechaInicio.getDate())) {
-		        		
+		  
 				        String formaDePagoSeleccionada = comboBoxFormaDePago.getSelectedItem().toString();
 				        tabbedConfirmarPoliza.setSelectedIndex(1);
 				        configuracionGeneracionPoliza();
@@ -1252,15 +1244,20 @@ public class InterfazDarAltaPoliza extends JFrame {
 				            panelCuotas = panelCuotasMensuales;
 				        }
 		        		 tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
-		        	} else if(!fechaInicioEsValida(fechaInicio.getDate())){
-		        		throw(new FechaInicioInvalidaException());
-		        	} else {
-						throw(new DatosNoIngresadosException());
-			        }
+		        	} else
+						try {
+							if(!fechaInicioEsValida(fechaInicio.getDate())){
+								throw(new FechaInicioInvalidaException());
+							} else {
+								throw(new DatosNoIngresadosException());
+							}
+						} catch (ParseException e1) {
+						}
 		        } catch(DatosNoIngresadosException e1) {
 					JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this, "Alguno/s de los datos (*) no fueron ingresados. Por favor, ingréselo/s", "Datos no rellenados", JOptionPane.WARNING_MESSAGE);
 				} catch(FechaInicioInvalidaException e2) {
 					JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this, "La fecha de inicio debe ser a partir de mañana(inclusive) ", "Fecha de inicio inválida", JOptionPane.WARNING_MESSAGE);
+				} catch (ParseException e1) {
 				}
 		    }
 		});
@@ -2204,23 +2201,23 @@ public class InterfazDarAltaPoliza extends JFrame {
         }
         return true;
     }
-    
-    public boolean fechaInicioEsValida(Date fechaInicio) {
+    public boolean fechaInicioEsValida(Date fechaInicio) throws ParseException {
     	if (fechaInicio == null) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar una fecha de inicio válida.", "Advertencia", JOptionPane.WARNING_MESSAGE);
             return false; 
         }
-        
-    	Calendar fechaInicioCal = Calendar.getInstance();
-        fechaInicioCal.setTime(fechaInicio);
-        Calendar fechaActual = Calendar.getInstance();
+    	Calendar fechaCalendar = Calendar.getInstance();
+		Date dateToday = fechaCalendar.getTime();
 
-        if ((fechaActual.getTime().compareTo(fechaInicioCal.getTime())) > 0) {
-            return false;
-        } else {
-        	return true;
-        }
+    	if (fechaInicio.compareTo(dateToday) > 0) {
+    		return true; 
+    	} else {
+    	    return false;
+    	}
+
+
     }
+    
     
     public void dialogoCancelar() {
 

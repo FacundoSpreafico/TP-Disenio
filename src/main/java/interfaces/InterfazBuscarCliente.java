@@ -43,6 +43,9 @@ public class InterfazBuscarCliente extends JFrame {
 	private JComboBox comboBoxTipoDoc;
 	private ClienteDTO clienteBuscado= new ClienteDTO();
 	private InterfazDarAltaPoliza interfazDarAltaPoliza;
+	private String[] optionsTipoDocumento = {"<Seleccione>","DNI", "Libreta civica", "Libreta de enrolamiento"};
+	
+	
 	
 	public InterfazBuscarCliente(InterfazDarAltaPoliza interfazDarAltaPoliza)  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		this.interfazDarAltaPoliza = interfazDarAltaPoliza;
@@ -110,6 +113,11 @@ public class InterfazBuscarCliente extends JFrame {
 		
 		comboBoxTipoDoc = new JComboBox();
 		comboBoxTipoDoc.setBounds(180, 107, 180, 20);
+		for (String opcion: optionsTipoDocumento) {
+			comboBoxTipoDoc.addItem(opcion);
+		}
+		
+		
 		contentPane.add(comboBoxTipoDoc);
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
@@ -121,7 +129,7 @@ public class InterfazBuscarCliente extends JFrame {
 		        if (!textFieldApellido.getText().isEmpty()) {
 		            cliente.setApellido(textFieldApellido.getText().trim());
 		        }
-		        if (comboBoxTipoDoc.getSelectedItem() != null) {
+		        if (comboBoxTipoDoc.getSelectedItem() != null && !comboBoxTipoDoc.getSelectedItem().toString().equals("<Seleccione>")) {
 		            cliente.setTipoDocumento(comboBoxTipoDoc.getSelectedItem().toString());
 		        }
 		        if (!textFieldNroDoc.getText().isEmpty()) {
@@ -130,7 +138,6 @@ public class InterfazBuscarCliente extends JFrame {
 		        if (!textFieldNroCliente.getText().isEmpty()) {
 		           cliente.setNroCliente(textFieldNroCliente.getText().trim());
 		        }
-		        
 		        if (todosNulos()) {
 		        	JOptionPane.showMessageDialog(null, "No se ha ingresado ningún parámetro de búsqueda", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		        }

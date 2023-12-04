@@ -21,4 +21,30 @@ public class PorcentajePorKms {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_historial_porcentaje_kms")
 	private HistorialPorcentajeKM valorActual;
+
+	public int getIdPorcentajePorKms() {
+		return idPorcentajePorKms;
+	}
+
+	public void setIdPorcentajePorKms(int idPorcentajePorKms) {
+		this.idPorcentajePorKms = idPorcentajePorKms;
+	}
+
+	public String getRangoKms() {
+		return rangoKms;
+	}
+
+	public void setRangoKms(String rangoKms) {
+		this.rangoKms = rangoKms;
+	}
+
+	public HistorialPorcentajeKM getValorActual() {
+		return valorActual;
+	}
+
+	public void setValorActual(HistorialPorcentajeKM valorActual) {
+		this.valorActual = valorActual;
+	}
+	
+	
 }

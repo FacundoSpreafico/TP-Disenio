@@ -5,19 +5,33 @@ import org.hibernate.cfg.Configuration;
 
 import entidades.Cliente;
 import entidades.Cobertura;
+import entidades.DescuentoPorUnidadAdicional;
+import entidades.HijoCliente;
+import entidades.HistorialDerechoEmision;
+import entidades.HistorialDescuentoPorUnidadAdicional;
 import entidades.HistorialEstadisticaRobo;
+import entidades.HistorialPolizaModificada;
 import entidades.HistorialPorcentajeCobertura;
+import entidades.HistorialPorcentajeHijo;
+import entidades.HistorialPorcentajeKM;
 import entidades.HistorialPorcentajeMedida;
 import entidades.HistorialPorcentajeRiesgo;
+import entidades.HistorialPorcentajeSiniestros;
 import entidades.Localidad;
 import entidades.Marca;
 import entidades.MedidaDeSeguridad;
 import entidades.Modelo;
 import entidades.Pais;
 import entidades.PerfilUsuario;
+import entidades.Poliza;
+import entidades.PorcentajeMedida;
+import entidades.PorcentajePorHijo;
+import entidades.PorcentajePorKms;
+import entidades.PorcentajePorSiniestros;
 import entidades.Provincia;
 import entidades.SumaAsegurada;
 import entidades.Usuario;
+import entidades.Vehiculo;
 
 public class SessionHibernate {
 
@@ -45,6 +59,19 @@ public class SessionHibernate {
         			.addAnnotatedClass(SumaAsegurada.class)
         			.addAnnotatedClass(MedidaDeSeguridad.class)
         			.addAnnotatedClass(HistorialPorcentajeMedida.class)
+        			.addAnnotatedClass(Poliza.class)
+        			.addAnnotatedClass(HistorialDerechoEmision.class)
+        			.addAnnotatedClass(HistorialDescuentoPorUnidadAdicional.class)
+        			.addAnnotatedClass(HistorialPorcentajeHijo.class)
+        			.addAnnotatedClass(HistorialPorcentajeKM.class)
+        			.addAnnotatedClass(HistorialPorcentajeSiniestros.class)
+        			.addAnnotatedClass(HistorialPolizaModificada.class)
+        			.addAnnotatedClass(Vehiculo.class)
+        			.addAnnotatedClass(DescuentoPorUnidadAdicional.class)
+        			.addAnnotatedClass(PorcentajePorHijo.class)
+        			.addAnnotatedClass(PorcentajePorKms.class)
+        			.addAnnotatedClass(PorcentajePorSiniestros.class)
+        			.addAnnotatedClass(HijoCliente.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);

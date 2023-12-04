@@ -69,16 +69,15 @@ public class GestorPoliza {
         	HijoCliente hijo;
             hijo = GestorHijoCliente.getInstance().crearHijoCliente(hijoDTO);
     	    poliza.getHijos().add(hijo);
-    	    System.out.print(hijo.getEstadoCivil() + " ");
-    	    
+        }
+        
+        try {
+	    polizaDAO.insertarPoliza(poliza);
+        }
+        catch (Exception e){
+        	e.printStackTrace();
         }
 	    
-	    
-	    
-	    
-		
-		
-		
 		return "return";
 	}
 	

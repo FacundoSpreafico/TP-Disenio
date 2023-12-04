@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -32,7 +33,8 @@ public class Poliza {
 	private Date fechaFin;
 	
 	@Column(name = "fecha_emision")
-	private float fechaEmision;
+	private Date fechaEmision;
+	
 	@Column(name = "forma_pago")
 	private String formaPago;
 	
@@ -54,11 +56,11 @@ public class Poliza {
 	@Column(name = "cantidad_kms_por_anio")
 	private int cantKmsPorAnio;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
 	@JoinColumn(name = "id_vehiculo")
 	private Vehiculo vehiculo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY,cascade= CascadeType.ALL)
 	@JoinColumn(name = "id_cobertura")
 	private Cobertura tipoCobertura;
 	
@@ -70,6 +72,7 @@ public class Poliza {
 	@JoinColumn(name = "id_suma_asegurada")
 	private SumaAsegurada sumaAsegurada;
 	
+	@OneToMany
     private List<MedidaDeSeguridad> medidas = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -108,9 +111,9 @@ public class Poliza {
 	@JoinColumn(name = "id_ultima_modificacion")
 	private HistorialPolizaModificada ultimaModificacion;
 	
-	@OneToMany(mappedBy = "id_hijo_cliente")
-    private List<HijoCliente> hijos = new ArrayList<>();
 	
+	@OneToMany()
+    private List<HijoCliente> hijos = new ArrayList<>();
 	
 	/*falta mapear la tabla porcentaje_medidas salida de la relacion de
 	poliza junto con historial_porcentaje_medidas
@@ -148,11 +151,11 @@ public class Poliza {
 		this.fechaFin = fechaFin;
 	}
 
-	public float getFechaEmision() {
+	public Date getFechaEmision() {
 		return fechaEmision;
 	}
 
-	public void setFechaEmision(float fechaEmision) {
+	public void setFechaEmision(Date fechaEmision) {
 		this.fechaEmision = fechaEmision;
 	}
 

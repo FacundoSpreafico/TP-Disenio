@@ -56,6 +56,7 @@ import excepciones.DatosNoIngresadosException;
 import excepciones.FechaInicioInvalidaException;
 import gestores.GestorCliente;
 import gestores.GestorCobertura;
+import gestores.GestorHijoCliente;
 import gestores.GestorLocalidad;
 import gestores.GestorPoliza;
 import gestores.GestorSumaAsegurada;
@@ -234,6 +235,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 						}
 					}
 					polizaDTO.setHijos(hijosCliente);
+					
+                 //   GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
+                    
 					pestaniaConfirmarPoliza();
 		        } 
 			}

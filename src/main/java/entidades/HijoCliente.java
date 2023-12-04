@@ -26,8 +26,6 @@ public class HijoCliente {
 	private Date fechaNacimiento;
 	
 	
-	
-	
 	public HijoCliente() {
 	    // Constructor sin parámetros
 	}

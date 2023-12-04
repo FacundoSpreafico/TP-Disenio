@@ -5,6 +5,7 @@ import org.hibernate.cfg.Configuration;
 
 import entidades.Cliente;
 import entidades.Cobertura;
+import entidades.Cuota;
 import entidades.DescuentoPorUnidadAdicional;
 import entidades.HijoCliente;
 import entidades.HistorialDerechoEmision;
@@ -72,6 +73,7 @@ public class SessionHibernate {
         			.addAnnotatedClass(PorcentajePorKms.class)
         			.addAnnotatedClass(PorcentajePorSiniestros.class)
         			.addAnnotatedClass(HijoCliente.class)
+        			.addAnnotatedClass(Cuota.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);

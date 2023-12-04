@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import entidades.Cuota;
+
 public class PolizaDTO {
 
 	private Double sumaAsegurada;	
 	private List<MedidaDeSeguridadDTO> medidasDeclaradas = new ArrayList<>();
 	private List<HijoClienteDTO> hijos = new ArrayList<>();
+	private List<CuotaDTO> cuotas = new ArrayList<>();
 	private CoberturaDTO cobertura = new CoberturaDTO();
 	private Date vencimiento;
 	private Date fechaInicio;
@@ -57,6 +60,12 @@ public class PolizaDTO {
 	}
 	public void setKmsUltAnio(String kmsUltAnio) {
 		this.cantKmsUltimoAnio = kmsUltAnio;
+	}
+	public List<CuotaDTO> getCuotas() {
+		return cuotas;
+	}
+	public void setCuotas(List<CuotaDTO> cuotas) {
+		this.cuotas = cuotas;
 	}
 
 

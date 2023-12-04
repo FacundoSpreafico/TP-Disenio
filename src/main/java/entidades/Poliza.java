@@ -114,6 +114,9 @@ public class Poliza {
 	@JoinColumn(name = "id_ultima_modificacion")
 	private HistorialPolizaModificada ultimaModificacion;
 	
+	@OneToMany(mappedBy = "poliza")
+	private List<Cuota> cuotas = new ArrayList<>();
+
 	@ManyToMany()
 	@JoinTable (name = "registrado_en", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_hijo_cliente")})
     private List<HijoCliente> hijos = new ArrayList<>();
@@ -332,6 +335,14 @@ public class Poliza {
 
 	public void setHijos(List<HijoCliente> hijos) {
 		this.hijos = hijos;
+	}
+
+	public List<Cuota> getCuotas() {
+		return cuotas;
+	}
+
+	public void setCuotas(List<Cuota> cuotas) {
+		this.cuotas = cuotas;
 	}
 
 	

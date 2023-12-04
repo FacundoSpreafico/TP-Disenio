@@ -46,8 +46,6 @@ public class GestorLocalidad {
 	
 	public Localidad obtenerDomicilioDeRiesgo(DomicilioRiesgoDTO domicilio) {
 		return localidadDAO.obtenerLocalidad(domicilio.getLocalidad(), domicilio.getProvincia(), domicilio.getPais());
-		
-		
 	}
 	
 	

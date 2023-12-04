@@ -1,16 +1,17 @@
 package gestores;
 
-import java.util.List;
 import java.util.Random;
 
 import DAO.PolizaDAO;
 import DAO.PolizaDAOImp;
 import DTO.ClienteDTO;
+import DTO.CuotaDTO;
 import DTO.HijoClienteDTO;
 import DTO.MedidaDeSeguridadDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
 import entidades.Cliente;
+import entidades.Cuota;
 import entidades.HijoCliente;
 import entidades.MedidaDeSeguridad;
 import entidades.Poliza;
@@ -71,14 +72,17 @@ public class GestorPoliza {
     	    poliza.getHijos().add(hijo);
         }
         
-        try {
-	    polizaDAO.insertarPoliza(poliza);
+        //Logica cuotas
+        for (CuotaDTO cuotaDTO: polizaDTO.getCuotas()) {
+        	Cuota cuota;
+        	cuota = GestorCuota.getInstance().crearCuota(cuotaDTO);
+        	poliza.getCuotas().add(cuota);
         }
-        catch (Exception e){
-        	e.printStackTrace();
-        }
+        
+	    //polizaDAO.insertarPoliza(poliza);
+       
 	    
-		return "return";
+		return "Debe retornar numero poliza";
 	}
 	
 	

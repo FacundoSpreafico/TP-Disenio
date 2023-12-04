@@ -16,10 +16,10 @@ public class Cuota {
 
 	@Id
 	@Column(name = "id_cuota")
-	private Integer idCuota;
+	private int idCuota;
 	
 	@Column(name = "orden")
-	private Integer orden;
+	private int orden;
 	
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
@@ -28,20 +28,26 @@ public class Cuota {
 	private Date fechaVencimiento;
 	
 	@Column(name = "valor_original")
-	private Float valorOriginal;
+	private float valorOriginal;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_poliza")
 	private Poliza poliza;
 	
+	/*
+	@ManyToOne
+	@JoinColumn(name = "id_pago")
+    private Pago pago;
+	*/
 	
-	//private Pago pago;
 	@Column(name = "valor_actual")
-	private Float valorActual;
+	private float valorActual;
+	
 	@Column(name = "recargos_mora")
-	private Float recargosMora;
+	private float recargosMora;
+	
 	@Column(name = "bonificacion_pago_adelantado")
-	private Float bonificacionPagoAdelantado;
+	private float bonificacionPagoAdelantado;
 	
 	public Integer getIdCuota() {
 		return idCuota;

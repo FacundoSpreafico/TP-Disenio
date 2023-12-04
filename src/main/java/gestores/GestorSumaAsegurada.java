@@ -4,6 +4,7 @@ package gestores;
 import DAO.SumaAseguradaDAO;
 import DAO.SumaAseguradaDAOImp;
 import DTO.ModeloDTO;
+import entidades.SumaAsegurada;
 
 
 public class GestorSumaAsegurada {
@@ -21,12 +22,16 @@ public class GestorSumaAsegurada {
 
 	public double devolverSumaAsegurada (ModeloDTO modelo) {
 		try { 
-		return sumaAseguradaDAO.devolverSumaAsegurada(modelo).getMonto();
+		return sumaAseguradaDAO.devolverSumaAsegurada(modelo.getNombreModelo(),modelo.getAnioFabricacion()).getMonto();
 		}
 		catch(Exception e) {
 		}
 		return 0;
 	}
 
+	public SumaAsegurada obtenerSumaAsegurada (ModeloDTO modelo) {
+		return sumaAseguradaDAO.devolverSumaAsegurada(modelo.getNombreModelo(),modelo.getAnioFabricacion());
+	}
+	
 
 }

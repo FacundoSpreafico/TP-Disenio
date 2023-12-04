@@ -14,14 +14,16 @@ import entidades.SumaAsegurada;
 import entidades.Usuario;
 
 public class SumaAseguradaDAOImp implements SumaAseguradaDAO{
-	public SumaAsegurada devolverSumaAsegurada(ModeloDTO modelo) {
-	    
+	
+	public SumaAsegurada devolverSumaAsegurada(String nombreModelo, int anioFabricacion) {
 		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
     	 try {
-             String hql = "FROM SumaAsegurada WHERE modelo.idModelo = :idModelo AND anioFabricacion = :anio";
+             String hql = "FROM SumaAsegurada WHERE modelo.nombreModelo = :nombreModelo AND anioFabricacion = :anio";
              Query<SumaAsegurada> query = session.createQuery(hql,SumaAsegurada.class);
-             query.setParameter("idModelo",modelo.getIdModelo());
-             query.setParameter("anio",modelo.getAnioFabricacion());
+             query.setParameter("nombreModelo",nombreModelo);
+             query.setParameter("anio", anioFabricacion);
+             
+             
              return query.getSingleResult();
          } catch (Exception e) {
         	 
@@ -29,6 +31,7 @@ public class SumaAseguradaDAOImp implements SumaAseguradaDAO{
     }
 	return null;
 	}
+
 	
 	
 }

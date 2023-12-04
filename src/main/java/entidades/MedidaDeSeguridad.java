@@ -22,6 +22,30 @@ public class MedidaDeSeguridad {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_historial_porcentaje_medida")
 	private HistorialPorcentajeMedida valorActual;
+
+	public int getIdMedida() {
+		return idMedida;
+	}
+
+	public void setIdMedida(int idMedida) {
+		this.idMedida = idMedida;
+	}
+
+	public String getNombreMedida() {
+		return nombreMedida;
+	}
+
+	public void setNombreMedida(String nombreMedida) {
+		this.nombreMedida = nombreMedida;
+	}
+
+	public HistorialPorcentajeMedida getValorActual() {
+		return valorActual;
+	}
+
+	public void setValorActual(HistorialPorcentajeMedida valorActual) {
+		this.valorActual = valorActual;
+	}
 	
 	
 }

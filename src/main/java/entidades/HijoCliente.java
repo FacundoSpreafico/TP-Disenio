@@ -67,4 +67,14 @@ public class HijoCliente {
 		return Objects.equals(estadoCivil, other.estadoCivil) && Objects.equals(fechaNacimiento, other.fechaNacimiento)
 		&& Objects.equals(sexo, other.sexo);
 	}
+
+	public int getIdHijoCliente() {
+		return idHijoCliente;
+	}
+
+	public void setIdHijoCliente(int idHijoCliente) {
+		this.idHijoCliente = idHijoCliente;
+	}
+	
+	
 }

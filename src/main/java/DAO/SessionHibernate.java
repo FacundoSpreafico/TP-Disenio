@@ -7,9 +7,11 @@ import entidades.Cliente;
 import entidades.Cobertura;
 import entidades.HistorialEstadisticaRobo;
 import entidades.HistorialPorcentajeCobertura;
+import entidades.HistorialPorcentajeMedida;
 import entidades.HistorialPorcentajeRiesgo;
 import entidades.Localidad;
 import entidades.Marca;
+import entidades.MedidaDeSeguridad;
 import entidades.Modelo;
 import entidades.Pais;
 import entidades.PerfilUsuario;
@@ -41,6 +43,8 @@ public class SessionHibernate {
         			.addAnnotatedClass(Modelo.class)
         			.addAnnotatedClass(HistorialEstadisticaRobo.class)
         			.addAnnotatedClass(SumaAsegurada.class)
+        			.addAnnotatedClass(MedidaDeSeguridad.class)
+        			.addAnnotatedClass(HistorialPorcentajeMedida.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);

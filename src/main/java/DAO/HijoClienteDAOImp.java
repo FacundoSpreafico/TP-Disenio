@@ -1,5 +1,5 @@
 package DAO;
 
-public class HijoClienteDAOImp {
+public class HijoClienteDAOImp implements HijoClienteDAO {
 
 }

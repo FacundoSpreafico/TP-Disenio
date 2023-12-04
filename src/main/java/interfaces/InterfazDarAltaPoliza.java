@@ -220,7 +220,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 					int cantFilas = tablaHijos.getRowCount();
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 					
-					
+				
 					for(int i = 0; i < cantFilas; i++) {
 						
 						try {
@@ -234,7 +234,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 						}
 					}
 					polizaDTO.setHijos(hijosCliente);
-				
 					pestaniaConfirmarPoliza();
 		        } 
 			}
@@ -452,7 +451,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 							    }
 						}
 						tabbedCrearPoliza.setSelectedIndex(2);				
-						GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
 					}
 					else {
 						throw(new DatosNoIngresadosException());

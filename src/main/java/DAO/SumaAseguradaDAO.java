@@ -6,6 +6,6 @@ import entidades.SumaAsegurada;
 
 public interface SumaAseguradaDAO {
 
-	public SumaAsegurada devolverSumaAsegurada(ModeloDTO modelo);
+	public SumaAsegurada devolverSumaAsegurada(String nombreModelo, int anioFabricacion);
 
 }

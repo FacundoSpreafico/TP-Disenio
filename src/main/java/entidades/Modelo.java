@@ -27,7 +27,7 @@ public class Modelo {
 	@JoinColumn(name = "id_marca")
 	private Marca marca;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_estadistica_robo")
 	private HistorialEstadisticaRobo valorActual;
 	

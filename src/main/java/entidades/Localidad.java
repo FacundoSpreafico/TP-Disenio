@@ -23,7 +23,7 @@ public class Localidad {
 	@JoinColumn(name = "id_provincia")
 	private Provincia provincia;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_historial_porcentaje_riesgo")
 	private HistorialPorcentajeRiesgo porcentaje;
 	
@@ -59,6 +59,14 @@ public class Localidad {
 	@Override
 	public String toString() {
 		return "Localidad [idLocalidad=" + idLocalidad + ", nombreLocalidad=" + nombreLocalidad + "]";
+	}
+
+	public HistorialPorcentajeRiesgo getPorcentaje() {
+		return porcentaje;
+	}
+
+	public void setPorcentaje(HistorialPorcentajeRiesgo porcentaje) {
+		this.porcentaje = porcentaje;
 	}
 	
 	

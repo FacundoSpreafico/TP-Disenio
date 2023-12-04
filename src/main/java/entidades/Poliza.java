@@ -1,6 +1,8 @@
 package entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -67,6 +70,8 @@ public class Poliza {
 	@JoinColumn(name = "id_suma_asegurada")
 	private SumaAsegurada sumaAsegurada;
 	
+    private List<MedidaDeSeguridad> medidas = new ArrayList<>();
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_historial_porcentaje_riesgo")
 	private HistorialPorcentajeRiesgo porcentajeRiesgo;
@@ -102,6 +107,9 @@ public class Poliza {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_ultima_modificacion")
 	private HistorialPolizaModificada ultimaModificacion;
+	
+	@OneToMany(mappedBy = "id_hijo_cliente")
+    private List<HijoCliente> hijos = new ArrayList<>();
 	
 	
 	/*falta mapear la tabla porcentaje_medidas salida de la relacion de
@@ -306,6 +314,22 @@ public class Poliza {
 
 	public void setPorcentajeKMs(HistorialPorcentajeKM porcentajeKMs) {
 		this.porcentajeKMs = porcentajeKMs;
+	}
+
+	public List<MedidaDeSeguridad> getMedidas() {
+		return medidas;
+	}
+
+	public void setMedidas(List<MedidaDeSeguridad> medidas) {
+		this.medidas = medidas;
+	}
+
+	public List<HijoCliente> getHijos() {
+		return hijos;
+	}
+
+	public void setHijos(List<HijoCliente> hijos) {
+		this.hijos = hijos;
 	}
 
 	

@@ -34,5 +34,53 @@ public class HistorialPorcentajeRiesgo {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
 	private Usuario operador;
+
+	public int getIdHistorialPorcentajeRiesgo() {
+		return idHistorialPorcentajeRiesgo;
+	}
+
+	public void setIdHistorialPorcentajeRiesgo(int idHistorialPorcentajeRiesgo) {
+		this.idHistorialPorcentajeRiesgo = idHistorialPorcentajeRiesgo;
+	}
+
+	public Date getFechaDesde() {
+		return fechaDesde;
+	}
+
+	public void setFechaDesde(Date fechaDesde) {
+		this.fechaDesde = fechaDesde;
+	}
+
+	public Date getFechaHasta() {
+		return fechaHasta;
+	}
+
+	public void setFechaHasta(Date fechaHasta) {
+		this.fechaHasta = fechaHasta;
+	}
+
+	public double getValorPorcentual() {
+		return valorPorcentual;
+	}
+
+	public void setValorPorcentual(double valorPorcentual) {
+		this.valorPorcentual = valorPorcentual;
+	}
+
+	public Localidad getPorcentajeActual() {
+		return porcentajeActual;
+	}
+
+	public void setPorcentajeActual(Localidad porcentajeActual) {
+		this.porcentajeActual = porcentajeActual;
+	}
+
+	public Usuario getOperador() {
+		return operador;
+	}
+
+	public void setOperador(Usuario operador) {
+		this.operador = operador;
+	}
 	
 }

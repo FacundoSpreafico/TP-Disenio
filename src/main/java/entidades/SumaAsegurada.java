@@ -18,11 +18,9 @@ public class SumaAsegurada {
 	private int anioFabricacion;
 	@Column(name = "monto")
 	private double montoTotal;
-	
 	@ManyToOne
 	@JoinColumn(name = "id_modelo")
 	private Modelo modelo;
-	
 	
 	public int getAnioFabricacion() {
 		return anioFabricacion;

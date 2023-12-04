@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,6 +33,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.MaskFormatter;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -57,7 +59,6 @@ import gestores.GestorCobertura;
 import gestores.GestorLocalidad;
 import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
-
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -105,6 +106,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JTable tablaHijos;
 	private JButton btnEliminar;
 	
+	private JFormattedTextField formattedTextField;
+
 	
 	
 	
@@ -163,9 +166,9 @@ public class InterfazDarAltaPoliza extends JFrame {
     private ClienteDTO clienteDTO;
     private PolizaDTO polizaDTO;
     private JDateChooser fechaInicio_1, fechaFin;
+    JComboBox<String> comboBoxTipoCobertura;
     
-    
-	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, ParseException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -200,10 +203,22 @@ public class InterfazDarAltaPoliza extends JFrame {
 					textFieldChasis_1.setText(vehiculoDTO.getChasis());
 					textField_Motor.setText(vehiculoDTO.getMotor());
 					textField_Patente.setText(vehiculoDTO.getPatente());
+					int yearCurrent = Calendar.getInstance().get(Calendar.YEAR);
+			        int yearVehicle = Integer.parseInt(comboBoxAnioVehiculo.getSelectedItem().toString());
+					
+					if ((yearCurrent - yearVehicle) > 10) {
+						comboBoxTipoCobertura.addItem("Responsabilidad Civil");
+					}
+					else {
+						for (Cobertura coberturas: GestorCobertura.getInstance().recuperarCoberturas()) {
+							comboBoxTipoCobertura.addItem(coberturas.getNombreCobertura());	
+							}
+					}
 					
 					List<HijoClienteDTO> hijosCliente = new ArrayList<HijoClienteDTO>();
 					int cantFilas = tablaHijos.getRowCount();
 					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+					
 					
 					for(int i = 0; i < cantFilas; i++) {
 						
@@ -395,7 +410,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza_2.add(separator_10_1);
 			
 	}
-    public void pestaniaDatosDelVehiculo() {
+    public void pestaniaDatosDelVehiculo() throws ParseException {
 		
 		btnSiguiente_2 = new JButton("Siguiente");
 		btnSiguiente_2.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -415,7 +430,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 			            
 						vehiculoDTO = new VehiculoDTO();
 						vehiculoDTO.setMotor(textFieldMotor.getText());
-						vehiculoDTO.setChasis(textFieldChasis.getText());
+						vehiculoDTO.setChasis(formattedTextField.getText());
 						vehiculoDTO.setPatente(textFieldPatenteVehiculo.getText());
 						vehiculoDTO.setKmsUltAnio(comboBoxKmsPorAnio.getSelectedItem().toString());
 						vehiculoDTO.setNroSiniestros(comboBoxSiniestrosUltAnio.getSelectedItem().toString());
@@ -696,10 +711,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza.add(lblChasis);
 		lblChasis.setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		textFieldChasis = new JTextField();
-		textFieldChasis.setBounds(158, 133, 154, 20);
-		panelPoliza.add(textFieldChasis);
-		textFieldChasis.setColumns(10);
+		MaskFormatter maskFormatter = new MaskFormatter("#UU-******-********");
+
+        formattedTextField = new JFormattedTextField(maskFormatter);
+        formattedTextField.setBounds(158, 133, 154, 20);
+		panelPoliza.add(formattedTextField);
+		formattedTextField.setColumns(10);
+		
 		
 		separator_8 = new JSeparator();
 		separator_8.setBounds(526, 122, 154, 2);
@@ -853,7 +871,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     	lblSimbolo_4_1.setBounds(513, 108, 19, 14);
     	panelPoliza.add(lblSimbolo_4_1);
     	
-    			comboBoxAnioVehiculo.addActionListener(new ActionListener() {
+    	comboBoxAnioVehiculo.addActionListener(new ActionListener() {
     				public void actionPerformed(ActionEvent e) {
     					ModeloDTO modelo = new ModeloDTO();
     	                  if (comboBoxAnioVehiculo.getSelectedItem() != null && !comboBoxAnioVehiculo.getSelectedItem().toString().equals("<Seleccione>")) {
@@ -878,7 +896,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     					  }
     			});
     	
-    			comboBoxModeloVehiculo.addActionListener(new ActionListener() {
+    	comboBoxModeloVehiculo.addActionListener(new ActionListener() {
     			    public void actionPerformed(ActionEvent e) {
     			        String selectedItem = comboBoxModeloVehiculo.getSelectedItem() != null
     			                ? comboBoxModeloVehiculo.getSelectedItem().toString()
@@ -900,8 +918,6 @@ public class InterfazDarAltaPoliza extends JFrame {
     			        }
     			    }
     			});
-		
-		
 		
 		
 	}
@@ -940,7 +956,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 					    "Proximamente",
 					    JOptionPane.WARNING_MESSAGE
 					);
-				
 			}
 		});
 		btnDarAltaCliente.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -1198,15 +1213,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblSimbolo_12_2.setBounds(505, 36, 18, 14);
 		panelTipoPoliza.add(lblSimbolo_12_2);
 		
-		JComboBox<String> comboBoxTipoCobertura = new JComboBox<String>();
+		comboBoxTipoCobertura = new JComboBox<String>();
 		comboBoxTipoCobertura.setBounds(173, 32, 154, 22);
 		comboBoxTipoCobertura.addItem("<Seleccione>");
 		panelTipoPoliza.add(comboBoxTipoCobertura);
-		
-		for (Cobertura coberturas: GestorCobertura.getInstance().recuperarCoberturas()) {
-		comboBoxTipoCobertura.addItem(coberturas.getNombreCobertura());	
-		}
-		
 		
 		JComboBox<String> comboBoxFormaDePago = new JComboBox<String>();
 		comboBoxFormaDePago.setBounds(173, 76, 154, 22);
@@ -1292,7 +1302,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	}
 	
     //funciones de configuracion
-	public void inicializarPaneles () {
+	public void inicializarPaneles () throws ParseException {
 		setTitle("Productor de seguro- Dar de alta poliza");
 		panelPrincipal = new JPanel();
 		panelPrincipal.setBounds(0, 0, 853, 508);
@@ -2190,8 +2200,8 @@ public class InterfazDarAltaPoliza extends JFrame {
     		return false;
     }
     public boolean camposIngresados() {
-    	if(textFieldChasis.getText().isEmpty() || textFieldPatenteVehiculo.getText().isEmpty()  
-    			|| textFieldMotor.getText().isEmpty()) {
+    	if(formattedTextField.getText().isEmpty() ||  textFieldPatenteVehiculo.getText().isEmpty()  || textFieldMotor.getText().isEmpty()) {
+    		
     		return false;
     	}
     	else
@@ -2251,7 +2261,6 @@ public class InterfazDarAltaPoliza extends JFrame {
         fechaFin.setDate(cal.getTime());
     	
     }
-    
     public void dialogoCancelar() {
 
     	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar el alta de la poliza?","Confirmación",

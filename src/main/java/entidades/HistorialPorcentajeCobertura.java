@@ -26,11 +26,9 @@ public class HistorialPorcentajeCobertura {
 	private Date fechaHasta;
 	@Column(name = "valor_porcentual")
 	private double valorPorcentual;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_cobertura")
 	private Cobertura cobertura;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_usuario")
 	private Usuario operador;

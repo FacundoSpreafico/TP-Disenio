@@ -36,6 +36,7 @@ public class ClienteDAOImp implements ClienteDAO {
     
     public List<Cliente> buscarClientes(ClienteDTO clienteDTO) {
         try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
+        	
         	CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<Cliente> criteriaQuery = criteriaBuilder.createQuery(Cliente.class);
             Root<Cliente> root = criteriaQuery.from(Cliente.class);

@@ -26,14 +26,17 @@ public class GestorPoliza {
 		Poliza poliza = new Poliza();
 		setearAtributosSimples(poliza,polizaDTO);
 		
+		
+		
+		
+		
 		return "return";
 	}
 	
 	
 	public void setearAtributosSimples(Poliza poliza,PolizaDTO polizaDTO) {
 		poliza.setNumeroPoliza(generarNumeroPoliza());
-		poliza.setVencimiento(null);
-		
+		poliza.setVencimiento(polizaDTO.getVencimiento());	
 		
 	}
 	
@@ -45,7 +48,6 @@ public class GestorPoliza {
 	     char letra1 = LETRAS.charAt(random.nextInt(LETRAS.length()));
 	     char letra2 = LETRAS.charAt(random.nextInt(LETRAS.length()));
 
-	     // Combinar dígitos y letras
 	     return String.format("%d%c%c", numeroAleatorio, letra1, letra2);
 	    }
 	

@@ -1,6 +1,7 @@
 package DTO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class PolizaDTO {
@@ -9,6 +10,21 @@ public class PolizaDTO {
 	private List<MedidaDeSeguridadDTO> medidasDeclaradas = new ArrayList<>();
 	private List<HijoClienteDTO> hijos = new ArrayList<>();
 	private CoberturaDTO cobertura = new CoberturaDTO();
+	private Date vencimiento;
+	
+	
+	public CoberturaDTO getCobertura() {
+		return cobertura;
+	}
+	public void setCobertura(CoberturaDTO cobertura) {
+		this.cobertura = cobertura;
+	}
+	public Date getVencimiento() {
+		return vencimiento;
+	}
+	public void setVencimiento(Date vencimiento) {
+		this.vencimiento = vencimiento;
+	}
 	
 	
 	public List<HijoClienteDTO> getHijos() {

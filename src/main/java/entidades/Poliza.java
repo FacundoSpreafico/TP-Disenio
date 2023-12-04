@@ -10,6 +10,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -56,68 +58,65 @@ public class Poliza {
 	@Column(name = "cantidad_kms_por_anio")
 	private int cantKmsPorAnio;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade= CascadeType.ALL)
+	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name = "id_vehiculo")
 	private Vehiculo vehiculo;
 	
-	@ManyToOne(fetch = FetchType.LAZY,cascade= CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name = "id_cobertura")
 	private Cobertura tipoCobertura;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_suma_asegurada")
 	private SumaAsegurada sumaAsegurada;
 	
-	@OneToMany
+	@ManyToMany()
+	@JoinTable (name = "declara_medida", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_medida")})
     private List<MedidaDeSeguridad> medidas = new ArrayList<>();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_porcentaje_riesgo")
 	private HistorialPorcentajeRiesgo porcentajeRiesgo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_descuento_por_unidad_adicional")
 	private HistorialDescuentoPorUnidadAdicional porcentajeDescuento;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_porcentaje_hijo")
 	private HistorialPorcentajeHijo porcentajeHijo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_estadistica_robo")
 	private HistorialEstadisticaRobo porcentajeEstRobo;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_porcentaje_cobertura")
 	private HistorialPorcentajeCobertura porcentajeCobertura;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_derecho_emision")
 	private HistorialDerechoEmision porcentajeDerechoEmision;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_porcentaje_por_siniestros")
 	private HistorialPorcentajeSiniestros porcentajeSiniestros;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_porcentaje_kms")
 	private HistorialPorcentajeKM porcentajeKMs;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_ultima_modificacion")
 	private HistorialPolizaModificada ultimaModificacion;
 	
-	
-	@OneToMany()
+	@ManyToMany()
+	@JoinTable (name = "registrado_en", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_hijo_cliente")})
     private List<HijoCliente> hijos = new ArrayList<>();
-	
-	/*falta mapear la tabla porcentaje_medidas salida de la relacion de
-	poliza junto con historial_porcentaje_medidas
-	*/
 	
 	public int getIdPoliza() {
 		return idPoliza;

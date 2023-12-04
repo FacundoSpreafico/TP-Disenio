@@ -24,6 +24,10 @@ public class HijoCliente {
 	private String estadoCivil;
 	@Column(name = "fecha_nacimiento")
 	private Date fechaNacimiento;
+	
+	
+	
+	
 	public HijoCliente() {
 	    // Constructor sin parámetros
 	}

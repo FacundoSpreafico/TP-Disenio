@@ -13,6 +13,8 @@ import DTO.VehiculoDTO;
 import entidades.Cliente;
 import entidades.Cuota;
 import entidades.HijoCliente;
+import entidades.HistorialPorcentajeKM;
+import entidades.HistorialPorcentajeSiniestros;
 import entidades.MedidaDeSeguridad;
 import entidades.Poliza;
 import entidades.SumaAsegurada;
@@ -78,7 +80,13 @@ public class GestorPoliza {
         	cuota = GestorCuota.getInstance().crearCuota(cuotaDTO);
         	poliza.getCuotas().add(cuota);
         }
-        
+        HistorialPorcentajeKM historialKms = 
+        GestorPorcentajeKms.getInstance().getHistorialActual(polizaDTO.getKmsUltAnio());
+        poliza.setPorcentajeKMs(historialKms);
+
+        HistorialPorcentajeSiniestros historialSiniestros = 
+        GestorPorcentajeSiniestros.getInstance().getHistorialActual(vehiculoDTO.getNroSiniestros());
+        poliza.setPorcentajeSiniestros(historialSiniestros);
 	    //polizaDAO.insertarPoliza(poliza);
        
 	    
@@ -90,10 +98,8 @@ public class GestorPoliza {
 		poliza.setNumeroPoliza(generarNumeroPoliza());
 		poliza.setFechaInicio(polizaDTO.getFechaInicio());
 		poliza.setVencimiento(polizaDTO.getVencimiento());	
-		
-		
-		
 	}
+	
 	
 	public String generarNumeroPoliza() {
 		 final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";   

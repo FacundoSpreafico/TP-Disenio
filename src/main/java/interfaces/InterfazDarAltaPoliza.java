@@ -57,6 +57,7 @@ import excepciones.FechaInicioInvalidaException;
 import gestores.GestorCliente;
 import gestores.GestorCobertura;
 import gestores.GestorLocalidad;
+import gestores.GestorPoliza;
 import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
 
@@ -427,24 +428,22 @@ public class InterfazDarAltaPoliza extends JFrame {
 			            agregarMedida(chckbxTuercasAntirrobos.isSelected(), "Posee tuercas antirrobo en las cuatro ruedas", listaMedidas);
 					
 			            polizaDTO.setMedidasDeclaradas(listaMedidas);
+			            polizaDTO.setKmsUltAnio(comboBoxKmsPorAnio.getSelectedItem().toString());
 			            
 						vehiculoDTO = new VehiculoDTO();
 						vehiculoDTO.setMotor(textFieldMotor.getText());
 						vehiculoDTO.setChasis(formattedTextField.getText());
 						vehiculoDTO.setPatente(textFieldPatenteVehiculo.getText());
-						vehiculoDTO.setKmsUltAnio(comboBoxKmsPorAnio.getSelectedItem().toString());
 						vehiculoDTO.setNroSiniestros(comboBoxSiniestrosUltAnio.getSelectedItem().toString());
 						vehiculoDTO.setModelo(new ModeloDTO(comboBoxMarcaVehiculo.getSelectedItem().toString(),
 								                         comboBoxModeloVehiculo.getSelectedItem().toString(),
 								                         Integer.parseInt(comboBoxAnioVehiculo.getSelectedItem().toString())));
+						
 						vehiculoDTO.setDomicilio(new DomicilioRiesgoDTO(comboBoxPaisRiesgo.getSelectedItem().toString(),
 					                                                    comboBoxProvinciaRiesgo.getSelectedItem().toString(),
 					                                                    comboBoxLocalidadRiesgo.getSelectedItem().toString()));
 						
 						vehiculoDTO.setIdModelo(GestorVehiculo.getInstance().recuperarModeloPorNombre(vehiculoDTO.getModelo().getNombreModelo()).getIdModelo());
-						
-						//Implementar
-						GestorVehiculo.getInstance().validarDatosVehiculo(vehiculoDTO);
 						
 						for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
 							tabbedCrearPoliza.setEnabledAt(i, true);
@@ -453,6 +452,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 							    }
 						}
 						tabbedCrearPoliza.setSelectedIndex(2);				
+						GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
 					}
 					else {
 						throw(new DatosNoIngresadosException());

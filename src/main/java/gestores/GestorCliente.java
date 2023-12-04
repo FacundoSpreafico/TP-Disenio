@@ -24,12 +24,10 @@ public class GestorCliente{
 	clienteDAO.create(cliente);
 	}
 	
-	
 	public int recuperarID(String nroCliente) {
 		return clienteDAO.recuperarID(nroCliente);
 	}
 	
-
 	public List<ClienteDTO> buscar(ClienteDTO cliente) {
 		 List<ClienteDTO> resultado = new ArrayList<>();
 		 List<Cliente> clientes = clienteDAO.buscarClientes(cliente);
@@ -49,6 +47,10 @@ public class GestorCliente{
         clienteDTO.setNroDocumento(clienteEntidad.getNroDocumento());
         clienteDTO.setTipoDocumento(clienteEntidad.getTipoDocumento());
 	    return clienteDTO;
+	}
+	
+	public Cliente obtenerPorId(ClienteDTO cliente) {
+		return clienteDAO.obtenerPorId(cliente.getIdCliente());	
 	}
 	
 }

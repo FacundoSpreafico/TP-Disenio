@@ -120,6 +120,27 @@ public class LocalidadDAOImp implements LocalidadDAO {
         }
 		return Collections.emptyList();
 	}
+
+	@Override
+	public Localidad obtenerLocalidad(String localidad, String provincia, String pais) {
+		 
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
+		String hql = "FROM Localidad l " +
+                "JOIN l.provincia p " +
+                "JOIN p.pais pa " +
+                "WHERE l.nombreLocalidad = :nombreLocalidad " +
+                "AND p.nombreProvincia = :nombreProvincia " +
+                "AND pa.nombrePais = :nombrePais";
+        
+		Query<Localidad> query = session.createQuery(hql,Localidad.class);
+		query.setParameter("nombreLocalidad", localidad);
+        query.setParameter("nombreProvincia", provincia);
+        query.setParameter("nombrePais", pais);
+        Localidad localidadBuscada = query.getSingleResult();
+        session.close();
+        return localidadBuscada;
+		}
+	}
 	
 	
 }

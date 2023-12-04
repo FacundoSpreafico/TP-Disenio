@@ -45,6 +45,21 @@ public class ModeloDAOImp implements ModeloDAO {
 		return null;
 	}
 
+	@Override
+	public Modelo obtenerModelo(String nombreMarca, String nombreModelo) {
+		
+		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
+		String hql = "FROM Modelo mo JOIN mo.marca ma WHERE ma.nombreMarca = :nombreMarcaDTO AND mo.nombreModelo = :nombreModeloDTO";
+		Query<Modelo> query = session.createQuery(hql,Modelo.class);
+		query.setParameter("nombreMarcaDTO", nombreMarca);
+		query.setParameter("nombreModeloDTO", nombreModelo);
+		Modelo modelo = query.getSingleResult();
+		session.close();
+		return modelo;
+		}
+	
+	}
+
 	
 	
 }

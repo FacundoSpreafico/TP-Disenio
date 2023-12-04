@@ -7,7 +7,9 @@ import DAO.PolizaDAOImp;
 import DTO.ClienteDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
+import entidades.Cliente;
 import entidades.Poliza;
+import entidades.Vehiculo;
 
 public class GestorPoliza {
 
@@ -25,7 +27,14 @@ public class GestorPoliza {
 		int numeroPoliza;
 		Poliza poliza = new Poliza();
 		setearAtributosSimples(poliza,polizaDTO);
+		Cliente cliente = GestorCliente.getInstance().obtenerPorId(clienteDTO);
+		poliza.setCliente(cliente);
+		Vehiculo vehiculo = GestorVehiculo.getInstance().crearVehiculo(vehiculoDTO);
+		poliza.setVehiculo(vehiculo);
 		
+		
+		poliza.setPorcentajeEstRobo(vehiculo.getModelo().getValorActual());
+		System.out.print(poliza.getPorcentajeEstRobo());
 		
 		
 		
@@ -36,7 +45,10 @@ public class GestorPoliza {
 	
 	public void setearAtributosSimples(Poliza poliza,PolizaDTO polizaDTO) {
 		poliza.setNumeroPoliza(generarNumeroPoliza());
+		poliza.setFechaInicio(polizaDTO.getFechaInicio());
 		poliza.setVencimiento(polizaDTO.getVencimiento());	
+		
+		
 		
 	}
 	

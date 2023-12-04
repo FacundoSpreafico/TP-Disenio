@@ -12,4 +12,7 @@ public interface LocalidadDAO {
 	public List<Localidad> obtenerLocalidades(Provincia provincia);
 	public Pais recuperarPaisPorNombre(String nombre);
 	public Provincia recuperarProvinciaPorNombre(String nombre);
+	public Localidad obtenerLocalidad(String localidad, String provincia, String pais);
+	
+	
 }

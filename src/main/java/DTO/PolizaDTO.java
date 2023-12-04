@@ -11,7 +11,8 @@ public class PolizaDTO {
 	private List<HijoClienteDTO> hijos = new ArrayList<>();
 	private CoberturaDTO cobertura = new CoberturaDTO();
 	private Date vencimiento;
-	
+	private Date fechaInicio;
+	private String cantKmsUltimoAnio;
 	
 	public CoberturaDTO getCobertura() {
 		return cobertura;
@@ -44,6 +45,18 @@ public class PolizaDTO {
 	}
 	public void setMedidasDeclaradas(List<MedidaDeSeguridadDTO> medidasDeclaradas) {
 		this.medidasDeclaradas = medidasDeclaradas;
+	}
+	public Date getFechaInicio() {
+		return fechaInicio;
+	}
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+	public String getKmsUltAnio() {
+		return cantKmsUltimoAnio;
+	}
+	public void setKmsUltAnio(String kmsUltAnio) {
+		this.cantKmsUltimoAnio = kmsUltAnio;
 	}
 
 

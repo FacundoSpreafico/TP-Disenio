@@ -12,8 +12,15 @@ public class VehiculoDTO {
 	public void setIdModelo(int idModelo) {
 		this.modelo.setIdModelo(idModelo);
 	}
-	
-	
+	public String getNombreModelo() {
+		return this.getModelo().getNombreModelo();
+	}
+	public int getAnioVehiculo() {
+		return this.getModelo().getAnioFabricacion();
+	}
+	public String getNombreMarca() {
+		return this.getModelo().getNombreMarca();
+	}
 	public String getMotor() {
 		return motor;
 	}
@@ -56,6 +63,5 @@ public class VehiculoDTO {
 	public void setDomicilio(DomicilioRiesgoDTO domicilio) {
 		this.domicilio = domicilio;
 	}
-	
 	
 }

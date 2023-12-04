@@ -103,9 +103,11 @@ public class Poliza {
 	@JoinColumn(name = "id_ultima_modificacion")
 	private HistorialPolizaModificada ultimaModificacion;
 	
+	
 	/*falta mapear la tabla porcentaje_medidas salida de la relacion de
 	poliza junto con historial_porcentaje_medidas
 	*/
+	
 	public int getIdPoliza() {
 		return idPoliza;
 	}
@@ -232,6 +234,78 @@ public class Poliza {
 
 	public void setUltimaModificacion(HistorialPolizaModificada ultimaModificacion) {
 		this.ultimaModificacion = ultimaModificacion;
+	}
+
+	public Boolean getRenovar() {
+		return renovar;
+	}
+
+	public void setRenovar(Boolean renovar) {
+		this.renovar = renovar;
+	}
+
+	public HistorialPorcentajeRiesgo getPorcentajeRiesgo() {
+		return porcentajeRiesgo;
+	}
+
+	public void setPorcentajeRiesgo(HistorialPorcentajeRiesgo porcentajeRiesgo) {
+		this.porcentajeRiesgo = porcentajeRiesgo;
+	}
+
+	public HistorialDescuentoPorUnidadAdicional getPorcentajeDescuento() {
+		return porcentajeDescuento;
+	}
+
+	public void setPorcentajeDescuento(HistorialDescuentoPorUnidadAdicional porcentajeDescuento) {
+		this.porcentajeDescuento = porcentajeDescuento;
+	}
+
+	public HistorialPorcentajeHijo getPorcentajeHijo() {
+		return porcentajeHijo;
+	}
+
+	public void setPorcentajeHijo(HistorialPorcentajeHijo porcentajeHijo) {
+		this.porcentajeHijo = porcentajeHijo;
+	}
+
+	public HistorialEstadisticaRobo getPorcentajeEstRobo() {
+		return porcentajeEstRobo;
+	}
+
+	public void setPorcentajeEstRobo(HistorialEstadisticaRobo porcentajeEstRobo) {
+		this.porcentajeEstRobo = porcentajeEstRobo;
+	}
+
+	public HistorialPorcentajeCobertura getPorcentajeCobertura() {
+		return porcentajeCobertura;
+	}
+
+	public void setPorcentajeCobertura(HistorialPorcentajeCobertura porcentajeCobertura) {
+		this.porcentajeCobertura = porcentajeCobertura;
+	}
+
+	public HistorialDerechoEmision getPorcentajeDerechoEmision() {
+		return porcentajeDerechoEmision;
+	}
+
+	public void setPorcentajeDerechoEmision(HistorialDerechoEmision porcentajeDerechoEmision) {
+		this.porcentajeDerechoEmision = porcentajeDerechoEmision;
+	}
+
+	public HistorialPorcentajeSiniestros getPorcentajeSiniestros() {
+		return porcentajeSiniestros;
+	}
+
+	public void setPorcentajeSiniestros(HistorialPorcentajeSiniestros porcentajeSiniestros) {
+		this.porcentajeSiniestros = porcentajeSiniestros;
+	}
+
+	public HistorialPorcentajeKM getPorcentajeKMs() {
+		return porcentajeKMs;
+	}
+
+	public void setPorcentajeKMs(HistorialPorcentajeKM porcentajeKMs) {
+		this.porcentajeKMs = porcentajeKMs;
 	}
 
 	

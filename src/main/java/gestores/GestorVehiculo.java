@@ -6,11 +6,11 @@ import DAO.MarcaDAO;
 import DAO.MarcaDAOImp;
 import DAO.ModeloDAO;
 import DAO.ModeloDAOImp;
-import DAO.VehiculoDAO;
-import DAO.VehiculoDAOImp;
 import DTO.VehiculoDTO;
+import entidades.Localidad;
 import entidades.Marca;
 import entidades.Modelo;
+import entidades.Vehiculo;
 
 public class GestorVehiculo {
 
@@ -35,19 +35,29 @@ public class GestorVehiculo {
 		return marcaDAO.recuperarMarcaPorNombre(nombre);
 	}
 	
-	
 	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
 		return modeloDAO.recuperarModelosPorMarca(marca);
-	}
-	
-	//Implementar funcion
-	public boolean validarDatosVehiculo(VehiculoDTO vehiculoDTO) {
-		return false;
 	}
 	
 	public Modelo recuperarModeloPorNombre(String nombre) {
 		return modeloDAO.recuperarModeloPorNombre(nombre);
 	}
 	
+	public Vehiculo crearVehiculo (VehiculoDTO vehiculoDTO) {
+		Vehiculo vehiculo = new Vehiculo();
+	    setearAtributosSimples(vehiculo,vehiculoDTO);
+		Modelo modelo = modeloDAO.obtenerModelo(vehiculoDTO.getNombreMarca(), vehiculoDTO.getNombreModelo());
+		vehiculo.setModelo(modelo);
+		Localidad localidad = GestorLocalidad.getInstance().obtenerDomicilioDeRiesgo(vehiculoDTO.getDomicilio());
+		vehiculo.setLocalidad(localidad);
+        return vehiculo;
+	}
+	
+	public void setearAtributosSimples(Vehiculo vehiculo, VehiculoDTO vehiculoDTO) {
+		vehiculo.setMotor(vehiculoDTO.getMotor());
+		vehiculo.setPatente(vehiculoDTO.getPatente());
+		vehiculo.setChasis(vehiculoDTO.getChasis());
+		vehiculo.setAnioVehiculo(vehiculoDTO.getAnioVehiculo());
+	}
 	
 }

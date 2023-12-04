@@ -93,7 +93,14 @@ public class ClienteDAOImp implements ClienteDAO {
 		return 0;
     }
     
-    
+    public Cliente obtenerPorId(int idCliente) {
+    	try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
+    	Cliente cliente = session.get(Cliente.class,idCliente);
+    	session.close();
+    	return cliente;
+    	}
+    	
+    }
     
 }
 	

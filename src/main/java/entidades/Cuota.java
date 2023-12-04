@@ -33,6 +33,8 @@ public class Cuota {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_poliza")
 	private Poliza poliza;
+	
+	
 	//private Pago pago;
 	@Column(name = "valor_actual")
 	private Float valorActual;

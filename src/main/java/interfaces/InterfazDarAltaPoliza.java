@@ -1418,6 +1418,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				tabbedPaneDatosPoliza.setSelectedIndex(1);
 			}
 		});
+		
 		btnSiguiente.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSiguiente.setFocusable(false);
 		btnSiguiente.setBounds(15, 380, 89, 23);
@@ -1594,7 +1595,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        }
 		        tabbedConfirmarPoliza.setEnabledAt(1, false);
 		        tabbedConfirmarPoliza.setEnabledAt(0, true);
-		        
 		    }
 		});
     }
@@ -1699,7 +1699,11 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnVolver_3_1_1.setFocusable(false);
 		btnVolver_3_1_1.setBounds(103, 380, 82, 23);
 		panelCuotasSemestral.add(btnVolver_3_1_1);
-		configuracionBotonVolverDatosPoliza(btnVolver_3_1_1);
+		btnVolver_3_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPaneDatosPoliza.setSelectedIndex(0);
+			}
+		});
 		
 		JButton btnCancelar_3_1_1 = new JButton("Cancelar");
 		btnCancelar_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -1939,20 +1943,26 @@ public class InterfazDarAltaPoliza extends JFrame {
 		JButton btnConfirmar_1 = new JButton("Confirmar");
 		btnConfirmar_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnConfirmar_1.setFocusable(false);
-		btnConfirmar_1.setBounds(20, 380, 89, 23);
+		btnConfirmar_1.setBounds(15, 380, 89, 23);
 		panelCuotasMensuales.add(btnConfirmar_1);
 		
 		JButton btnVolver_3_1_1 = new JButton("Volver");
 		btnVolver_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnVolver_3_1_1.setFocusable(false);
-		btnVolver_3_1_1.setBounds(109, 380, 82, 23);
+		btnVolver_3_1_1.setBounds(103, 380, 82, 23);
 		panelCuotasMensuales.add(btnVolver_3_1_1);
-		configuracionBotonVolverDatosPoliza(btnVolver_3_1_1);
+		btnVolver_3_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tabbedPaneDatosPoliza.setSelectedIndex(0);
+			}
+		});
+		
+		
 		
 		JButton btnCancelar_3_1_1 = new JButton("Cancelar");
 		btnCancelar_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnCancelar_3_1_1.setFocusable(false);
-		btnCancelar_3_1_1.setBounds(190, 380, 89, 23);
+		btnCancelar_3_1_1.setBounds(184, 380, 89, 23);
 		panelCuotasMensuales.add(btnCancelar_3_1_1);
 		btnCancelar_3_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

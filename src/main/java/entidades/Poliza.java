@@ -114,10 +114,10 @@ public class Poliza {
 	@JoinColumn(name = "id_ultima_modificacion")
 	private HistorialPolizaModificada ultimaModificacion;
 	
-	@OneToMany(mappedBy = "poliza")
+	@OneToMany(mappedBy = "poliza", cascade = CascadeType.ALL)
 	private List<Cuota> cuotas = new ArrayList<>();
 
-	@ManyToMany()
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable (name = "registrado_en", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_hijo_cliente")})
     private List<HijoCliente> hijos = new ArrayList<>();
 	

@@ -235,7 +235,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 					}
 					polizaDTO.setHijos(hijosCliente);
 					
-                 // GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
+                  GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
                     
 					pestaniaConfirmarPoliza();
 		        } 

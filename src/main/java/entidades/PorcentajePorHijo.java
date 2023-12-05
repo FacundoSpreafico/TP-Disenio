@@ -20,6 +20,31 @@ public class PorcentajePorHijo {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_historial_porcentaje_hijo")
-	private HistorialPorcentajeHijo actual;
+	private HistorialPorcentajeHijo valorActual;
+
+	public int getIdPorcentajeHijo() {
+		return idPorcentajeHijo;
+	}
+
+	public void setIdPorcentajeHijo(int idPorcentajeHijo) {
+		this.idPorcentajeHijo = idPorcentajeHijo;
+	}
+
+	public String getCantidadHijos() {
+		return cantidadHijos;
+	}
+
+	public void setCantidadHijos(String cantidadHijos) {
+		this.cantidadHijos = cantidadHijos;
+	}
+
+	public HistorialPorcentajeHijo getValorActual() {
+		return valorActual;
+	}
+
+	public void setValorActual(HistorialPorcentajeHijo valorActual) {
+		this.valorActual = valorActual;
+	}
+	
 	
 }

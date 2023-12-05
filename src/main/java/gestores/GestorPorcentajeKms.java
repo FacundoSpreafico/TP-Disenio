@@ -1,12 +1,13 @@
 package gestores;
 
 import DAO.PorcentajePorKmsDAO;
+import DAO.PorcentajePorKmsDAOImp;
 import entidades.HistorialPorcentajeKM;
 
 public class GestorPorcentajeKms {
 	
 	private static GestorPorcentajeKms _INSTANCE;
-	private PorcentajePorKmsDAO porcentajeKmsDAO;
+	private PorcentajePorKmsDAO porcentajeKmsDAO= new PorcentajePorKmsDAOImp();
 	
 	public static GestorPorcentajeKms getInstance() {
 		if (_INSTANCE == null) {

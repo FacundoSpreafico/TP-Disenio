@@ -5,7 +5,6 @@ public class VehiculoDTO {
 	private String chasis;
 	private String patente;
 	private String kmsUltAnio;
-	private String nroSiniestros;
 	private ModeloDTO modelo;
 	private DomicilioRiesgoDTO domicilio;
 	
@@ -44,12 +43,6 @@ public class VehiculoDTO {
 	}
 	public void setKmsUltAnio(String kmsUltAnio) {
 		this.kmsUltAnio = kmsUltAnio;
-	}
-	public String getNroSiniestros() {
-		return nroSiniestros;
-	}
-	public void setNroSiniestros(String nroSiniestros) {
-		this.nroSiniestros = nroSiniestros;
 	}
 	public ModeloDTO getModelo() {
 		return modelo;

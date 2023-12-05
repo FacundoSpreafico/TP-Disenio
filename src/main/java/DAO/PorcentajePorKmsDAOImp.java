@@ -9,7 +9,7 @@ import entidades.PorcentajePorKms;
 public class PorcentajePorKmsDAOImp implements PorcentajePorKmsDAO{
 	public HistorialPorcentajeKM getPorcentajeActual(String cantKmsPorAnio) {
 		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
-		String hql = "FROM PorcentajePorKms pkms WHERE cantidad_kilometros = :cantKmsPorAnio";
+		String hql = "FROM PorcentajePorKms pkms WHERE rangoKms = :cantKmsPorAnio";
 		Query<PorcentajePorKms> query = session.createQuery(hql,PorcentajePorKms.class);
 		query.setParameter("cantKmsPorAnio", cantKmsPorAnio);
 		PorcentajePorKms porcentaje = query.getSingleResult();

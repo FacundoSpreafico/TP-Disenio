@@ -1,5 +1,6 @@
 package gestores;
 
+import java.util.Calendar;
 import java.util.Random;
 
 import DAO.PolizaDAO;
@@ -85,19 +86,26 @@ public class GestorPoliza {
         poliza.setPorcentajeKMs(historialKms);
 
         HistorialPorcentajeSiniestros historialSiniestros = 
-        GestorPorcentajeSiniestros.getInstance().getHistorialActual(vehiculoDTO.getNroSiniestros());
+        GestorPorcentajeSiniestros.getInstance().getHistorialActual(polizaDTO.getNroSiniestros());
         poliza.setPorcentajeSiniestros(historialSiniestros);
-	    //polizaDAO.insertarPoliza(poliza);
+	    
+       // polizaDAO.insertarPoliza(poliza);
        
 	    
-		return "Debe retornar numero poliza";
+		return poliza.getNumeroPoliza();
 	}
 	
 	
 	public void setearAtributosSimples(Poliza poliza,PolizaDTO polizaDTO) {
 		poliza.setNumeroPoliza(generarNumeroPoliza());
 		poliza.setFechaInicio(polizaDTO.getFechaInicio());
-		poliza.setVencimiento(polizaDTO.getVencimiento());	
+		poliza.setFechaFin(polizaDTO.getFechaFin());
+    	poliza.setFormaPago(polizaDTO.getFormaPago());
+    	poliza.setRenovar(polizaDTO.isRenovar());
+    	poliza.setEstadoPoliza(polizaDTO.getEstadoPoliza());
+    	poliza.setNroSiniestros(polizaDTO.getNroSiniestros());
+		poliza.setCantKmsPorAnio(polizaDTO.getCantKms());
+		poliza.setFechaEmision(Calendar.getInstance().getTime());
 	}
 	
 	

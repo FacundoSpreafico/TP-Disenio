@@ -13,9 +13,15 @@ public class PolizaDTO {
 	private List<HijoClienteDTO> hijos = new ArrayList<>();
 	private List<CuotaDTO> cuotas = new ArrayList<>();
 	private CoberturaDTO cobertura = new CoberturaDTO();
-	private Date vencimiento;
 	private Date fechaInicio;
-	private String cantKmsUltimoAnio;
+	private Date fechaFin;
+	private String cantKms;
+	private String formaPago;
+	private boolean renovar;
+	private String nroSiniestros;
+	private String estadoPoliza;
+	
+	
 	
 	public CoberturaDTO getCobertura() {
 		return cobertura;
@@ -23,14 +29,6 @@ public class PolizaDTO {
 	public void setCobertura(CoberturaDTO cobertura) {
 		this.cobertura = cobertura;
 	}
-	public Date getVencimiento() {
-		return vencimiento;
-	}
-	public void setVencimiento(Date vencimiento) {
-		this.vencimiento = vencimiento;
-	}
-	
-	
 	public List<HijoClienteDTO> getHijos() {
 		return hijos;
 	}
@@ -56,10 +54,10 @@ public class PolizaDTO {
 		this.fechaInicio = fechaInicio;
 	}
 	public String getKmsUltAnio() {
-		return cantKmsUltimoAnio;
+		return cantKms;
 	}
 	public void setKmsUltAnio(String kmsUltAnio) {
-		this.cantKmsUltimoAnio = kmsUltAnio;
+		this.cantKms = kmsUltAnio;
 	}
 	public List<CuotaDTO> getCuotas() {
 		return cuotas;
@@ -67,7 +65,45 @@ public class PolizaDTO {
 	public void setCuotas(List<CuotaDTO> cuotas) {
 		this.cuotas = cuotas;
 	}
-
-
-
+	public Date getFechaFin() {
+		return fechaFin;
+	}
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+	public String getCantKms() {
+		return cantKms;
+	}
+	public void setCantKms(String cantKms) {
+		this.cantKms = cantKms;
+	}
+	public String getFormaPago() {
+		return formaPago;
+	}
+	public void setFormaPago(String formaPago) {
+		this.formaPago = formaPago;
+	}
+	public boolean isRenovar() {
+		return renovar;
+	}
+	public void setRenovar(boolean renovar) {
+		this.renovar = renovar;
+	}
+	public String getNroSiniestros() {
+		return nroSiniestros;
+	}
+	public void setNroSiniestros(String nroSiniestros) {
+		this.nroSiniestros = nroSiniestros;
+	}
+	public String getEstadoPoliza() {
+		return estadoPoliza;
+	}
+	public void setEstadoPoliza(String estadoPoliza) {
+		this.estadoPoliza = estadoPoliza;
+	}
+	
+	
+	
+	
+	
 }

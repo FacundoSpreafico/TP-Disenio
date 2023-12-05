@@ -12,6 +12,7 @@ public class PolizaDAOImp implements PolizaDAO{
 	public void insertarPoliza(Poliza poliza) {
 	    try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
 	        Transaction transaction = session.beginTransaction();
+	        
 	        session.save(poliza);
 	        System.out.print("Save");
 	        transaction.commit();

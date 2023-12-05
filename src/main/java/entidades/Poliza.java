@@ -15,6 +15,8 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table (name = "Poliza")
@@ -28,26 +30,23 @@ public class Poliza {
 	@Column(name = "numero")
 	private String numeroPoliza;
 	
+    @Temporal(TemporalType.DATE)
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
-	
+    
+    @Temporal(TemporalType.DATE)
 	@Column(name = "fecha_fin")
 	private Date fechaFin;
 	
+    @Temporal(TemporalType.DATE)
 	@Column(name = "fecha_emision")
 	private Date fechaEmision;
 	
 	@Column(name = "forma_pago")
 	private String formaPago;
 	
-	@Column(name = "ultimo_dia_pago")
-	private Date ultimoDiaPago;
-	
 	@Column(name = "renovar")
 	private Boolean renovar;
-	
-	@Column(name = "vencimiento")
-	private Date vencimiento;
 	
 	@Column(name = "nro_siniestros")
 	private String nroSiniestros;
@@ -56,7 +55,7 @@ public class Poliza {
 	private String estadoPoliza;
 	
 	@Column(name = "cantidad_kms_por_anio")
-	private int cantKmsPorAnio;
+	private String cantKmsPorAnio;
 	
 	@ManyToOne(cascade= CascadeType.ALL)
 	@JoinColumn(name = "id_vehiculo")
@@ -74,7 +73,7 @@ public class Poliza {
 	@JoinColumn(name = "id_suma_asegurada")
 	private SumaAsegurada sumaAsegurada;
 	
-	@ManyToMany()
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable (name = "declara_medida", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_medida")})
     private List<MedidaDeSeguridad> medidas = new ArrayList<>();
 	
@@ -169,22 +168,6 @@ public class Poliza {
 		this.formaPago = formaPago;
 	}
 
-	public Date getUltimoDiaPago() {
-		return ultimoDiaPago;
-	}
-
-	public void setUltimoDiaPago(Date ultimoDiaPago) {
-		this.ultimoDiaPago = ultimoDiaPago;
-	}
-
-	public Date getVencimiento() {
-		return vencimiento;
-	}
-
-	public void setVencimiento(Date vencimiento) {
-		this.vencimiento = vencimiento;
-	}
-
 	public String getNroSiniestros() {
 		return nroSiniestros;
 	}
@@ -201,11 +184,11 @@ public class Poliza {
 		this.estadoPoliza = estadoPoliza;
 	}
 
-	public int getCantKmsPorAnio() {
+	public String getCantKmsPorAnio() {
 		return cantKmsPorAnio;
 	}
 
-	public void setCantKmsPorAnio(int cantKmsPorAnio) {
+	public void setCantKmsPorAnio(String cantKmsPorAnio) {
 		this.cantKmsPorAnio = cantKmsPorAnio;
 	}
 

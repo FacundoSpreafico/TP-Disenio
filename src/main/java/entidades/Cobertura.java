@@ -28,4 +28,17 @@ public class Cobertura {
 	public void setNombreCobertura(String nombreCobertura) {
 		this.nombreCobertura = nombreCobertura;
 	}
+	public int getIdCobertura() {
+		return idCobertura;
+	}
+	public void setIdCobertura(int idCobertura) {
+		this.idCobertura = idCobertura;
+	}
+	public HistorialPorcentajeCobertura getValorActual() {
+		return valorActual;
+	}
+	public void setValorActual(HistorialPorcentajeCobertura valorActual) {
+		this.valorActual = valorActual;
+	}
+	
 }

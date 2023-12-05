@@ -20,4 +20,10 @@ public class GestorCobertura {
 		return coberturaDAO.recuperarCoberturas();
 	}
 	
+	public Cobertura buscarCobertura(String nombreCobertura) {
+		return coberturaDAO.buscarPorNombre(nombreCobertura);
+	}
+	
+	
+	
 }

@@ -11,7 +11,7 @@ public class PorcentajeHijoDAOImp implements PorcentajeHijoDAO{
 		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
 		String hql = "FROM PorcentajePorHijo WHERE cantidadHijos = :cantHijos";
 		Query<PorcentajePorHijo> query = session.createQuery(hql,PorcentajePorHijo.class);
-		query.setParameter("cantidadHijos", cantHijos);
+		query.setParameter("cantHijos", cantHijos);
 		PorcentajePorHijo porcentaje = query.getSingleResult();
 		return porcentaje.getValorActual();	
 		}

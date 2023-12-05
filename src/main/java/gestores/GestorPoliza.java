@@ -12,8 +12,11 @@ import DTO.MedidaDeSeguridadDTO;
 import DTO.PolizaDTO;
 import DTO.VehiculoDTO;
 import entidades.Cliente;
+import entidades.Cobertura;
 import entidades.Cuota;
 import entidades.HijoCliente;
+import entidades.HistorialDerechoEmision;
+import entidades.HistorialPorcentajeHijo;
 import entidades.HistorialPorcentajeKM;
 import entidades.HistorialPorcentajeSiniestros;
 import entidades.MedidaDeSeguridad;
@@ -75,12 +78,18 @@ public class GestorPoliza {
     	    poliza.getHijos().add(hijo);
         }
         
+        //Logica cobertura
+        Cobertura cobertura = GestorCobertura.getInstance().buscarCobertura(polizaDTO.getCobertura().getNombreCobertura());
+        poliza.setTipoCobertura(cobertura);
+        poliza.setPorcentajeCobertura(cobertura.getValorActual());
+        
         //Logica cuotas
         for (CuotaDTO cuotaDTO: polizaDTO.getCuotas()) {
         	Cuota cuota;
         	cuota = GestorCuota.getInstance().crearCuota(cuotaDTO);
         	poliza.getCuotas().add(cuota);
         }
+        
         HistorialPorcentajeKM historialKms = 
         GestorPorcentajeKms.getInstance().getHistorialActual(polizaDTO.getKmsUltAnio());
         poliza.setPorcentajeKMs(historialKms);
@@ -89,7 +98,16 @@ public class GestorPoliza {
         GestorPorcentajeSiniestros.getInstance().getHistorialActual(polizaDTO.getNroSiniestros());
         poliza.setPorcentajeSiniestros(historialSiniestros);
 	    
-       // polizaDAO.insertarPoliza(poliza);
+        HistorialPorcentajeHijo historialHijos = 
+        GestorPorcentajeHijo.getInstance().getHistorialActual(polizaDTO.getHijos().size());
+        poliza.setPorcentajeHijo(historialHijos);
+        
+        HistorialDerechoEmision historialDerechoEmision = 
+        GestorDerechoEmision.getInstance().getHistorialActual();
+        poliza.setPorcentajeDerechoEmision(historialDerechoEmision);
+        
+        
+        polizaDAO.insertarPoliza(poliza);
        
 	    
 		return poliza.getNumeroPoliza();

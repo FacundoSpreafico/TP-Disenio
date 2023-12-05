@@ -16,6 +16,7 @@ public class PolizaDAOImp implements PolizaDAO{
 	        session.save(poliza);
 	        System.out.print("Save");
 	        transaction.commit();
+	        session.close();
 	    } catch (Exception e) {
 	        // Manejo de excepciones (puedes realizar un rollback aquí si es necesario)
 	        e.printStackTrace();

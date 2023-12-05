@@ -2,7 +2,6 @@ package entidades;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,8 +19,33 @@ public class DescuentoPorUnidadAdicional {
 	@Column(name = "cantidad_unidades")
 	private int cantUnidades;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name = "id_historial_descuento_por_unidad_adicional")
 	private HistorialDescuentoPorUnidadAdicional valorActual;
+
+	public int getIdDescuento() {
+		return idDescuento;
+	}
+
+	public void setIdDescuento(int idDescuento) {
+		this.idDescuento = idDescuento;
+	}
+
+	public int getCantUnidades() {
+		return cantUnidades;
+	}
+
+	public void setCantUnidades(int cantUnidades) {
+		this.cantUnidades = cantUnidades;
+	}
+
+	public HistorialDescuentoPorUnidadAdicional getValorActual() {
+		return valorActual;
+	}
+
+	public void setValorActual(HistorialDescuentoPorUnidadAdicional valorActual) {
+		this.valorActual = valorActual;
+	}
+	
 	
 }

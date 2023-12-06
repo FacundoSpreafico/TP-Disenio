@@ -173,7 +173,6 @@ public class InterfazDarAltaPoliza extends JFrame {
     private PolizaDTO polizaDTO;
     private JDateChooser fechaInicio_1, fechaFin;
     JComboBox<String> comboBoxTipoCobertura;
-    private JButton btnNewButton;
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, ParseException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -238,9 +237,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 						}
 					}
 					polizaDTO.setHijos(hijosCliente);
-					
-                  
-                    
 					pestaniaConfirmarPoliza();
 		        } 
 			}
@@ -1120,15 +1116,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldNroDNI);
 		textFieldNroDNI.setColumns(10);
 		configuracionTextField(textFieldNroDNI);
-		
-		btnNewButton = new JButton("Probar dialogo");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				 JOptionPane.showMessageDialog(null, panel, "Póliza generada", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
-		btnNewButton.setBounds(20, 316, 89, 23);
-		buscarCliente.add(btnNewButton);
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);

@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -79,6 +78,10 @@ public class Poliza {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable (name = "declara_medida", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_medida")})
     private List<MedidaDeSeguridad> medidas = new ArrayList<>();
+	
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "porcentaje_medidas", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_historial_porcentaje_medida")})
+	private List<HistorialPorcentajeMedida> porcentajeMedidas = new ArrayList<>();
 	
 	@ManyToOne()
 	@JoinColumn(name = "id_historial_porcentaje_riesgo")
@@ -329,6 +332,14 @@ public class Poliza {
 
 	public void setCuotas(List<Cuota> cuotas) {
 		this.cuotas = cuotas;
+	}
+
+	public List<HistorialPorcentajeMedida> getPorcentajeMedidas() {
+		return porcentajeMedidas;
+	}
+
+	public void setPorcentajeMedidas(List<HistorialPorcentajeMedida> porcentajeMedidas) {
+		this.porcentajeMedidas = porcentajeMedidas;
 	}
 
 	

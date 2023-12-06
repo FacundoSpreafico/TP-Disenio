@@ -69,6 +69,7 @@ public class GestorPoliza {
 	    	MedidaDeSeguridad medida;
 	    	medida = GestorMedidaSeguridad.getInstance().obtenerPorNombre(medidaDTO);
 	        poliza.getMedidas().add(medida);
+	        poliza.getPorcentajeMedidas().add(medida.getValorActual());
 	    }
 	    
 	    

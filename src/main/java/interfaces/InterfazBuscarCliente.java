@@ -65,6 +65,7 @@ public class InterfazBuscarCliente extends JFrame {
 	}
 	
 	public void inicializarPaneles() {
+
 		JLabel lblNroCliente = new JLabel("Nro. Cliente");
 		lblNroCliente.setBounds(60, 70, 65, 14);
 		lblNroCliente.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -231,7 +232,7 @@ public class InterfazBuscarCliente extends JFrame {
 		});
 		btnCancelar.setBounds(116, 460, 89, 23);
 		contentPane.add(btnCancelar);
-
+		configuracionTabla(GestorCliente.getInstance().buscar());
 	}
 	public boolean todosNulos() {
 		if (textFieldNombre.getText().isEmpty() && textFieldApellido.getText().isEmpty() && comboBoxTipoDoc.getSelectedItem()==null && textFieldNroDoc.getText().isEmpty() 

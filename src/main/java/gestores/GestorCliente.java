@@ -40,6 +40,18 @@ public class GestorCliente{
 		 return resultado;
 	}
 	
+	public List<ClienteDTO> buscar() {
+		 List<ClienteDTO> resultado = new ArrayList<>();
+		 List<Cliente> clientes = clienteDAO.buscarClientes();
+		 
+		 for (Cliente clienteEntidad : clientes) {
+		     ClienteDTO clienteDTO = convertirEntidadADTO(clienteEntidad);
+		     resultado.add(clienteDTO);
+		 }
+		 return resultado;
+	}
+	
+	
 	private ClienteDTO convertirEntidadADTO(Cliente clienteEntidad) {
 	    ClienteDTO clienteDTO = new ClienteDTO();
 	    clienteDTO.setNombre(clienteEntidad.getNombre());

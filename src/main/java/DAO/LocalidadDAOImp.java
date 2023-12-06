@@ -44,7 +44,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
 	public Pais recuperarPaisPorNombre(String nombre) {
 		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
-                String hql = "FROM Pais WHERE nombrePais = :nombre";
+                String hql = "FROM Pais WHERE nombrePais = :nombre ORDER BY nombrePais";
                 Query<Pais> query = session.createQuery(hql,Pais.class);
                 query.setParameter("nombre", nombre);
                 Pais pais = query.getSingleResult();
@@ -77,7 +77,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
             Transaction transaction = session.beginTransaction();
 
             try {
-            	String hql = "FROM Provincia WHERE pais = :pais";
+            	String hql = "FROM Provincia WHERE pais = :pais ORDER BY nombreProvincia";
                 Query<Provincia> query = session.createQuery(hql, Provincia.class);
                 query.setParameter("pais", pais);
                 List<Provincia> provincias = query.getResultList();
@@ -100,7 +100,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
             Transaction transaction = session.beginTransaction();
 
             try {
-                String hql = "FROM Localidad WHERE provincia = :provincia";
+                String hql = "FROM Localidad WHERE provincia = :provincia ORDER BY nombreLocalidad";
                 Query<Localidad> query = session.createQuery(hql, Localidad.class);
                 query.setParameter("provincia",provincia);
                 List<Localidad> localidades  = query.getResultList();

@@ -51,8 +51,18 @@ public class ClienteDAOImp implements ClienteDAO {
             return listaClientes;
         }
     }
-
     
+    public List<Cliente> buscarClientes() {
+        try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
+        	String hql = "FROM Cliente ORDER BY apellido, nombre";
+            Query<Cliente> query = session.createQuery(hql,Cliente.class);
+            List<Cliente> listaClientes = query.getResultList();
+            session.close();
+            return listaClientes;
+        }
+    }
+
+ 
     private Predicate[] construirRestricciones(CriteriaBuilder criteriaBuilder, Root<Cliente> root, ClienteDTO clienteDTO) {
         int tamañoLista = 100;
         Predicate[] restricciones = new Predicate[tamañoLista];

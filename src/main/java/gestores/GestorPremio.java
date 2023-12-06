@@ -12,9 +12,9 @@ public class GestorPremio {
 		return _INSTANCE;
 	}
 	
-	public String devolverPremio() {
+	public double devolverPremio() {
 		Random random = new Random();
-	    int premio = random.nextInt(10000 - 8000 + 1) + 8000;
-		return String.valueOf(premio);
+	    double premio = random.nextInt(10000 - 8000 + 1) + 8000;
+		return premio;
 	}
 }

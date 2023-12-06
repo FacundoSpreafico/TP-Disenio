@@ -1,6 +1,8 @@
 package gestores;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
 import DAO.PolizaDAO;
@@ -124,8 +126,7 @@ public class GestorPoliza {
         HistorialDescuentoPorUnidadAdicional historialDescuentoPorUnidadAdicional = 
         GestorDescuentoPorUnidAdicional.getInstance().getHistorialActual(cantidadVehiculos);
         poliza.setPorcentajeDescuento(historialDescuentoPorUnidadAdicional);
-        
-        
+
         
         
         polizaDAO.insertarPoliza(poliza);
@@ -158,6 +159,12 @@ public class GestorPoliza {
 
 	     return String.format("%d%c%c", numeroAleatorio, letra1, letra2);
 	    }
+
+	public double calcularDescuentos() {
+		Random random = new Random();
+	    int premio = random.nextInt(4000 - 2000 + 1) + 2000;
+		return premio;
+	}
 	
 	
 }

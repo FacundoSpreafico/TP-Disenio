@@ -66,6 +66,7 @@ import gestores.GestorPoliza;
 import gestores.GestorPremio;
 import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
+import javax.swing.JRadioButton;
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -139,7 +140,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private JTextField textField_Patente;
 	private JPanel panelGeneracionPoliza_1;
 	private JTextField textField_SumaAsegurada;
-	private JSeparator separatorTitularSeguro_1;
+	private JSeparator separatorSuma_Asegurada;
 	private JDateChooser fechaUltDiaPago;
 	private JLabel lblSumaAsegurada_1;
 	private JTextField textField_Premio;
@@ -729,6 +730,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separator_8.setBackground(Color.BLACK);
 		
 		textFieldSumaAsegurada = new JTextField();
+		textFieldSumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldSumaAsegurada.setBounds(526, 105, 154, 17);
 		panelPoliza.add(textFieldSumaAsegurada);
 		textFieldSumaAsegurada.setColumns(10);
@@ -888,9 +890,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     	                		textFieldSumaAsegurada.setText("");
     	                	}
     	                	else {
-    	                	DecimalFormat formatoPesos = new DecimalFormat("###,###,##0.00");
-        	                String valorEnPesos = formatoPesos.format(GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo));
-    	                    textFieldSumaAsegurada.setText(valorEnPesos);
+    	                    textFieldSumaAsegurada.setText(transformarAFormatoPesos(GestorSumaAsegurada.getInstance().devolverSumaAsegurada(modelo)));
     	                	}
     	                  }
     	                  else {
@@ -1289,10 +1289,12 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            	
 		            	//TextFields
 		            	textField_SumaAsegurada.setText(textFieldSumaAsegurada.getText());
-		            	textField_Premio.setText(GestorPremio.getInstance().devolverPremio());
+		            	textField_Premio.setText(transformarAFormatoPesos(GestorPremio.getInstance().devolverPremio()));
+		            	textField_ImportePDesc.setText(transformarAFormatoPesos(GestorPoliza.getInstance().calcularDescuentos()));
+		            	textFieldMontoTotal.setText(textField_Premio.getText());
 		            	
 		            	//Premio
-		            	polizaDTO.setPremio(Double.parseDouble(GestorPremio.getInstance().devolverPremio()));;
+		            	polizaDTO.setPremio(GestorPremio.getInstance().devolverPremio());
 		            	
 		            	
 		            	
@@ -1636,45 +1638,48 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCuotasSemestral.add(panelGeneracionPoliza_1);
 		
 		textField_SumaAsegurada = new JTextField();
+		textField_SumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
 		textField_SumaAsegurada.setColumns(10);
-		textField_SumaAsegurada.setBounds(160, 19, 170, 20);
+		textField_SumaAsegurada.setBounds(160, 23, 168, 20);
 		panelGeneracionPoliza_1.add(textField_SumaAsegurada);
 		configuracionTextField(textField_SumaAsegurada);
 		
-		separatorTitularSeguro_1 = new JSeparator();
-		separatorTitularSeguro_1.setForeground(Color.BLACK);
-		separatorTitularSeguro_1.setBackground(Color.BLACK);
-		separatorTitularSeguro_1.setBounds(160, 39, 169, 2);
-		panelGeneracionPoliza_1.add(separatorTitularSeguro_1);
+		separatorSuma_Asegurada = new JSeparator();
+		separatorSuma_Asegurada.setForeground(Color.BLACK);
+		separatorSuma_Asegurada.setBackground(Color.BLACK);
+		separatorSuma_Asegurada.setBounds(160, 43, 169, 2);
+		panelGeneracionPoliza_1.add(separatorSuma_Asegurada);
 		
 		fechaUltDiaPago = new JDateChooser();
 		fechaUltDiaPago.setEnabled(false);
 		fechaUltDiaPago.setBounds(506, 61, 170, 20);
 		panelGeneracionPoliza_1.add(fechaUltDiaPago);
 		
-		lblSumaAsegurada_1 = new JLabel("Suma asegurada");
+		lblSumaAsegurada_1 = new JLabel("Suma asegurada            $");
 		lblSumaAsegurada_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSumaAsegurada_1.setBounds(15, 27, 101, 14);
+		lblSumaAsegurada_1.setBounds(15, 27, 143, 14);
 		panelGeneracionPoliza_1.add(lblSumaAsegurada_1);
 		
 		textField_Premio = new JTextField();
+		textField_Premio.setFont(new Font("Arial", Font.PLAIN, 12));
 		textField_Premio.setColumns(10);
-		textField_Premio.setBounds(506, 19, 170, 20);
+		textField_Premio.setBounds(509, 23, 169, 20);
 		panelGeneracionPoliza_1.add(textField_Premio);
 		configuracionTextField(textField_Premio);
 		
-		JSeparator separatorTitularSeguro_1_1 = new JSeparator();
-		separatorTitularSeguro_1_1.setForeground(Color.BLACK);
-		separatorTitularSeguro_1_1.setBackground(Color.BLACK);
-		separatorTitularSeguro_1_1.setBounds(507, 39, 169, 2);
-		panelGeneracionPoliza_1.add(separatorTitularSeguro_1_1);
+		JSeparator separator_premio = new JSeparator();
+		separator_premio.setForeground(Color.BLACK);
+		separator_premio.setBackground(Color.BLACK);
+		separator_premio.setBounds(509, 43, 169, 2);
+		panelGeneracionPoliza_1.add(separator_premio);
 		
-		JLabel lblSumaAsegurada_1_1 = new JLabel("Premio");
+		JLabel lblSumaAsegurada_1_1 = new JLabel("Premio                       $");
 		lblSumaAsegurada_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSumaAsegurada_1_1.setBounds(385, 27, 50, 14);
+		lblSumaAsegurada_1_1.setBounds(385, 27, 121, 14);
 		panelGeneracionPoliza_1.add(lblSumaAsegurada_1_1);
 		
 		textField_ImportePDesc = new JTextField();
+		textField_ImportePDesc.setFont(new Font("Arial", Font.PLAIN, 12));
 		textField_ImportePDesc.setColumns(10);
 		textField_ImportePDesc.setBounds(160, 62, 170, 20);
 		panelGeneracionPoliza_1.add(textField_ImportePDesc);
@@ -1686,7 +1691,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separatorTitularSeguro_1_2.setBounds(160, 82, 169, 2);
 		panelGeneracionPoliza_1.add(separatorTitularSeguro_1_2);
 		
-		JLabel lblSumaAsegurada_1_2 = new JLabel("Importe por descuentos");
+		JLabel lblSumaAsegurada_1_2 = new JLabel("Importe por descuentos $");
 		lblSumaAsegurada_1_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblSumaAsegurada_1_2.setBounds(15, 67, 151, 14);
 		panelGeneracionPoliza_1.add(lblSumaAsegurada_1_2);
@@ -1697,6 +1702,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_1.add(lblSumaAsegurada_1_3);
 		
 		textFieldMontoTotal = new JTextField();
+		textFieldMontoTotal.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldMontoTotal.setColumns(10);
 		textFieldMontoTotal.setBounds(160, 306, 170, 20);
 		panelGeneracionPoliza_1.add(textFieldMontoTotal);
@@ -2290,6 +2296,12 @@ public class InterfazDarAltaPoliza extends JFrame {
         cal.add(Calendar.MONTH, 6);
         // Establecer la fecha de fechaFin
         fechaFin.setDate(cal.getTime());
+        
+        cal.setTime(fechaFin.getDate());
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        fechaUltDiaPago.setDate(cal.getTime());
+        
+        
     }
     public void configuracionBotonConfirmarPoliza(JButton btn) {
     	btn.addActionListener(new ActionListener() {
@@ -2298,8 +2310,12 @@ public class InterfazDarAltaPoliza extends JFrame {
 			}
 		});
     }
-    
-    public void dialogoCancelar() {
+    public String transformarAFormatoPesos(double valor) {
+    	DecimalFormat formatoPesos = new DecimalFormat("###,###,##0.00");
+        String valorEnPesos = formatoPesos.format(valor);
+    	return valorEnPesos;
+    }
+      public void dialogoCancelar() {
 
     	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar el alta de la poliza?","Confirmación",
                 JOptionPane.YES_NO_OPTION);
@@ -2308,3 +2324,5 @@ public class InterfazDarAltaPoliza extends JFrame {
         }
     }
 }
+
+    

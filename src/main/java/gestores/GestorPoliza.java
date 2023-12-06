@@ -22,6 +22,7 @@ import entidades.HistorialPorcentajeKM;
 import entidades.HistorialPorcentajeSiniestros;
 import entidades.MedidaDeSeguridad;
 import entidades.Poliza;
+import entidades.Premio;
 import entidades.SumaAsegurada;
 import entidades.Vehiculo;
 
@@ -92,6 +93,10 @@ public class GestorPoliza {
         	poliza.getCuotas().add(cuota);
         }
         
+        //Logica premio
+        Premio premio = new Premio();
+        premio.setPrima(polizaDTO.getPremio().getPrima());
+        poliza.setPremio(premio);
         
         //Recuperar historial porcentaje kilometros
         HistorialPorcentajeKM historialKms = 
@@ -119,6 +124,9 @@ public class GestorPoliza {
         HistorialDescuentoPorUnidadAdicional historialDescuentoPorUnidadAdicional = 
         GestorDescuentoPorUnidAdicional.getInstance().getHistorialActual(cantidadVehiculos);
         poliza.setPorcentajeDescuento(historialDescuentoPorUnidadAdicional);
+        
+        
+        
         
         polizaDAO.insertarPoliza(poliza);
        

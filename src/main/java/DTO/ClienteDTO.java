@@ -3,6 +3,7 @@ package DTO;
 public class ClienteDTO {
 	private String nombre,apellido,tipoDocumento,nroCliente,nroDocumento;
 	private int idCliente;
+	private DomicilioDTO domicilio = new DomicilioDTO();
 	
 	public int getIdCliente() {
 		return idCliente;
@@ -39,5 +40,11 @@ public class ClienteDTO {
 	}
 	public void setNroDocumento(String nroDocumento) {
 		this.nroDocumento = nroDocumento;
+	}
+	public DomicilioDTO getDomicilio() {
+		return domicilio;
+	}
+	public void setDomicilio(DomicilioDTO domicilio) {
+		this.domicilio = domicilio;
 	}
 }

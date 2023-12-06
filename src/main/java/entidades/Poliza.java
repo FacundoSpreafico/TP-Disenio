@@ -15,6 +15,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -75,6 +76,13 @@ public class Poliza {
 	@JoinColumn(name = "id_suma_asegurada")
 	private SumaAsegurada sumaAsegurada;
 	
+	@OneToMany(mappedBy = "poliza", cascade = CascadeType.ALL)
+	private List<Cuota> cuotas = new ArrayList<>();
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable (name = "registrado_en", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_hijo_cliente")})
+    private List<HijoCliente> hijos = new ArrayList<>();
+	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable (name = "declara_medida", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_medida")})
     private List<MedidaDeSeguridad> medidas = new ArrayList<>();
@@ -82,6 +90,9 @@ public class Poliza {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "porcentaje_medidas", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_historial_porcentaje_medida")})
 	private List<HistorialPorcentajeMedida> porcentajeMedidas = new ArrayList<>();
+	
+	@OneToOne(mappedBy = "poliza")
+	private Premio premio;
 	
 	@ManyToOne()
 	@JoinColumn(name = "id_historial_porcentaje_riesgo")
@@ -118,13 +129,6 @@ public class Poliza {
 	@ManyToOne()
 	@JoinColumn(name = "id_ultima_modificacion")
 	private HistorialPolizaModificada ultimaModificacion;
-	
-	@OneToMany(mappedBy = "poliza", cascade = CascadeType.ALL)
-	private List<Cuota> cuotas = new ArrayList<>();
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable (name = "registrado_en", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_hijo_cliente")})
-    private List<HijoCliente> hijos = new ArrayList<>();
 	
 	public int getIdPoliza() {
 		return idPoliza;
@@ -340,6 +344,14 @@ public class Poliza {
 
 	public void setPorcentajeMedidas(List<HistorialPorcentajeMedida> porcentajeMedidas) {
 		this.porcentajeMedidas = porcentajeMedidas;
+	}
+
+	public Premio getPremio() {
+		return premio;
+	}
+
+	public void setPremio(Premio premio) {
+		this.premio = premio;
 	}
 
 	

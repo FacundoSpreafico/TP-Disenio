@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -73,10 +74,27 @@ public class Cliente {
 	
 	@OneToMany(mappedBy = "cliente")
 	private List<Poliza> listaPolizas;
-	/*
-	Domicilio domicilio;
-	*/
 	
+    @OneToOne(mappedBy = "cliente")
+	Domicilio domicilio;
+	
+	
+	public List<Poliza> getListaPolizas() {
+		return listaPolizas;
+	}
+
+	public void setListaPolizas(List<Poliza> listaPolizas) {
+		this.listaPolizas = listaPolizas;
+	}
+
+	public Domicilio getDomicilio() {
+		return domicilio;
+	}
+
+	public void setDomicilio(Domicilio domicilio) {
+		this.domicilio = domicilio;
+	}
+
 	public Integer getIdCliente() {
         return idCliente;
     }

@@ -6,6 +6,7 @@ import java.util.List;
 import DAO.ClienteDAO;
 import DAO.ClienteDAOImp;
 import DTO.ClienteDTO;
+import DTO.DomicilioDTO;
 import entidades.Cliente;
 
 public class GestorCliente{
@@ -35,7 +36,7 @@ public class GestorCliente{
 		 for (Cliente clienteEntidad : clientes) {
 		     ClienteDTO clienteDTO = convertirEntidadADTO(clienteEntidad);
 		     resultado.add(clienteDTO);
-		  }
+		 }
 		 return resultado;
 	}
 	
@@ -46,6 +47,10 @@ public class GestorCliente{
 	    clienteDTO.setNroCliente(clienteEntidad.getNroCliente());
         clienteDTO.setNroDocumento(clienteEntidad.getNroDocumento());
         clienteDTO.setTipoDocumento(clienteEntidad.getTipoDocumento());
+        DomicilioDTO domicilio = new DomicilioDTO();
+        domicilio.setCalle(clienteEntidad.getDomicilio().getCalle());
+        domicilio.setAltura(clienteEntidad.getDomicilio().getAltura());
+        clienteDTO.setDomicilio(domicilio);
 	    return clienteDTO;
 	}
 	

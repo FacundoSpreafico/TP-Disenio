@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,12 +26,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-import java.util.List;
-
 
 import DTO.ClienteDTO;
 import constantes.Images;
-import entidades.Cliente;
 import gestores.GestorCliente;
 
 public class InterfazBuscarCliente extends JFrame {
@@ -44,7 +43,7 @@ public class InterfazBuscarCliente extends JFrame {
 	private ClienteDTO clienteBuscado= new ClienteDTO();
 	private InterfazDarAltaPoliza interfazDarAltaPoliza;
 	private String[] optionsTipoDocumento = {"<Seleccione>","DNI", "Libreta civica", "Libreta de enrolamiento"};
-	
+	List<ClienteDTO> listaClientes = new ArrayList<ClienteDTO>();
 	
 	
 	public InterfazBuscarCliente(InterfazDarAltaPoliza interfazDarAltaPoliza)  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -142,7 +141,7 @@ public class InterfazBuscarCliente extends JFrame {
 		        	JOptionPane.showMessageDialog(null, "No se ha ingresado ningún parámetro de búsqueda", "Advertencia", JOptionPane.WARNING_MESSAGE);
 		        }
 		        else {
-		        List<ClienteDTO> listaClientes = GestorCliente.getInstance().buscar(cliente);
+		        listaClientes = GestorCliente.getInstance().buscar(cliente);
 		        configuracionTabla(listaClientes);
 		        }
 		    }
@@ -171,13 +170,16 @@ public class InterfazBuscarCliente extends JFrame {
 		contentPane.add(btnConfirmar);
 		btnConfirmar.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        int fila = tablaClientes.getSelectedRow();
-		            ClienteDTO clienteSeleccionado = new ClienteDTO();
-		            clienteSeleccionado.setNroCliente(tablaClientes.getValueAt(fila, 0).toString());
-		            clienteSeleccionado.setApellido(tablaClientes.getValueAt(fila, 1).toString());
-		            clienteSeleccionado.setNombre(tablaClientes.getValueAt(fila, 2).toString());
-		            clienteSeleccionado.setTipoDocumento(tablaClientes.getValueAt(fila, 3).toString());
-		            clienteSeleccionado.setNroDocumento(tablaClientes.getValueAt(fila, 4).toString());
+		            int fila = tablaClientes.getSelectedRow();
+		            ClienteDTO clienteSeleccionado = new ClienteDTO();  
+		            String nroCliente = tablaClientes.getValueAt(fila, 0).toString();
+		            
+		            for (ClienteDTO cliente: listaClientes) {
+		            	if (cliente.getNroCliente().equals(nroCliente)) {
+		            		clienteSeleccionado = cliente;
+		            	}
+		            }
+
 		            if (interfazDarAltaPoliza != null) {
 		                interfazDarAltaPoliza.actualizarCamposCliente(clienteSeleccionado);
 		            }

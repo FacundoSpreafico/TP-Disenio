@@ -28,7 +28,7 @@ public class Domicilio {
 	private Integer piso;
 	
 	@Column(name = "departamento")
-	private char departamento;
+	private String departamento;
 	
 	@Column(name = "codigo_postal")
 	private Integer codigo_postal;
@@ -39,9 +39,73 @@ public class Domicilio {
 	
 	@OneToOne
 	@MapsId
-	@PrimaryKeyJoinColumn
+	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
+
 	
+	public Integer getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(Integer idCliente) {
+		this.idCliente = idCliente;
+	}
+
+	public String getCalle() {
+		return calle;
+	}
+
+	public void setCalle(String calle) {
+		this.calle = calle;
+	}
+
+	public Integer getAltura() {
+		return altura;
+	}
+
+	public void setAltura(Integer altura) {
+		this.altura = altura;
+	}
+
+	public Integer getPiso() {
+		return piso;
+	}
+
+	public void setPiso(Integer piso) {
+		this.piso = piso;
+	}
+
+	public String getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(String departamento) {
+		this.departamento = departamento;
+	}
+
+	public Integer getCodigo_postal() {
+		return codigo_postal;
+	}
+
+	public void setCodigo_postal(Integer codigo_postal) {
+		this.codigo_postal = codigo_postal;
+	}
+
+	public Localidad getInteger() {
+		return Integer;
+	}
+
+	public void setInteger(Localidad integer) {
+		Integer = integer;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
 	
 	
 }

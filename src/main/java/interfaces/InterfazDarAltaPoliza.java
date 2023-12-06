@@ -108,6 +108,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	// Arrays de opciones
 	private String[] optionsEstadoCivil = {"<Seleccione>","Soltero/a", "Casado/a", "Divorciado/a", "Separado/A", "Viudo/A"};
 	private String[] optionsSexo = {"<Seleccione>","Masculino", "Femenino"};
+	String[] opcionesKMs = {"<Seleccione>", "Hasta 10.000", "10.000 - 20.000", "20.000 - 30.000", "Mas de 30.000"};
 
 	// JTable
 	private JTable tablaHijos;
@@ -229,8 +230,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 						
 						try {
 							Date fechaNacimiento = dateFormat.parse(tablaHijos.getValueAt(i, 0).toString());
-							String estadoCivil = tablaHijos.getValueAt(i, 1).toString();
-							String sexo = tablaHijos.getValueAt(i,2).toString();
+							String estadoCivil = tablaHijos.getValueAt(i, 2).toString();
+							String sexo = tablaHijos.getValueAt(i,1).toString();
 							hijosCliente.add(new HijoClienteDTO(fechaNacimiento, estadoCivil, sexo));
 						} catch (ParseException e1) {
 							
@@ -693,7 +694,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblKmsAnio.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		//campo KMs por anio
-		String[] opcionesKMs = {"<Seleccione>", "Menos de 10.000", "10.000 - 15.000", "15.000 - 20.000", "20.000 - 25.000", "Mas de 25.000"};
 		comboBoxKmsPorAnio = new JComboBox<>(opcionesKMs);
 		comboBoxKmsPorAnio.setBounds(158, 161, 154, 22);
 		panelPoliza.add(comboBoxKmsPorAnio);
@@ -1274,6 +1274,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				        	configuracionPanelCuotasMensuales();
 				            panelCuotas = panelCuotasMensuales;
 				        }
+		        		
 		            	rellenarFechas();
 		            	
 		            	polizaDTO.setFechaInicio(fechaInicio.getDate());
@@ -1281,13 +1282,19 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            	polizaDTO.setFormaPago(formaDePagoSeleccionada);
 		            	polizaDTO.setRenovar(false);
 		            	polizaDTO.setEstadoPoliza("Generada");
-		            	
-		            	textField_SumaAsegurada.setText(textFieldSumaAsegurada.getText());
-		            	textField_Premio.setText(GestorPremio.getInstance().devolverPremio());
-		            	
+		            	//Cobertura
 		            	CoberturaDTO cobertura = new CoberturaDTO();
 		            	cobertura.setNombreCobertura(comboBoxTipoCobertura.getSelectedItem().toString());
 		            	polizaDTO.setCobertura(cobertura);
+		            	
+		            	//TextFields
+		            	textField_SumaAsegurada.setText(textFieldSumaAsegurada.getText());
+		            	textField_Premio.setText(GestorPremio.getInstance().devolverPremio());
+		            	
+		            	//Premio
+		            	polizaDTO.setPremio(Double.parseDouble(GestorPremio.getInstance().devolverPremio()));;
+		            	
+		            	
 		            	
 		        		tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
 		        		 
@@ -1595,6 +1602,7 @@ public class InterfazDarAltaPoliza extends JFrame {
         textFieldNombre_3.setText(cliente.getNombre());
         textFieldApellido_3.setText(cliente.getApellido());
         textFieldTitularSeguro.setText(cliente.getNombre() + " " + cliente.getApellido());
+        textFieldDomicilio.setText(cliente.getDomicilio().devolverDomicilio());
         clienteDTO = cliente;
     }
     public void configuracionBotonVolverDatosPoliza(JButton btnVolver) {

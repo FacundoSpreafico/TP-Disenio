@@ -20,9 +20,15 @@ public class PolizaDTO {
 	private boolean renovar;
 	private String nroSiniestros;
 	private String estadoPoliza;
+	private PremioDTO premio = new PremioDTO();
 	
-	
-	
+
+	public PremioDTO getPremio() {
+		return premio;
+	}
+	public void setPremio(Double prima) {
+		this.premio.setPrima(prima);
+	}
 	public CoberturaDTO getCobertura() {
 		return cobertura;
 	}

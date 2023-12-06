@@ -7,6 +7,7 @@ import entidades.Cliente;
 import entidades.Cobertura;
 import entidades.Cuota;
 import entidades.DescuentoPorUnidadAdicional;
+import entidades.Domicilio;
 import entidades.HijoCliente;
 import entidades.HistorialDerechoEmision;
 import entidades.HistorialDescuentoPorUnidadAdicional;
@@ -26,10 +27,10 @@ import entidades.Pago;
 import entidades.Pais;
 import entidades.PerfilUsuario;
 import entidades.Poliza;
-import entidades.PorcentajeMedida;
 import entidades.PorcentajePorHijo;
 import entidades.PorcentajePorKms;
 import entidades.PorcentajePorSiniestros;
+import entidades.Premio;
 import entidades.Provincia;
 import entidades.SumaAsegurada;
 import entidades.Usuario;
@@ -76,6 +77,8 @@ public class SessionHibernate {
         			.addAnnotatedClass(HijoCliente.class)
         			.addAnnotatedClass(Cuota.class)
         			.addAnnotatedClass(Pago.class)
+        			.addAnnotatedClass(Premio.class)
+        			.addAnnotatedClass(Domicilio.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);

@@ -1,5 +1,7 @@
 package gestores;
 
+import java.util.Random;
+
 public class GestorPremio {
 	private static GestorPremio _INSTANCE;
 
@@ -11,11 +13,8 @@ public class GestorPremio {
 	}
 	
 	public String devolverPremio() {
-		return null;
-		
-		
-		
-		
-		
+		Random random = new Random();
+	    int premio = random.nextInt(10000 - 8000 + 1) + 8000;
+		return String.valueOf(premio);
 	}
 }

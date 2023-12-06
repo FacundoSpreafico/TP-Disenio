@@ -14,8 +14,21 @@ public class GestorDescuentoPorUnidAdicional {
 			}
 			return _INSTANCE;
 	 }
-	 
-	public HistorialDescuentoPorUnidadAdicional getHistorialActual(String cantUnidades) {
-		return descuentoDAO.getPorcentajeActual(cantUnidades);
+
+	public HistorialDescuentoPorUnidadAdicional getHistorialActual(Long cantidadVehiculos) {
+		String cantidad;
+		if (cantidadVehiculos == 0) {
+		    cantidad = "Ninguno";
+		} else if (cantidadVehiculos == 1) {
+		    cantidad = "Uno";
+		} else {
+		    cantidad = "Dos o mas";
+		}
+		return descuentoDAO.getPorcentajeActual(cantidad);
 	}
+	 
+/*	public HistorialDescuentoPorUnidadAdicional getHistorialActual(int cantidadVehiculos) {
+		return descuentoDAO.getPorcentajeActual(cantidadVehiculos);
+	}
+	*/
 }

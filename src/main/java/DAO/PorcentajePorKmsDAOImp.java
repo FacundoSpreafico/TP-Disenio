@@ -13,6 +13,7 @@ public class PorcentajePorKmsDAOImp implements PorcentajePorKmsDAO{
 		Query<PorcentajePorKms> query = session.createQuery(hql,PorcentajePorKms.class);
 		query.setParameter("cantKmsPorAnio", cantKmsPorAnio);
 		PorcentajePorKms porcentaje = query.getSingleResult();
+		session.close();
 		return porcentaje.getValorActual();	
 		}
 	}

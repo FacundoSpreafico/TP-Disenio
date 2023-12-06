@@ -7,7 +7,7 @@ import entidades.HistorialPorcentajeHijo;
 import entidades.PorcentajePorHijo;
 
 public class PorcentajeHijoDAOImp implements PorcentajeHijoDAO{
-	public HistorialPorcentajeHijo getPorcentajeActual(int cantHijos) {
+	public HistorialPorcentajeHijo getPorcentajeActual(String cantHijos) {
 		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
 		String hql = "FROM PorcentajePorHijo WHERE cantidadHijos = :cantHijos";
 		Query<PorcentajePorHijo> query = session.createQuery(hql,PorcentajePorHijo.class);

@@ -52,5 +52,10 @@ public class GestorCliente{
 	public Cliente obtenerPorId(ClienteDTO cliente) {
 		return clienteDAO.obtenerPorId(cliente.getIdCliente());	
 	}
+
+	public Long obtenerCantidadVehiculos(int idCliente) {
+		return clienteDAO.obtenerCantidadVehiculos(idCliente);
+		
+	}
 	
 }

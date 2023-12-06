@@ -101,6 +101,16 @@ public class ClienteDAOImp implements ClienteDAO {
     	}
     	
     }
+
+    public Long obtenerCantidadVehiculos(int idCliente) {
+        try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
+            String hql = "SELECT COUNT(DISTINCT p.vehiculo.idVehiculo) FROM Poliza p WHERE p.cliente.idCliente = :idCliente";
+            Query<Long> query = session.createQuery(hql, Long.class);
+            query.setParameter("idCliente", idCliente);
+            return query.getSingleResult();
+        }
+    }
+
     
 }
 	

@@ -30,8 +30,9 @@ public class CoberturaDAOImp implements CoberturaDAO{
 	public Cobertura buscarPorNombre(String nombreCobertura) {
 		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
            String hql = "FROM Cobertura WHERE nombreCobertura = :nombreCobertura";
+           System.out.print(nombreCobertura);
            Query<Cobertura> query = session.createQuery(hql,Cobertura.class);
-           query.setParameter(0,nombreCobertura);
+           query.setParameter("nombreCobertura",nombreCobertura);
            Cobertura cobertura = query.getSingleResult();
            session.close();
            return cobertura;

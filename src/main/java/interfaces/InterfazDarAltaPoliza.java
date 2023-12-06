@@ -1,6 +1,8 @@
 package interfaces;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +18,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,6 +42,7 @@ import javax.swing.text.MaskFormatter;
 import com.toedter.calendar.JDateChooser;
 
 import DTO.ClienteDTO;
+import DTO.CoberturaDTO;
 import DTO.DomicilioRiesgoDTO;
 import DTO.HijoClienteDTO;
 import DTO.MedidaDeSeguridadDTO;
@@ -116,7 +120,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	//Campos datos de vehiculo
 	private JComboBox<Object> comboBoxPaisRiesgo, comboBoxLocalidadRiesgo, comboBoxProvinciaRiesgo,
 	comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;
-	private JTextField textFieldSumaAsegurada, textFieldChasis, textFieldPatenteVehiculo, textFieldMotor;
+	private JTextField textFieldSumaAsegurada, textFieldChasis = new JTextField(), textFieldPatenteVehiculo, textFieldMotor;
 	JDateChooser fechaInicio;
 	private JTextField textFieldApellido_3;
 	private JTextField textFieldNombre_3;
@@ -169,6 +173,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     private PolizaDTO polizaDTO;
     private JDateChooser fechaInicio_1, fechaFin;
     JComboBox<String> comboBoxTipoCobertura;
+    private JButton btnNewButton;
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, ParseException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -225,7 +230,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 						try {
 							Date fechaNacimiento = dateFormat.parse(tablaHijos.getValueAt(i, 0).toString());
 							String estadoCivil = tablaHijos.getValueAt(i, 1).toString();
-							String sexo = tablaHijos.getValueAt(i,1).toString();
+							String sexo = tablaHijos.getValueAt(i,2).toString();
 							hijosCliente.add(new HijoClienteDTO(fechaNacimiento, estadoCivil, sexo));
 						} catch (ParseException e1) {
 							
@@ -988,6 +993,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				if (!clienteDTO.getNombre().isEmpty()) {
 				clienteDTO.setIdCliente(GestorCliente.getInstance().recuperarID(clienteDTO.getNroCliente()));
 				
+			
 				for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
 					if (i==1) {
 						tabbedCrearPoliza.setEnabledAt(i,true);
@@ -1114,6 +1120,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCliente.add(textFieldNroDNI);
 		textFieldNroDNI.setColumns(10);
 		configuracionTextField(textFieldNroDNI);
+		
+		btnNewButton = new JButton("Probar dialogo");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				 JOptionPane.showMessageDialog(null, panel, "Póliza generada", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		btnNewButton.setBounds(20, 316, 89, 23);
+		buscarCliente.add(btnNewButton);
 	}
 	public void pestaniaCrearPoliza() {
 		tabbedPrincipal.setEnabledAt(1, false);
@@ -1271,6 +1286,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            	polizaDTO.setFormaPago(formaDePagoSeleccionada);
 		            	polizaDTO.setRenovar(false);
 		            	polizaDTO.setEstadoPoliza("Generada");
+		            	CoberturaDTO cobertura = new CoberturaDTO();
+		            	cobertura.setNombreCobertura(comboBoxTipoCobertura.getSelectedItem().toString());
+		            	polizaDTO.setCobertura(cobertura);
 		            	
 		        		tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
 		        		 
@@ -1695,7 +1713,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCuotasSemestral.add(btnConfirmar_1);
 		btnConfirmar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-            GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
+				GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
 			}
 		});
 		
@@ -1952,7 +1970,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelCuotasMensuales.add(btnConfirmar_1);
 		btnConfirmar_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-            GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
+            
 			}
 		});
 		

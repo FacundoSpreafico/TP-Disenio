@@ -16,6 +16,7 @@ import entidades.Cobertura;
 import entidades.Cuota;
 import entidades.HijoCliente;
 import entidades.HistorialDerechoEmision;
+import entidades.HistorialDescuentoPorUnidadAdicional;
 import entidades.HistorialPorcentajeHijo;
 import entidades.HistorialPorcentajeKM;
 import entidades.HistorialPorcentajeSiniestros;
@@ -90,22 +91,33 @@ public class GestorPoliza {
         	poliza.getCuotas().add(cuota);
         }
         
+        
+        //Recuperar historial porcentaje kilometros
         HistorialPorcentajeKM historialKms = 
         GestorPorcentajeKms.getInstance().getHistorialActual(polizaDTO.getKmsUltAnio());
         poliza.setPorcentajeKMs(historialKms);
 
+        
+        //Recuperar historial porcentaje siniestros
         HistorialPorcentajeSiniestros historialSiniestros = 
         GestorPorcentajeSiniestros.getInstance().getHistorialActual(polizaDTO.getNroSiniestros());
         poliza.setPorcentajeSiniestros(historialSiniestros);
 	    
+        //Recuperar historial porcentaje hijos
         HistorialPorcentajeHijo historialHijos = 
         GestorPorcentajeHijo.getInstance().getHistorialActual(polizaDTO.getHijos().size());
         poliza.setPorcentajeHijo(historialHijos);
         
+        //Recuperar historial derecho emision
         HistorialDerechoEmision historialDerechoEmision = 
         GestorDerechoEmision.getInstance().getHistorialActual();
         poliza.setPorcentajeDerechoEmision(historialDerechoEmision);
         
+        //Recuperar historial descuento por unidad adicional
+        Long cantidadVehiculos = GestorCliente.getInstance().obtenerCantidadVehiculos(clienteDTO.getIdCliente());
+        HistorialDescuentoPorUnidadAdicional historialDescuentoPorUnidadAdicional = 
+        GestorDescuentoPorUnidAdicional.getInstance().getHistorialActual(cantidadVehiculos);
+        poliza.setPorcentajeDescuento(historialDescuentoPorUnidadAdicional);
         
         polizaDAO.insertarPoliza(poliza);
        

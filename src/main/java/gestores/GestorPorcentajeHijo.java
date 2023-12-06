@@ -17,6 +17,16 @@ public class GestorPorcentajeHijo {
 	}
 	
 	public HistorialPorcentajeHijo getHistorialActual(int cantHijos) {
-		return porcentajeHijoDAO.getPorcentajeActual(cantHijos);
+		String cantidad;
+		switch (cantHijos) {
+		case 0: cantidad = "Ninguno";
+		break;
+		case 1: cantidad = "Uno";
+		break;
+		case 2: cantidad = "Dos o mas";
+		break;
+		default: cantidad = "Dos o mas";
+		}
+		return porcentajeHijoDAO.getPorcentajeActual(cantidad);
 	}
 }

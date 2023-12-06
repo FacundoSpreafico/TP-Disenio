@@ -17,7 +17,7 @@ public class DescuentoPorUnidadAdicional {
 	@Column(name = "id_descuento")
 	private int idDescuento;
 	@Column(name = "cantidad_unidades")
-	private int cantUnidades;
+	private String cantUnidades;
 	
 	@ManyToOne()
 	@JoinColumn(name = "id_historial_descuento_por_unidad_adicional")
@@ -31,11 +31,11 @@ public class DescuentoPorUnidadAdicional {
 		this.idDescuento = idDescuento;
 	}
 
-	public int getCantUnidades() {
+	public String getCantUnidades() {
 		return cantUnidades;
 	}
 
-	public void setCantUnidades(int cantUnidades) {
+	public void setCantUnidades(String cantUnidades) {
 		this.cantUnidades = cantUnidades;
 	}
 

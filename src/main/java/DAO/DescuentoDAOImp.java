@@ -16,4 +16,5 @@ public class DescuentoDAOImp implements DescuentoDAO {
 			return porcentaje.getValorActual();	
 			}
 	}
+
 }

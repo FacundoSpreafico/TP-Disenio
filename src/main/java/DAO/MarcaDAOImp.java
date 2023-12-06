@@ -20,7 +20,7 @@ public class MarcaDAOImp implements MarcaDAO{
 	public List<Marca> recuperarMarcas() {
         try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
-                String hql = "FROM Marca";
+                String hql = "FROM Marca ORDER BY nombreMarca";
                 Query<Marca> query = session.createQuery(hql,Marca.class);
                 List<Marca> marcas = query.getResultList();
                 session.close();

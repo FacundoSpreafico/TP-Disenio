@@ -21,7 +21,7 @@ public class ModeloDAOImp implements ModeloDAO {
 	public List<Modelo> recuperarModelosPorMarca(Marca marca) {
 		try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
             try {
-                String hql = "FROM Modelo WHERE marca = :idMarca";
+                String hql = "FROM Modelo WHERE marca = :idMarca ORDER BY nombreModelo";
                 Query<Modelo> query = session.createQuery(hql,Modelo.class);
                 query.setParameter("idMarca", marca);
                 List<Modelo> marcas = query.getResultList();

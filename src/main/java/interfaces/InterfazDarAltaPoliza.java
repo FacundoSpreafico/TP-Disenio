@@ -63,6 +63,7 @@ import gestores.GestorCobertura;
 import gestores.GestorHijoCliente;
 import gestores.GestorLocalidad;
 import gestores.GestorPoliza;
+import gestores.GestorPremio;
 import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
 
@@ -1248,7 +1249,14 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnSiguiente_1_1.setFocusable(false);
 		btnSiguiente_1_1.setBounds(20, 404, 89, 23);
 		tipoPoliza.add(btnSiguiente_1_1);
-		
+		tabbedConfirmarPoliza.setSelectedIndex(1);
+        configuracionGeneracionPoliza();
+        JPanel panelCuotas = null;
+        configuracionPanelCuotasSemestrales();
+        panelCuotas = panelCuotasSemestral;
+        tabbedPaneDatosPoliza.addTab("Cuotas de la póliza", panelCuotas);
+        
+        
 		btnSiguiente_1_1.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JPanel panelCuotas = null;
@@ -1273,6 +1281,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 		            	polizaDTO.setFormaPago(formaDePagoSeleccionada);
 		            	polizaDTO.setRenovar(false);
 		            	polizaDTO.setEstadoPoliza("Generada");
+		            	
+		            	textField_SumaAsegurada.setText(textFieldSumaAsegurada.getText());
+		            	textField_Premio.setText(GestorPremio.getInstance().devolverPremio());
+		            	
 		            	CoberturaDTO cobertura = new CoberturaDTO();
 		            	cobertura.setNombreCobertura(comboBoxTipoCobertura.getSelectedItem().toString());
 		            	polizaDTO.setCobertura(cobertura);

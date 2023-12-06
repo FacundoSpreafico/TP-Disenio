@@ -47,8 +47,9 @@ public class LocalidadDAOImp implements LocalidadDAO {
                 String hql = "FROM Pais WHERE nombrePais = :nombre";
                 Query<Pais> query = session.createQuery(hql,Pais.class);
                 query.setParameter("nombre", nombre);
-                return query.getSingleResult();
-                
+                Pais pais = query.getSingleResult();
+                session.close();
+                return pais;
             } catch (Exception e) {
             }
         }
@@ -61,8 +62,9 @@ public class LocalidadDAOImp implements LocalidadDAO {
                 String hql = "FROM Provincia WHERE nombreProvincia = :nombre";
                 Query<Provincia> query = session.createQuery(hql,Provincia.class);
                 query.setParameter("nombre", nombre);
-                return query.getSingleResult();
-                
+                Provincia provincia = query.getSingleResult();
+                session.close();
+                return provincia;
             } catch (Exception e) {
             }
         }
@@ -79,14 +81,10 @@ public class LocalidadDAOImp implements LocalidadDAO {
                 Query<Provincia> query = session.createQuery(hql, Provincia.class);
                 query.setParameter("pais", pais);
                 List<Provincia> provincias = query.getResultList();
-                pais.setProvincias(provincias);
-
+                pais.setProvincias(provincias);  
                 transaction.commit();
-                return provincias;
-                
-                
-                
-                
+                session.close();
+                return provincias;   
             } catch (Exception e) {
                 if (transaction != null) {
                     transaction.rollback();
@@ -108,6 +106,7 @@ public class LocalidadDAOImp implements LocalidadDAO {
                 List<Localidad> localidades  = query.getResultList();
 
                 transaction.commit();
+                session.close();
                 return localidades;
                 
                 

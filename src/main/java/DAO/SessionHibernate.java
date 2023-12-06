@@ -22,6 +22,7 @@ import entidades.Localidad;
 import entidades.Marca;
 import entidades.MedidaDeSeguridad;
 import entidades.Modelo;
+import entidades.Pago;
 import entidades.Pais;
 import entidades.PerfilUsuario;
 import entidades.Poliza;
@@ -74,6 +75,7 @@ public class SessionHibernate {
         			.addAnnotatedClass(PorcentajePorSiniestros.class)
         			.addAnnotatedClass(HijoCliente.class)
         			.addAnnotatedClass(Cuota.class)
+        			.addAnnotatedClass(Pago.class)
                     .buildSessionFactory();
         } catch (Throwable ex) {
             throw new ExceptionInInitializerError(ex);

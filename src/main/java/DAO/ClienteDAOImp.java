@@ -46,8 +46,9 @@ public class ClienteDAOImp implements ClienteDAO {
             criteriaQuery.where(restricciones);
             
             Query<Cliente> query = session.createQuery(criteriaQuery);
-           
-            return query.getResultList();
+            List<Cliente> listaClientes = query.getResultList();
+            session.close();
+            return listaClientes;
         }
     }
 

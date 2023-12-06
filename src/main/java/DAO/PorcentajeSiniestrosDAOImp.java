@@ -13,6 +13,7 @@ public class PorcentajeSiniestrosDAOImp implements PorcentajeSiniestrosDAO {
 		Query<PorcentajePorSiniestros> query = session.createQuery(hql,PorcentajePorSiniestros.class);
 		query.setParameter("cantSiniestros", cantSiniestros);
 		PorcentajePorSiniestros porcentaje = query.getSingleResult();
+		session.close();
 		return porcentaje.getValorActual();	
 		}
 	}

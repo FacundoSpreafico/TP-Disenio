@@ -1698,11 +1698,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnConfirmar_1.setFocusable(false);
 		btnConfirmar_1.setBounds(15, 380, 89, 23);
 		panelCuotasSemestral.add(btnConfirmar_1);
-		btnConfirmar_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
-			}
-		});
+		configuracionBotonConfirmarPoliza(btnConfirmar_1);
 		
 		JButton btnVolver_3_1_1 = new JButton("Volver");
 		btnVolver_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -1955,11 +1951,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnConfirmar_1.setFocusable(false);
 		btnConfirmar_1.setBounds(15, 380, 89, 23);
 		panelCuotasMensuales.add(btnConfirmar_1);
-		btnConfirmar_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-            
-			}
-		});
+		configuracionBotonConfirmarPoliza(btnConfirmar_1);
+		
 		
 		JButton btnVolver_3_1_1 = new JButton("Volver");
 		btnVolver_3_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -2278,6 +2271,14 @@ public class InterfazDarAltaPoliza extends JFrame {
         // Establecer la fecha de fechaFin
         fechaFin.setDate(cal.getTime());
     }
+    public void configuracionBotonConfirmarPoliza(JButton btn) {
+    	btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
+			}
+		});
+    }
+    
     public void dialogoCancelar() {
 
     	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar el alta de la poliza?","Confirmación",

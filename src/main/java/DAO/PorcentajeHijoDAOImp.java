@@ -13,6 +13,7 @@ public class PorcentajeHijoDAOImp implements PorcentajeHijoDAO{
 		Query<PorcentajePorHijo> query = session.createQuery(hql,PorcentajePorHijo.class);
 		query.setParameter("cantHijos", cantHijos);
 		PorcentajePorHijo porcentaje = query.getSingleResult();
+		session.close();
 		return porcentaje.getValorActual();	
 		}
 	}

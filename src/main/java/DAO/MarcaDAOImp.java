@@ -38,7 +38,9 @@ public class MarcaDAOImp implements MarcaDAO{
                 String hql = "FROM Marca WHERE nombreMarca = :nombre";
                 Query<Marca> query = session.createQuery(hql,Marca.class);
                 query.setParameter("nombre", nombre);
-                return query.getSingleResult();
+                Marca marca = query.getSingleResult();
+                session.close();
+                return marca;
             } catch (Exception e) {
             }
         }

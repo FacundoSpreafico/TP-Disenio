@@ -25,6 +25,7 @@ public class ModeloDAOImp implements ModeloDAO {
                 Query<Modelo> query = session.createQuery(hql,Modelo.class);
                 query.setParameter("idMarca", marca);
                 List<Modelo> marcas = query.getResultList();
+                session.close();
                 return marcas;
             } catch (Exception e) {
             }
@@ -38,7 +39,9 @@ public class ModeloDAOImp implements ModeloDAO {
                 String hql = "FROM Modelo WHERE nombreModelo = :nombre";
                 Query<Modelo> query = session.createQuery(hql,Modelo.class);
                 query.setParameter("nombre", nombre);
-                return query.getSingleResult();
+                Modelo modelo = query.getSingleResult();
+                session.close();
+                return modelo;
             } catch (Exception e) {
             }
         }

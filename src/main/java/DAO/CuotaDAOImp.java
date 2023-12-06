@@ -7,6 +7,7 @@ public class CuotaDAOImp implements CuotaDAO {
 
 	@Override
 	public Cuota crearCuota(CuotaDTO cuotaDTO) {
+		
 		Cuota cuota = new Cuota();
 		cuota.setOrden(cuotaDTO.getOrden());
 		cuota.setFechaInicio(cuotaDTO.getFechaInicio());
@@ -15,7 +16,7 @@ public class CuotaDAOImp implements CuotaDAO {
 		cuota.setRecargosMora(cuotaDTO.getRecargosMora());
 		cuota.setValorOriginal(cuotaDTO.getValorOriginal());
 		cuota.setValorActual(cuotaDTO.getValorActual());
-	
+	    
 	    return cuota;
 	}
 

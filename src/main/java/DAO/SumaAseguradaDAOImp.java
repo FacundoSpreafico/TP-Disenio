@@ -22,9 +22,9 @@ public class SumaAseguradaDAOImp implements SumaAseguradaDAO{
              Query<SumaAsegurada> query = session.createQuery(hql,SumaAsegurada.class);
              query.setParameter("nombreModelo",nombreModelo);
              query.setParameter("anio", anioFabricacion);
-             
-             
-             return query.getSingleResult();
+             SumaAsegurada suma = query.getSingleResult();
+             session.close();
+             return suma;
          } catch (Exception e) {
         	 
          }

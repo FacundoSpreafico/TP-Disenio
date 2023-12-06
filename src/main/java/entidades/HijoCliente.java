@@ -7,6 +7,8 @@ import com.toedter.calendar.JDateChooser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -16,6 +18,7 @@ import jakarta.persistence.Table;
 public class HijoCliente {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_hijo_cliente")
 	private int idHijoCliente;
 	@Column(name = "sexo")

@@ -1,22 +1,22 @@
 package DAO;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import entidades.Poliza;
-import jakarta.persistence.CascadeType;
-import org.hibernate.Transaction;
+import entidades.Premio;
 
 public class PolizaDAOImp implements PolizaDAO{
 
 	@Override
 	public void insertarPoliza(Poliza poliza) {
+	    Transaction transaction = null;
 	    try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()) {
-	        Transaction transaction = session.beginTransaction();
+	        transaction = session.beginTransaction();
 	        session.save(poliza);
+	       // clienteDAO.actualizarEstadoCliente(poliza.getCliente());
 	        transaction.commit();
-	        session.close();
 	    } catch (Exception e) {
-	        // Manejo de excepciones (puedes realizar un rollback aquí si es necesario)
 	        e.printStackTrace();
 	    }
 	}

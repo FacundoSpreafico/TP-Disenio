@@ -21,6 +21,9 @@ public class Cuota {
 	@Column(name = "id_cuota")
 	private int idCuota;
 	
+	@Column(name = "estado")
+	private String estado;
+	
 	@Column(name = "orden")
 	private int orden;
 	
@@ -31,7 +34,7 @@ public class Cuota {
 	private Date fechaVencimiento;
 	
 	@Column(name = "valor_original")
-	private float valorOriginal;
+	private double valorOriginal;
 	
 	@ManyToOne()
 	@JoinColumn(name = "id_poliza")
@@ -42,68 +45,99 @@ public class Cuota {
     private Pago pago;
 	
 	@Column(name = "valor_actual")
-	private float valorActual;
+	private double valorActual;
 	
 	@Column(name = "recargos_mora")
-	private float recargosMora;
+	private double recargosMora;
 	
 	@Column(name = "bonificacion_pago_adelantado")
-	private float bonificacionPagoAdelantado;
-	
-	public Integer getIdCuota() {
+	private double bonificacionPagoAdelantado;
+
+	public int getIdCuota() {
 		return idCuota;
 	}
-	public void setIdCuota(Integer idCuota) {
+
+	public void setIdCuota(int idCuota) {
 		this.idCuota = idCuota;
 	}
-	public Integer getOrden() {
+
+	public int getOrden() {
 		return orden;
 	}
-	public void setOrden(Integer orden) {
+
+	public void setOrden(int orden) {
 		this.orden = orden;
 	}
+
 	public Date getFechaInicio() {
 		return fechaInicio;
 	}
+
 	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
+
 	public Date getFechaVencimiento() {
 		return fechaVencimiento;
 	}
+
 	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
 	}
-	public Float getValorOriginal() {
+
+	public double getValorOriginal() {
 		return valorOriginal;
 	}
-	public void setValorOriginal(Float valorOriginal) {
+
+	public void setValorOriginal(double valorOriginal) {
 		this.valorOriginal = valorOriginal;
 	}
+
 	public Poliza getPoliza() {
 		return poliza;
 	}
+
 	public void setPoliza(Poliza poliza) {
 		this.poliza = poliza;
 	}
-	public Float getValorActual() {
+
+	public Pago getPago() {
+		return pago;
+	}
+
+	public void setPago(Pago pago) {
+		this.pago = pago;
+	}
+
+	public double getValorActual() {
 		return valorActual;
 	}
-	public void setValorActual(Float valorActual) {
+
+	public void setValorActual(double valorActual) {
 		this.valorActual = valorActual;
 	}
-	public Float getRecargosMora() {
+
+	public double getRecargosMora() {
 		return recargosMora;
 	}
-	public void setRecargosMora(Float recargosMora) {
+
+	public void setRecargosMora(double recargosMora) {
 		this.recargosMora = recargosMora;
 	}
-	public Float getBonificacionPagoAdelantado() {
+
+	public double getBonificacionPagoAdelantado() {
 		return bonificacionPagoAdelantado;
 	}
-	public void setBonificacionPagoAdelantado(Float bonificacionPagoAdelantado) {
+
+	public void setBonificacionPagoAdelantado(double bonificacionPagoAdelantado) {
 		this.bonificacionPagoAdelantado = bonificacionPagoAdelantado;
 	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+		
+	}
 	
+
 	
 }

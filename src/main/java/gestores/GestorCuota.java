@@ -20,6 +20,7 @@ public class GestorCuota {
 		
 	public Cuota crearCuota (CuotaDTO cuota) {
 		return cuotaDAO.crearCuota(cuota);
+		
 	}
 		
 }

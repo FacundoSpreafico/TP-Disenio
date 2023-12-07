@@ -14,7 +14,7 @@ public class DescuentoDAOImp implements DescuentoDAO {
 			query.setParameter("cantUnidades", cantUnidades);
 			DescuentoPorUnidadAdicional porcentaje = query.getSingleResult();
 			session.close();
-			return porcentaje.getValorActual();	
+			return porcentaje.getValorActual();
 			}
 	}
 

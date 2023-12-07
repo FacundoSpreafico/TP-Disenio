@@ -12,13 +12,15 @@ public class CuotaDTO {
 	
 	private Date fechaVencimiento;
 	
-	private float valorOriginal;
+	private double valorOriginal;
 	
-    private float valorActual;
+    private double valorActual;
     
-	private float recargosMora;
+	private double recargosMora;
 	
-	private float bonificacionPagoAdelantado;
+	private double bonificacionPagoAdelantado;
+
+	private String estado;
 
 	public int getOrden() {
 		return orden;
@@ -44,42 +46,46 @@ public class CuotaDTO {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
-	public Float getValorOriginal() {
+	public double getValorOriginal() {
 		return valorOriginal;
 	}
 
-	public void setValorOriginal(Float valorOriginal) {
+	public void setValorOriginal(double valorOriginal) {
 		this.valorOriginal = valorOriginal;
 	}
 
-	public float getValorActual() {
+	public double getValorActual() {
 		return valorActual;
 	}
 
-	public void setValorActual(float valorActual) {
+	public void setValorActual(double valorActual) {
 		this.valorActual = valorActual;
 	}
 
-	public float getRecargosMora() {
+	public double getRecargosMora() {
 		return recargosMora;
 	}
 
-	public void setRecargosMora(float recargosMora) {
+	public void setRecargosMora(double recargosMora) {
 		this.recargosMora = recargosMora;
 	}
 
-	public float getBonificacionPagoAdelantado() {
+	public double getBonificacionPagoAdelantado() {
 		return bonificacionPagoAdelantado;
 	}
 
-	public void setBonificacionPagoAdelantado(float bonificacionPagoAdelantado) {
+	public void setBonificacionPagoAdelantado(double bonificacionPagoAdelantado) {
 		this.bonificacionPagoAdelantado = bonificacionPagoAdelantado;
 	}
 
-	public void setValorOriginal(float valorOriginal) {
-		this.valorOriginal = valorOriginal;
+	public String getEstado() {
+		return estado;
 	}
 
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
 
 	
 	

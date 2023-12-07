@@ -91,7 +91,7 @@ public class Poliza {
 	@JoinTable(name = "porcentaje_medidas", joinColumns = {@JoinColumn(name = "id_poliza")}, inverseJoinColumns = {@JoinColumn (name = "id_historial_porcentaje_medida")})
 	private List<HistorialPorcentajeMedida> porcentajeMedidas = new ArrayList<>();
 	
-	@OneToOne(mappedBy = "poliza")
+	@OneToOne(mappedBy = "poliza", cascade = CascadeType.ALL)
 	private Premio premio;
 	
 	@ManyToOne()

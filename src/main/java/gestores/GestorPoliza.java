@@ -87,17 +87,21 @@ public class GestorPoliza {
         Cobertura cobertura = GestorCobertura.getInstance().buscarCobertura(polizaDTO.getCobertura().getNombreCobertura());
         poliza.setTipoCobertura(cobertura);
         poliza.setPorcentajeCobertura(cobertura.getValorActual());
-        
+  
         //Logica cuotas
         for (CuotaDTO cuotaDTO: polizaDTO.getCuotas()) {
         	Cuota cuota;
         	cuota = GestorCuota.getInstance().crearCuota(cuotaDTO);
+        	cuota.setPoliza(poliza);
         	poliza.getCuotas().add(cuota);
         }
         
         //Logica premio
         Premio premio = new Premio();
         premio.setPrima(polizaDTO.getPremio().getPrima());
+        premio.setDerechos_emision(polizaDTO.getPremio().getDerechoEmision());
+        premio.setTotal(polizaDTO.getPremio().getTotal());
+        premio.setPoliza(poliza);
         poliza.setPremio(premio);
         
         //Recuperar historial porcentaje kilometros
@@ -126,12 +130,9 @@ public class GestorPoliza {
         HistorialDescuentoPorUnidadAdicional historialDescuentoPorUnidadAdicional = 
         GestorDescuentoPorUnidAdicional.getInstance().getHistorialActual(cantidadVehiculos);
         poliza.setPorcentajeDescuento(historialDescuentoPorUnidadAdicional);
-
-        
         
         polizaDAO.insertarPoliza(poliza);
        
-	    
 		return poliza.getNumeroPoliza();
 	}
 	

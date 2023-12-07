@@ -26,8 +26,8 @@ public class PolizaDTO {
 	public PremioDTO getPremio() {
 		return premio;
 	}
-	public void setPremio(Double prima) {
-		this.premio.setPrima(prima);
+	public void setPremio(PremioDTO premio2) {
+		this.premio = premio2;
 	}
 	public CoberturaDTO getCobertura() {
 		return cobertura;

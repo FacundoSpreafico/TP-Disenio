@@ -1,17 +1,23 @@
 package entidades;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
+
 @Table(name = "premio")
 public class Premio {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer idPoliza;
 	
 	@Column(name = "prima")
@@ -23,11 +29,12 @@ public class Premio {
 	@Column(name = "total")
 	private double total;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@MapsId
-	@PrimaryKeyJoinColumn
+	@JoinColumn (name = "id_poliza")
 	private Poliza poliza;
 
+	
 	public Integer getIdPoliza() {
 		return idPoliza;
 	}

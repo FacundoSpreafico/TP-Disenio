@@ -17,6 +17,7 @@ public class PolizaDAOImp implements PolizaDAO{
 	        session.save(poliza);
 	        clienteDAO.actualizarEstadoCliente(poliza.getCliente(), poliza);
 	        transaction.commit();
+	        session.close();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }

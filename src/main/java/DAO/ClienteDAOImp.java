@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import DTO.ClienteDTO;
@@ -172,8 +173,10 @@ public class ClienteDAOImp implements ClienteDAO {
     	}
     }
     
-    public void actualizarEstadoCliente(Cliente cliente, Poliza poliza) {
+    public void actualizarEstadoCliente(Cliente cliente, Poliza poliza) { 
+    	 Transaction transaction = null;
     	 try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
+    		 transaction = session.beginTransaction();
              Long cantidadPolizasAsociadas = obtenerCantidadPolizasAsociadas(cliente);
              Long cantidadCuotasImpagas = obtenerCantidadCuotasImpagas(cliente);
              List<Poliza> listaPolizasVigentes = devolverPolizasVigentes(cliente);
@@ -186,7 +189,7 @@ public class ClienteDAOImp implements ClienteDAO {
               for(Poliza p : listaPolizasVigentes) {
             	  String substring = p.getNumeroPoliza().substring(11);
             	  int ultimosDigitos = Integer.parseInt(substring);
-            	  
+
             	  if(ultimosDigitos >= 05) {
             		  tieneAntiguedad2Anios = true;
             	  }
@@ -195,16 +198,17 @@ public class ClienteDAOImp implements ClienteDAO {
              
              if(cantidadPolizasAsociadas >= 1) {
             	 cliente.setTipoCliente("Normal");
-            	 
             	 if(listaPolizasVigentes.size() > 0) {
-            		 cliente.setEstadoCliente("activo");
+            		 cliente.setEstadoCliente("Activo");
             	 }
-            	 if(poliza.getNroSiniestros() == "Ninguno" && cantidadCuotasImpagas == 0 && tieneAntiguedad2Anios) {
+            	 
+            	 if(poliza.getNroSiniestros().equals("Ninguno") && cantidadCuotasImpagas == 0 && tieneAntiguedad2Anios) {
             		 cliente.setTipoCliente("Plata");
             	 }
+            	
             	 session.update(cliente);
+            	 transaction.commit();
             	 session.close();
-            	 return;
              }
     	 }
     }

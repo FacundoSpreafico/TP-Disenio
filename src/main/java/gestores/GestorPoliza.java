@@ -159,7 +159,7 @@ public class GestorPoliza {
 
         int siguientesSieteDigitos = 1000000 + random.nextInt(9000000);
 
-        return String.format("%s-%07d-01", primerosCuatroDigitos, siguientesSieteDigitos);
+        return String.format("%s%07d01", primerosCuatroDigitos, siguientesSieteDigitos);
     }
 	
 	

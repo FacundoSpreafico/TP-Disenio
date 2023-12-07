@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -168,7 +170,12 @@ public class InterfazDarAltaPoliza extends JFrame {
     private JLabel lblSimbolo_9;
     private JLabel lblLocalidadDeRiesgo;
     private JLabel lblSimbolo_10;
-    
+    JDateChooser vencimientoCuota1;
+    JDateChooser vencimientoCuota2;
+    JDateChooser vencimientoCuota3;
+    JDateChooser vencimientoCuota4;
+    JDateChooser vencimientoCuota5;
+    JDateChooser vencimientoCuota6;
     private VehiculoDTO vehiculoDTO;
     private ClienteDTO clienteDTO;
     private PolizaDTO polizaDTO;
@@ -1286,7 +1293,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnSiguiente_1_1.setBounds(20, 404, 89, 23);
 		tipoPoliza.add(btnSiguiente_1_1);
         
-        
 		btnSiguiente_1_1.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JPanel panelCuotas = null;
@@ -1318,7 +1324,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 				            CuotaDTO cuota = new CuotaDTO();
 			            	cuota.setFechaInicio(fechaInicio.getDate());
 			            	cuota.setFechaVencimiento(fechaFin.getDate());
-			            	System.out.print(fechaFin.getDate());
 					        cuota.setOrden(1);
 					        cuota.setEstado("Impaga");
 			            	cuota.setValorOriginal(premio.getTotal() - descuento.devolverTotal());
@@ -1334,9 +1339,57 @@ public class InterfazDarAltaPoliza extends JFrame {
 		  
 				            panelCuotas = panelCuotasSemestral;
 				        } 
-		        		else if ("Mensual".equals(formaDePagoSeleccionada)){
+		        		else 
+		        			if ("Mensual".equals(formaDePagoSeleccionada)){
 				        	configuracionPanelCuotasMensuales();
 				            panelCuotas = panelCuotasMensuales;
+				            //Monto total
+				            Double montoTotal = premio.getTotal() - descuento.devolverTotal();
+				            //Seteamos TextFields
+				            textField_ImportePDesc.setText(transformarAFormatoPesos(descuento.devolverTotal()));
+				            textFieldMontoTotal.setText(transformarAFormatoPesos(montoTotal));
+				            
+			                Calendar fechaInicioCalendar = Calendar.getInstance();
+			                fechaInicioCalendar.setTime(fechaInicio.getDate());
+			                Calendar fechaFinCalendar = Calendar.getInstance();
+			                fechaFinCalendar.setTime(fechaFin.getDate());
+			                
+			                List<JDateChooser> listaVencimientos = new ArrayList<>();
+			                listaVencimientos.add(vencimientoCuota1);
+			                listaVencimientos.add(vencimientoCuota2);
+			                listaVencimientos.add(vencimientoCuota3);
+			                listaVencimientos.add(vencimientoCuota4);
+			                listaVencimientos.add(vencimientoCuota5);
+			                listaVencimientos.add(vencimientoCuota6);
+			                
+			                List<JTextField> listaCuotas = new ArrayList<>();
+			                listaCuotas.add(textFieldCuota1);
+			                listaCuotas.add(textFieldCuota2);
+			                listaCuotas.add(textFieldCuota3);
+			                listaCuotas.add(textFieldCuota4);
+			                listaCuotas.add(textFieldCuota5);
+			                listaCuotas.add(textFieldCuota6);
+			                
+				            for (int i=0; i<6; i++) {
+				            	 CuotaDTO cuota = new CuotaDTO();
+				                 cuota.setOrden(i + 1);
+				                 cuota.setEstado("Impaga");
+				                 cuota.setValorOriginal(montoTotal / 6);
+				                 cuota.setFechaInicio(fechaInicioCalendar.getTime());
+
+				                 // Establecer la fecha de vencimiento un mes después de la fecha de inicio
+				                 Calendar fechaVencimientoCalendar = (Calendar) fechaInicioCalendar.clone();
+				                 fechaVencimientoCalendar.add(Calendar.MONTH, 1);
+				                 cuota.setFechaVencimiento(fechaVencimientoCalendar.getTime());
+
+				                 // Actualizar la fecha de inicio para la siguiente iteración
+				                 fechaInicioCalendar.add(Calendar.MONTH, 1);
+
+				                asignarCuotas(listaCuotas.get(i),montoTotal/6);
+				                 asignarFechaAVencimiento(listaVencimientos.get(i), fechaInicioCalendar);        
+				              //Agregar cuota a la polizaDTO
+				                polizaDTO.getCuotas().add(cuota);
+				            }
 				        }
 		        		
 		            	
@@ -1370,6 +1423,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 				} catch (ParseException e1) {
 				}
 		    }
+
 		});
 		
 		JButton btnCancelar_1_1 = new JButton("Cancelar");
@@ -1384,10 +1438,16 @@ public class InterfazDarAltaPoliza extends JFrame {
 		tipoPoliza.add(btnCancelar_1_1);
 		
 	}
+	public void asignarCuotas(JTextField cuota, double monto) {
+		cuota.setText(transformarAFormatoPesos(monto));
+	}
+
 	public void pestaniaGeneracionPoliza(){
 		configuracionGeneracionPoliza();
 	}
-	
+    private static void asignarFechaAVencimiento(JDateChooser vencimiento, Calendar fecha) {
+	        vencimiento.setDate(fecha.getTime());
+	}
     //funciones de configuracion
 	public void inicializarPaneles () throws ParseException {
 		setTitle("Productor de seguro- Dar de alta poliza");
@@ -1808,24 +1868,24 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_2.setBackground(Color.WHITE);
 		panelGeneracionPoliza_2.setBounds(15, 11, 800, 354);
 		panelCuotasMensuales.add(panelGeneracionPoliza_2);
-		
+		textField_SumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
+	
 		textField_SumaAsegurada.setColumns(10);
-		textField_SumaAsegurada.setBounds(160, 19, 170, 20);
+		textField_SumaAsegurada.setBounds(160, 23, 168, 20);
 		panelGeneracionPoliza_2.add(textField_SumaAsegurada);
 		configuracionTextField(textField_SumaAsegurada);
 		
 		separatorSumaAsegurada = new JSeparator();
 		separatorSumaAsegurada.setForeground(Color.BLACK);
 		separatorSumaAsegurada.setBackground(Color.BLACK);
-		separatorSumaAsegurada.setBounds(160, 39, 169, 2);
+		separatorSumaAsegurada.setBounds(160, 43, 169, 2);
 		panelGeneracionPoliza_2.add(separatorSumaAsegurada);
-		
-	    
-		lblSumaAsegurada_3 = new JLabel("Suma asegurada");
+
+		lblSumaAsegurada_3 = new JLabel("Suma asegurada             $");
 		lblSumaAsegurada_3.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblSumaAsegurada_3.setBounds(15, 27, 101, 14);
+		lblSumaAsegurada_3.setBounds(15, 23, 168, 20);
 		panelGeneracionPoliza_2.add(lblSumaAsegurada_3);
-		
+		textField_Premio.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		textField_Premio.setColumns(10);
 		textField_Premio.setBounds(479, 19, 170, 20);
@@ -1838,10 +1898,12 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separatorPremio.setBounds(479, 39, 169, 2);
 		panelGeneracionPoliza_2.add(separatorPremio);
 		
-		lblPremio = new JLabel("Premio");
+		lblPremio = new JLabel("Premio            $");
 		lblPremio.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblPremio.setBounds(394, 22, 50, 14);
+		lblPremio.setBounds(394, 23, 110, 14);
 		panelGeneracionPoliza_2.add(lblPremio);
+		textField_ImportePDesc.setFont(new Font("Arial", Font.PLAIN, 12));
+		
 		
 		textField_ImportePDesc.setColumns(10);
 		textField_ImportePDesc.setBounds(160, 62, 170, 20);
@@ -1854,9 +1916,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separatorImportePDesc.setBounds(160, 82, 169, 2);
 		panelGeneracionPoliza_2.add(separatorImportePDesc);
 		
-		lblImportePorDesc = new JLabel("Importe por descuentos");
+		lblImportePorDesc = new JLabel("Importe por descuentos $");
 		lblImportePorDesc.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblImportePorDesc.setBounds(15, 67, 151, 14);
+		lblImportePorDesc.setBounds(15, 66, 147, 14);
 		panelGeneracionPoliza_2.add(lblImportePorDesc);
 		
 		JLabel lblCuotas = new JLabel("Cuotas");
@@ -1864,34 +1926,34 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblCuotas.setBounds(15, 104, 61, 14);
 		panelGeneracionPoliza_2.add(lblCuotas);
 		
-		JLabel lblCuota1 = new JLabel("Cuota 1");
+		JLabel lblCuota1 = new JLabel("Cuota 1                     $");
 		lblCuota1.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCuota1.setBounds(15, 138, 61, 14);
+		lblCuota1.setBounds(15, 135, 125, 14);
 		panelGeneracionPoliza_2.add(lblCuota1);
 		
-		JLabel lblCuota2 = new JLabel("Cuota 2");
+		JLabel lblCuota2 = new JLabel("Cuota 2                     $");
 		lblCuota2.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCuota2.setBounds(15, 164, 61, 14);
+		lblCuota2.setBounds(15, 160, 125, 14);
 		panelGeneracionPoliza_2.add(lblCuota2);
 		
-		JLabel lblCuota3 = new JLabel("Cuota 3");
+		JLabel lblCuota3 = new JLabel("Cuota 3                     $");
 		lblCuota3.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCuota3.setBounds(15, 189, 61, 14);
+		lblCuota3.setBounds(15, 185, 125, 14);
 		panelGeneracionPoliza_2.add(lblCuota3);
 		
-		JLabel lblCuota4 = new JLabel("Cuota 4");
+		JLabel lblCuota4 = new JLabel("Cuota 4                     $");
 		lblCuota4.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCuota4.setBounds(15, 214, 61, 14);
+		lblCuota4.setBounds(15, 210, 125, 14);
 		panelGeneracionPoliza_2.add(lblCuota4);
 		
-		JLabel lblCuota5 = new JLabel("Cuota 5");
+		JLabel lblCuota5 = new JLabel("Cuota 5                     $");
 		lblCuota5.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCuota5.setBounds(15, 239, 61, 14);
+		lblCuota5.setBounds(15, 235, 125, 14);
 		panelGeneracionPoliza_2.add(lblCuota5);
 		
-		JLabel lblCuota6 = new JLabel("Cuota 6");
+		JLabel lblCuota6 = new JLabel("Cuota 6                     $");
 		lblCuota6.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCuota6.setBounds(15, 264, 61, 14);
+		lblCuota6.setBounds(15, 260, 125, 14);
 		panelGeneracionPoliza_2.add(lblCuota6);
 		
 		JLabel lblVencimiento = new JLabel("Vencimiento");
@@ -1900,6 +1962,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_2.add(lblVencimiento);
 		
 		textFieldCuota1 = new JTextField();
+		textFieldCuota1.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldCuota1.setColumns(10);
 		textFieldCuota1.setBounds(132, 130, 170, 20);
 		panelGeneracionPoliza_2.add(textFieldCuota1);
@@ -1912,6 +1975,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_2.add(separatorCuota1);
 		
 		textFieldCuota2 = new JTextField();
+		textFieldCuota2.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldCuota2.setColumns(10);
 		textFieldCuota2.setBounds(132, 156, 170, 20);
 		panelGeneracionPoliza_2.add(textFieldCuota2);
@@ -1924,6 +1988,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_2.add(separatorCuota2);
 		
 		textFieldCuota3 = new JTextField();
+		textFieldCuota3.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldCuota3.setColumns(10);
 		textFieldCuota3.setBounds(132, 181, 170, 20);
 		panelGeneracionPoliza_2.add(textFieldCuota3);
@@ -1936,6 +2001,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_2.add(separatorCuota3);
 		
 		textFieldCuota4 = new JTextField();
+		textFieldCuota4.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldCuota4.setColumns(10);
 		textFieldCuota4.setBounds(132, 206, 170, 20);
 		panelGeneracionPoliza_2.add(textFieldCuota4);
@@ -1948,6 +2014,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_2.add(separatorCuota4);
 		
 		textFieldCuota5 = new JTextField();
+		textFieldCuota5.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldCuota5.setColumns(10);
 		textFieldCuota5.setBounds(132, 231, 170, 20);
 		panelGeneracionPoliza_2.add(textFieldCuota5);
@@ -1960,6 +2027,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelGeneracionPoliza_2.add(separatorCuota5);
 		
 		textFieldCuota6 = new JTextField();
+		textFieldCuota6.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldCuota6.setColumns(10);
 		textFieldCuota6.setBounds(132, 256, 170, 20);
 		panelGeneracionPoliza_2.add(textFieldCuota6);
@@ -1971,36 +2039,38 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separatorCuota6.setBounds(132, 276, 169, 2);
 		panelGeneracionPoliza_2.add(separatorCuota6);
 		
-		JDateChooser vencimientoCuota1 = new JDateChooser();
+		vencimientoCuota1 = new JDateChooser();
 		vencimientoCuota1.setBounds(395, 132, 170, 20);
 		panelGeneracionPoliza_2.add(vencimientoCuota1);
 		vencimientoCuota1.setEnabled(false);
 		
-		
-		JDateChooser vencimientoCuota2 = new JDateChooser();
+		vencimientoCuota2 = new JDateChooser();
 		vencimientoCuota2.setBounds(395, 158, 170, 20);
 		panelGeneracionPoliza_2.add(vencimientoCuota2);
 		vencimientoCuota2.setEnabled(false);
 		
-		JDateChooser vencimientoCuota3 = new JDateChooser();
+		vencimientoCuota3 = new JDateChooser();
 		vencimientoCuota3.setBounds(395, 183, 170, 20);
 		panelGeneracionPoliza_2.add(vencimientoCuota3);
 		vencimientoCuota3.setEnabled(false);
 		
-		JDateChooser vencimientoCuota4 = new JDateChooser();
+		vencimientoCuota4 = new JDateChooser();
 		vencimientoCuota4.setBounds(395, 208, 170, 20);
 		panelGeneracionPoliza_2.add(vencimientoCuota4);
 		vencimientoCuota4.setEnabled(false);
 		
-		JDateChooser vencimientoCuota5 = new JDateChooser();
+		vencimientoCuota5 = new JDateChooser();
 		vencimientoCuota5.setBounds(395, 233, 170, 20);
 		panelGeneracionPoliza_2.add(vencimientoCuota5);
 		vencimientoCuota5.setEnabled(false);
 		
-		JDateChooser vencimientoCuota6 = new JDateChooser();
+		vencimientoCuota6 = new JDateChooser();
 		vencimientoCuota6.setBounds(395, 258, 170, 20);
 		panelGeneracionPoliza_2.add(vencimientoCuota6);
 		vencimientoCuota6.setEnabled(false);
+		textFieldMontoTotal.setFont(new Font("Arial", Font.PLAIN, 12));
+	
+		
 		
 		textFieldMontoTotal.setColumns(10);
 		textFieldMontoTotal.setBounds(132, 309, 170, 20);
@@ -2013,9 +2083,9 @@ public class InterfazDarAltaPoliza extends JFrame {
 		separatorMontoTotal.setBounds(132, 329, 169, 2);
 		panelGeneracionPoliza_2.add(separatorMontoTotal);
 		
-		JLabel lblMontoTotalA = new JLabel("Monto total a pagar  $");
+		JLabel lblMontoTotalA = new JLabel("Monto total a pagar $");
 		lblMontoTotalA.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblMontoTotalA.setBounds(15, 316, 125, 14);
+		lblMontoTotalA.setBounds(15, 313, 125, 14);
 		panelGeneracionPoliza_2.add(lblMontoTotalA);
 		
 		JButton btnConfirmar_1 = new JButton("Confirmar");
@@ -2371,7 +2441,7 @@ public class InterfazDarAltaPoliza extends JFrame {
         String valorEnPesos = formatoPesos.format(valor);
     	return valorEnPesos;
     }
-      public void dialogoCancelar() {
+    public void dialogoCancelar() {
 
     	int opcion = JOptionPane.showConfirmDialog(null,"¿Está seguro de que desea cancelar el alta de la poliza?","Confirmación",
                 JOptionPane.YES_NO_OPTION);

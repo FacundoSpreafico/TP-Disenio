@@ -3,13 +3,18 @@ package DTO;
 public class DescuentoTotalDTO {
 
 	
-	private double descuentoPorUnidadAdicional;
-	private double descuentoPorSemestralidad;
+	private double descuentoPorUnidadAdicional = 0;
+	private double descuentoPorSemestralidad = 0;
 	
 	
 	
 	public double devolverTotal() {
+		if (descuentoPorSemestralidad != 0) {
 		return this.descuentoPorSemestralidad + this.descuentoPorUnidadAdicional;
+		}
+		else {
+		return this.descuentoPorUnidadAdicional;
+		}
 	}
 	
 	public double getDescuentoPorUnidadAdicional() {

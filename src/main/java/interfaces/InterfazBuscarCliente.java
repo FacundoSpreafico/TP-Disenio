@@ -43,7 +43,7 @@ public class InterfazBuscarCliente extends JFrame {
 	private ClienteDTO clienteBuscado= new ClienteDTO();
 	private InterfazDarAltaPoliza interfazDarAltaPoliza;
 	private String[] optionsTipoDocumento = {"<Seleccione>","DNI", "Libreta civica", "Libreta de enrolamiento"};
-	List<ClienteDTO> listaClientes = new ArrayList<ClienteDTO>();
+	List<ClienteDTO> listaClientes = new ArrayList<>();
 	
 	
 	public InterfazBuscarCliente(InterfazDarAltaPoliza interfazDarAltaPoliza)  throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
@@ -65,7 +65,7 @@ public class InterfazBuscarCliente extends JFrame {
 	}
 	
 	public void inicializarPaneles() {
-
+		listaClientes =GestorCliente.getInstance().buscar(); 
 		JLabel lblNroCliente = new JLabel("Nro. Cliente");
 		lblNroCliente.setBounds(60, 70, 65, 14);
 		lblNroCliente.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -174,17 +174,14 @@ public class InterfazBuscarCliente extends JFrame {
 		            int fila = tablaClientes.getSelectedRow();
 		            ClienteDTO clienteSeleccionado = new ClienteDTO();  
 		            String nroCliente = tablaClientes.getValueAt(fila, 0).toString();
-		            
 		            for (ClienteDTO cliente: listaClientes) {
 		            	if (cliente.getNroCliente().equals(nroCliente)) {
 		            		clienteSeleccionado = cliente;
 		            	}
 		            }
-
 		            if (interfazDarAltaPoliza != null) {
 		                interfazDarAltaPoliza.actualizarCamposCliente(clienteSeleccionado);
 		            }
-		            
 		            dispose();
 		        
 		    }
@@ -232,7 +229,7 @@ public class InterfazBuscarCliente extends JFrame {
 		});
 		btnCancelar.setBounds(116, 460, 89, 23);
 		contentPane.add(btnCancelar);
-		configuracionTabla(GestorCliente.getInstance().buscar());
+		configuracionTabla(listaClientes);
 	}
 	public boolean todosNulos() {
 		if (textFieldNombre.getText().isEmpty() && textFieldApellido.getText().isEmpty() && comboBoxTipoDoc.getSelectedItem()==null && textFieldNroDoc.getText().isEmpty() 
@@ -266,7 +263,7 @@ public class InterfazBuscarCliente extends JFrame {
 
 	    for (int i = 0; i < cantidadClientes; i++) {
 	        ClienteDTO clienteDTO = listaClientes.get(i);
-	        datosClientes[i][0] = String.valueOf(clienteDTO.getNroCliente());
+	        datosClientes[i][0] = clienteDTO.getNroCliente();
 	        datosClientes[i][1] = clienteDTO.getApellido();
 	        datosClientes[i][2] = clienteDTO.getNombre();
 	        datosClientes[i][3] = clienteDTO.getTipoDocumento();

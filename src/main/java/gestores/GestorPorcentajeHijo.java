@@ -28,5 +28,6 @@ public class GestorPorcentajeHijo {
 		default: cantidad = "Dos o mas";
 		}
 		return porcentajeHijoDAO.getPorcentajeActual(cantidad);
+		
 	}
 }

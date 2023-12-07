@@ -2432,7 +2432,33 @@ public class InterfazDarAltaPoliza extends JFrame {
     public void configuracionBotonConfirmarPoliza(JButton btn) {
     	btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO);
+				int opcionSeleccionada = JOptionPane.showConfirmDialog(null, "¿Desea confirmar la creación de la nueva póliza?", "Confirmación", JOptionPane.YES_NO_OPTION);
+
+		        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
+		            // El usuario seleccionó "Sí"
+		        	int opcion = JOptionPane.showConfirmDialog(null, "Poliza generada correctamente!\n\nNro de poliza: " + GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO), "Éxito", JOptionPane.YES_NO_OPTION);
+
+		            if (opcion == JOptionPane.YES_OPTION) {
+		            	try {
+							InterfazDarAltaPoliza interfaz;
+							interfaz = new InterfazDarAltaPoliza();
+							interfaz.setVisible(true);
+							dispose();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+		            } else {
+		                System.exit(0);
+		            }
+		        	
+		        	
+					
+		        } else {
+		            // El usuario seleccionó "No" o cerró el cuadro de diálogo
+		            System.out.println("Se canceló la creación de la nueva póliza.");
+		        }
+
+				
 			}
 		});
     }

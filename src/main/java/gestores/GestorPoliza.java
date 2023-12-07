@@ -150,17 +150,19 @@ public class GestorPoliza {
 	}
 	
 	
-	public String generarNumeroPoliza() {
-		 final String LETRAS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";   
-		 Random random = new Random();
-	     int numeroAleatorio = 1000000 + random.nextInt(9000000);
+	public static String generarNumeroPoliza() {
+        Random random = new Random();
+        int digito = 1 + random.nextInt(9); // Genera un dígito aleatorio del 1 al 9
 
-	     char letra1 = LETRAS.charAt(random.nextInt(LETRAS.length()));
-	     char letra2 = LETRAS.charAt(random.nextInt(LETRAS.length()));
+        // Repite el dígito cuatro veces para obtener los primeros cuatro dígitos iguales
+        String primerosCuatroDigitos = String.format("%04d", Integer.parseInt(String.valueOf(digito).repeat(4)));
 
-	     return String.format("%d%c%c", numeroAleatorio, letra1, letra2);
-	    }
+        int siguientesSieteDigitos = 1000000 + random.nextInt(9000000);
 
+        return String.format("%s-%07d-01", primerosCuatroDigitos, siguientesSieteDigitos);
+    }
+	
+	
 	public double calcularDescuentos() {
 		Random random = new Random();
 	    int premio = random.nextInt(4000 - 2000 + 1) + 2000;

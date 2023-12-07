@@ -1,12 +1,12 @@
 package interfaces;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +18,6 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,7 +35,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.AbstractDocument;
 import javax.swing.text.MaskFormatter;
 
 import com.toedter.calendar.JDateChooser;
@@ -60,13 +58,11 @@ import excepciones.DatosNoIngresadosException;
 import excepciones.FechaInicioInvalidaException;
 import gestores.GestorCliente;
 import gestores.GestorCobertura;
-import gestores.GestorHijoCliente;
 import gestores.GestorLocalidad;
 import gestores.GestorPoliza;
 import gestores.GestorPremio;
 import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
-import javax.swing.JRadioButton;
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -110,20 +106,20 @@ public class InterfazDarAltaPoliza extends JFrame {
 	private String[] optionsEstadoCivil = {"<Seleccione>","Soltero/a", "Casado/a", "Divorciado/a", "Separado/A", "Viudo/A"};
 	private String[] optionsSexo = {"<Seleccione>","Masculino", "Femenino"};
 	String[] opcionesKMs = {"<Seleccione>", "Hasta 10.000", "10.000 - 20.000", "20.000 - 30.000", "Mas de 30.000"};
-
+	String[] opcionesFormatoPatente = {"Formato antiguo", "Formato nuevo"};
+	
 	// JTable
 	private JTable tablaHijos;
 	private JButton btnEliminar;
 	
-	private JFormattedTextField formattedTextField;
-
+	private JFormattedTextField textFieldChasis, textFieldPatente;
 	
 	
 	
 	//Campos datos de vehiculo
-	private JComboBox<Object> comboBoxPaisRiesgo, comboBoxLocalidadRiesgo, comboBoxProvinciaRiesgo,
+	private JComboBox<Object> comboBoxPaisRiesgo, comboBoxLocalidadRiesgo, comboBoxProvinciaRiesgo, comboBoxFormatoPatente,
 	comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;
-	private JTextField textFieldSumaAsegurada, textFieldChasis = new JTextField(), textFieldPatenteVehiculo, textFieldMotor;
+	private JTextField textFieldSumaAsegurada, textFieldMotor;
 	JDateChooser fechaInicio;
 	private JTextField textFieldApellido_3;
 	private JTextField textFieldNombre_3;
@@ -439,8 +435,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 			            
 						vehiculoDTO = new VehiculoDTO();
 						vehiculoDTO.setMotor(textFieldMotor.getText());
-						vehiculoDTO.setChasis(formattedTextField.getText());
-						vehiculoDTO.setPatente(textFieldPatenteVehiculo.getText());
+						vehiculoDTO.setChasis(textFieldChasis.getText());
+						vehiculoDTO.setPatente(textFieldPatente.getText());
 						vehiculoDTO.setModelo(new ModeloDTO(comboBoxMarcaVehiculo.getSelectedItem().toString(),
 								                         comboBoxModeloVehiculo.getSelectedItem().toString(),
 								                         Integer.parseInt(comboBoxAnioVehiculo.getSelectedItem().toString())));
@@ -617,19 +613,19 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblSimbolo.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_2 = new JLabel("(*)");
-		lblSimbolo_2.setBounds(138, 139, 19, 14);
+		lblSimbolo_2.setBounds(138, 167, 19, 14);
 		panelPoliza.add(lblSimbolo_2);
 		lblSimbolo_2.setForeground(Color.RED);
 		lblSimbolo_2.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_3 = new JLabel("(*)");
-		lblSimbolo_3.setBounds(138, 167, 19, 14);
+		lblSimbolo_3.setBounds(138, 196, 19, 14);
 		panelPoliza.add(lblSimbolo_3);
 		lblSimbolo_3.setForeground(Color.RED);
 		lblSimbolo_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblSimbolo_1 = new JLabel("(*)");
-		lblSimbolo_1.setBounds(138, 196, 19, 14);
+		lblSimbolo_1.setBounds(138, 224, 19, 14);
 		panelPoliza.add(lblSimbolo_1);
 		lblSimbolo_1.setForeground(Color.RED);
 		lblSimbolo_1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -678,25 +674,25 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		
 		lblNroSiniestros = new JLabel("Nro. Siniestros / ult. año");
-		lblNroSiniestros.setBounds(20, 196, 113, 14);
+		lblNroSiniestros.setBounds(20, 224, 113, 14);
 		panelPoliza.add(lblNroSiniestros);
 		lblNroSiniestros.setFont(new Font("Arial", Font.PLAIN, 10));
 		
 		//campo Siniestros ultimo año
 		String[] opcionesSiniestros = {"Ninguno", "Uno", "Dos", "Mas de dos"};
 		comboBoxSiniestrosUltAnio = new JComboBox<>(opcionesSiniestros);
-		comboBoxSiniestrosUltAnio.setBounds(158, 189, 154, 22);
+		comboBoxSiniestrosUltAnio.setBounds(158, 217, 154, 22);
 		panelPoliza.add(comboBoxSiniestrosUltAnio);
 		comboBoxSiniestrosUltAnio.setBackground(Color.WHITE);
 		
 		lblKmsAnio = new JLabel("Kilometros por año");
-		lblKmsAnio.setBounds(20, 167, 113, 14);
+		lblKmsAnio.setBounds(20, 196, 113, 14);
 		panelPoliza.add(lblKmsAnio);
 		lblKmsAnio.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		//campo KMs por anio
 		comboBoxKmsPorAnio = new JComboBox<>(opcionesKMs);
-		comboBoxKmsPorAnio.setBounds(158, 161, 154, 22);
+		comboBoxKmsPorAnio.setBounds(158, 189, 154, 22);
 		panelPoliza.add(comboBoxKmsPorAnio);
 		comboBoxKmsPorAnio.setBackground(Color.WHITE);
 		
@@ -711,16 +707,16 @@ public class InterfazDarAltaPoliza extends JFrame {
 		lblMarcaDelVehiculo.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		lblChasis = new JLabel("Chasis");
-		lblChasis.setBounds(20, 138, 46, 14);
+		lblChasis.setBounds(20, 167, 46, 14);
 		panelPoliza.add(lblChasis);
 		lblChasis.setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		MaskFormatter maskFormatter = new MaskFormatter("#UU-******-********");
 
-        formattedTextField = new JFormattedTextField(maskFormatter);
-        formattedTextField.setBounds(158, 133, 154, 20);
-		panelPoliza.add(formattedTextField);
-		formattedTextField.setColumns(10);
+        textFieldChasis = new JFormattedTextField(maskFormatter);
+        textFieldChasis.setBounds(158, 161, 154, 20);
+		panelPoliza.add(textFieldChasis);
+		textFieldChasis.setColumns(10);
 		
 		
 		separator_8 = new JSeparator();
@@ -865,16 +861,54 @@ public class InterfazDarAltaPoliza extends JFrame {
     	comboBoxAnioVehiculo.setEnabled(false);
     	
     	//campo patente
-    	textFieldPatenteVehiculo = new JTextField();
-    	textFieldPatenteVehiculo.setBounds(525, 133, 154, 20);
-    	panelPoliza.add(textFieldPatenteVehiculo);
-    	textFieldPatenteVehiculo.setColumns(10);
+    	MaskFormatter mascaraPatenteAntigua = new MaskFormatter("UUU-###");
+    	MaskFormatter mascaraPatenteNueva = new MaskFormatter("UU-###-UU");
+    	
+    	textFieldPatente = new JFormattedTextField(mascaraPatenteNueva);
+    	textFieldPatente.setBounds(525, 133, 154, 20);
+    	panelPoliza.add(textFieldPatente);
+    	textFieldPatente.setColumns(10);
     	
     	JLabel lblSimbolo_4_1 = new JLabel("$");
     	lblSimbolo_4_1.setForeground(Color.BLACK);
     	lblSimbolo_4_1.setFont(new Font("Arial", Font.PLAIN, 12));
     	lblSimbolo_4_1.setBounds(513, 108, 19, 14);
     	panelPoliza.add(lblSimbolo_4_1);
+    	
+    	JLabel lblFormatoDePatente = new JLabel("Formato de patente");
+    	lblFormatoDePatente.setFont(new Font("Arial", Font.PLAIN, 12));
+    	lblFormatoDePatente.setBounds(20, 138, 113, 14);
+    	panelPoliza.add(lblFormatoDePatente);
+    	
+    	JLabel lblSimbolo_5_1 = new JLabel("(*)");
+    	lblSimbolo_5_1.setForeground(Color.RED);
+    	lblSimbolo_5_1.setFont(new Font("Arial", Font.PLAIN, 12));
+    	lblSimbolo_5_1.setBounds(138, 138, 19, 14);
+    	panelPoliza.add(lblSimbolo_5_1);
+    	
+    	
+    	comboBoxFormatoPatente = new JComboBox(opcionesFormatoPatente);
+    	comboBoxFormatoPatente.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			panelPoliza.remove(textFieldPatente);
+    			if(comboBoxFormatoPatente.getSelectedItem() == "Formato nuevo") {
+    				textFieldPatente = new JFormattedTextField(mascaraPatenteNueva);
+    		    	textFieldPatente.setBounds(525, 133, 154, 20);
+    		    	panelPoliza.add(textFieldPatente);
+    		    	textFieldPatente.setColumns(10);
+    				
+    			}
+    			else if(comboBoxFormatoPatente.getSelectedItem() == "Formato antiguo") {
+    				textFieldPatente = new JFormattedTextField(mascaraPatenteAntigua);
+    		    	textFieldPatente.setBounds(525, 133, 154, 20);
+    		    	panelPoliza.add(textFieldPatente);
+    		    	textFieldPatente.setColumns(10);
+    			}
+    		}
+    	});
+    	comboBoxFormatoPatente.setBounds(158, 133, 154, 22);
+    	panelPoliza.add(comboBoxFormatoPatente);
+    	comboBoxFormatoPatente.setSelectedIndex(1);
     	
     	comboBoxAnioVehiculo.addActionListener(new ActionListener() {
     				public void actionPerformed(ActionEvent e) {
@@ -2180,15 +2214,23 @@ public class InterfazDarAltaPoliza extends JFrame {
     	
     }
     public void limpiarCamposVehiculo() {
-		comboBoxMarcaVehiculo.setSelectedItem(null);
+    	comboBoxPaisRiesgo.setSelectedIndex(0);
+    	comboBoxProvinciaRiesgo.setSelectedIndex(0);
+    	comboBoxProvinciaRiesgo.setEnabled(false);
+    	comboBoxLocalidadRiesgo.setSelectedIndex(0);
+    	comboBoxLocalidadRiesgo.setEnabled(false);
+    	textFieldMotor.setText(null);
+    	comboBoxFormatoPatente.setSelectedIndex(1);
+    	textFieldChasis.setText(null);
+    	comboBoxKmsPorAnio.setSelectedIndex(0);
+		comboBoxSiniestrosUltAnio.setSelectedIndex(0);
+		comboBoxMarcaVehiculo.setSelectedIndex(0);
+		comboBoxModeloVehiculo.setSelectedIndex(0);
+		comboBoxModeloVehiculo.setEnabled(false);
+	    comboBoxAnioVehiculo.setSelectedIndex(0);
+	    comboBoxAnioVehiculo.setEnabled(false);
 		textFieldSumaAsegurada.setText(null);
-		textFieldChasis.setText(null);
-		comboBoxKmsPorAnio.setSelectedItem(null);
-		comboBoxSiniestrosUltAnio.setSelectedItem(null);
-		comboBoxModeloVehiculo.setSelectedItem(null);
-	    comboBoxAnioVehiculo.setSelectedItem(null);	
-	    textFieldMotor.setText(null);
-	    textFieldPatenteVehiculo.setText(null);
+	    textFieldPatente.setText(null);
 	    chckbxGuardaGarage.setSelected(false);
 	    chckbxtieneAlarma.setSelected(false);
 	    chckbxRastreoVehicular.setSelected(false);
@@ -2238,7 +2280,9 @@ public class InterfazDarAltaPoliza extends JFrame {
     		return false;
     }
     public boolean camposIngresados() {
-    	if(formattedTextField.getText().isEmpty() ||  textFieldPatenteVehiculo.getText().isEmpty()  || textFieldMotor.getText().isEmpty()) {
+    	if(textFieldChasis.getText().contains(" ") ||   
+    	   textFieldPatente.getText().contains(" ") ||
+    	   textFieldMotor.getText().isEmpty()) {
     		
     		return false;
     	}

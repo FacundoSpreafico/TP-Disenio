@@ -1,20 +1,15 @@
 package DAO;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
-import org.hibernate.query.criteria.HibernateCriteriaBuilder;
-import org.hibernate.query.criteria.JpaCriteriaQuery;
-import org.hibernate.query.criteria.JpaRoot;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.internal.SessionCreationOptions;
 
 import DTO.ClienteDTO;
 import entidades.Cliente;
-import entidades.Marca;
+import entidades.Poliza;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -115,14 +110,104 @@ public class ClienteDAOImp implements ClienteDAO {
 
     public Long obtenerCantidadVehiculos(int idCliente) {
         try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
-            String hql = "SELECT COUNT(DISTINCT p.vehiculo.idVehiculo) FROM Poliza p WHERE p.cliente.idCliente = :idCliente";
+            String hql = "SELECT COUNT(DISTINCT v.idVehiculo) FROM Cliente c, Poliza p, Vehiculo v"
+            		+ " WHERE c.idCliente = :idCliente AND c = p.cliente AND p.vehiculo = v";
             Query<Long> query = session.createQuery(hql, Long.class);
             query.setParameter("idCliente", idCliente);
-            return query.getSingleResult();
+            
+            Long result = query.getSingleResult();
+            session.close();
+            return result;
         }
     }
-
     
+    public Long obtenerCantidadPolizasAsociadas(Cliente cliente) {
+    	try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
+   		 //Busca las polizas vigentes actuales luego de generar la poliza
+            String hql = "SELECT COUNT(DISTINCT p.idPoliza) FROM Poliza p, Cliente c "
+            		   + "WHERE c.idCliente = :idCliente AND c = p.cliente";
+            Query<Long> query = session.createQuery(hql, Long.class);
+            query.setParameter("idCliente", cliente.getIdCliente());
+            
+            Long result = query.getSingleResult();
+            session.close();
+            return result;
+    	}
+    }
+    
+    public Long obtenerCantidadCuotasImpagas(Cliente cliente) {
+    	try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
+            
+            String hql2 = "SELECT COUNT(DISTINCT cu.idCuota) FROM Poliza p, Cliente cl, Cuota cu "
+             		    + "WHERE cl.idCliente = :idCliente AND cl = p.cliente "
+             		    + "AND p.fechaFin > :fechaActual "
+             		    + "AND cu.poliza = p AND cu.estado = 'impaga' AND cu.fechaVencimiento < :fechaActual";
+            
+            Query<Long> queryCuotas = session.createQuery(hql2, Long.class);
+            queryCuotas.setParameter("idCliente", cliente.getIdCliente());
+            Date fechaActual = new Date();
+            queryCuotas.setParameter("fechaActual", fechaActual);
+            
+            Long result = queryCuotas.getSingleResult();
+            session.close();
+            return result;
+    	}
+    }
+    
+    public List<Poliza> devolverPolizasVigentes(Cliente cliente){
+    	try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){    
+            String hql3 = "SELECT p FROM Poliza p, Cliente c "
+             		    + "WHERE c.idCliente = :idCliente AND c = p.cliente "
+             		    + "AND p.fechaFin > :fechaActual";
+             
+             Query<Poliza> queryPolizas = session.createQuery(hql3, Poliza.class);
+             queryPolizas.setParameter("idCliente", cliente.getIdCliente());
+             Date fechaActual = new Date();
+             queryPolizas.setParameter("fechaActual", fechaActual);
+             
+             List<Poliza> result = queryPolizas.getResultList();
+             session.close();
+             return result;
+            
+    	}
+    }
+    
+    public void actualizarEstadoCliente(Cliente cliente, Poliza poliza) {
+    	 try (Session session = SessionHibernate.getInstance().getSessionFactory().openSession()){
+             Long cantidadPolizasAsociadas = obtenerCantidadPolizasAsociadas(cliente);
+             Long cantidadCuotasImpagas = obtenerCantidadCuotasImpagas(cliente);
+             List<Poliza> listaPolizasVigentes = devolverPolizasVigentes(cliente);
+             
+             //Si se verifica que la poliza se creo en una 4ta renovacion consecutiva entonces
+             //habrán pasado 2 años de manera ininterrumpida en el que el cliente ha estado activo.
+             //Su condición cambia a "Plata"
+             
+              boolean tieneAntiguedad2Anios = false;
+              for(Poliza p : listaPolizasVigentes) {
+            	  String substring = p.getNumeroPoliza().substring(11);
+            	  int ultimosDigitos = Integer.parseInt(substring);
+            	  
+            	  if(ultimosDigitos >= 05) {
+            		  tieneAntiguedad2Anios = true;
+            	  }
+              }
+             
+             
+             if(cantidadPolizasAsociadas >= 1) {
+            	 cliente.setTipoCliente("Normal");
+            	 
+            	 if(listaPolizasVigentes.size() > 0) {
+            		 cliente.setEstadoCliente("activo");
+            	 }
+            	 if(poliza.getNroSiniestros() == "Ninguno" && cantidadCuotasImpagas == 0 && tieneAntiguedad2Anios) {
+            		 cliente.setTipoCliente("Plata");
+            	 }
+            	 session.update(cliente);
+            	 session.close();
+            	 return;
+             }
+    	 }
+    }
 }
 	
 

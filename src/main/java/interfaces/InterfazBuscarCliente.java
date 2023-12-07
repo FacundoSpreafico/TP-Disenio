@@ -139,11 +139,19 @@ public class InterfazBuscarCliente extends JFrame {
 		           cliente.setNroCliente(textFieldNroCliente.getText().trim());
 		        }
 		        if (todosNulos()) {
-		        	JOptionPane.showMessageDialog(null, "No se ha ingresado ningún parámetro de búsqueda", "Advertencia", JOptionPane.WARNING_MESSAGE);
+		        	JOptionPane.showMessageDialog(null, "No se ha ingresado ningún parámetro de búsqueda", "Criterio/s no ingresado/s", JOptionPane.WARNING_MESSAGE);
 		        }
 		        else {
-		        listaClientes = GestorCliente.getInstance().buscar(cliente);
-		        configuracionTabla(listaClientes);
+		        	
+		        	listaClientes = GestorCliente.getInstance().buscar(cliente);
+		        	if(listaClientes.isEmpty()) {
+		        		JOptionPane.showMessageDialog(null, "No se encontró ningún cliente que cumpla con los criterios ingresados", "Cliente no encontrado", JOptionPane.WARNING_MESSAGE);
+		        	} else {
+		        		configuracionTabla(listaClientes);
+		        	}
+		        	
+		        
+		        	
 		        }
 		    }
 		});
@@ -232,7 +240,7 @@ public class InterfazBuscarCliente extends JFrame {
 		configuracionTabla(listaClientes);
 	}
 	public boolean todosNulos() {
-		if (textFieldNombre.getText().isEmpty() && textFieldApellido.getText().isEmpty() && comboBoxTipoDoc.getSelectedItem()==null && textFieldNroDoc.getText().isEmpty() 
+		if (textFieldNombre.getText().isEmpty() && textFieldApellido.getText().isEmpty() && comboBoxTipoDoc.getSelectedItem()=="<Seleccione>" && textFieldNroDoc.getText().isEmpty() 
 				&& textFieldNroCliente.getText().isEmpty()) {
         return true;
         }

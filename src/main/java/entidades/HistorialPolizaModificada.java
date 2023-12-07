@@ -49,8 +49,8 @@ public class HistorialPolizaModificada {
 	@JoinColumn(name = "id_poliza")
 	private Poliza poliza;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_usuario")
-	private Usuario operador;
+	//@ManyToOne()
+	//@JoinColumn(name = "id_usuario")
+	//private Usuario operador;
 	
 }

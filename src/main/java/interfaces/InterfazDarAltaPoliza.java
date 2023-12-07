@@ -67,6 +67,7 @@ import gestores.GestorPoliza;
 import gestores.GestorPremio;
 import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
+import gestores.SubsistemaSiniestros;
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -998,7 +999,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		btnDarAltaCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(InterfazDarAltaPoliza.this,
-					    "Funcion no implementada :(",
+					    "Funcion no implementada",
 					    "Proximamente",
 					    JOptionPane.WARNING_MESSAGE
 					);
@@ -1032,8 +1033,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 				try { 
 				if (!clienteDTO.getNombre().isEmpty()) {
 				clienteDTO.setIdCliente(GestorCliente.getInstance().recuperarID(clienteDTO.getNroCliente()));
-				
-			
 				for (int i=0; i<tabbedCrearPoliza.getComponentCount(); i++) {
 					if (i==1) {
 						tabbedCrearPoliza.setEnabledAt(i,true);
@@ -1043,7 +1042,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 					}
 				}
 				tabbedCrearPoliza.setSelectedIndex(1);
-			    
+				comboBoxSiniestrosUltAnio.setSelectedIndex(SubsistemaSiniestros.getInstance().devolverCantidadSiniestros());
+				comboBoxSiniestrosUltAnio.setEnabled(false);
 				}
 				}
 				catch (Exception e1) {
@@ -1521,7 +1521,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		configuracionPanelDatosPoliza();
 		pestaniaGeneracionPoliza();
 		pestaniaTipoPoliza();
-        
 	}
 	public void agregarMedida(boolean isSelected, String medida, List<MedidaDeSeguridadDTO> listaMedidas) {
 	        if (isSelected) {

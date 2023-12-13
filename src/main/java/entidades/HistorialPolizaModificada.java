@@ -14,8 +14,6 @@ import jakarta.persistence.Table;
 @Table (name = "historial_poliza_modificada")
 
 public class HistorialPolizaModificada {
-
-
 	@Id
 	@Column(name = "id_historial_poliza_modificada")
 	private int idHistorialPolizaModificada;
@@ -49,8 +47,8 @@ public class HistorialPolizaModificada {
 	@JoinColumn(name = "id_poliza")
 	private Poliza poliza;
 	
-	//@ManyToOne()
-	//@JoinColumn(name = "id_usuario")
-	//private Usuario operador;
+	@ManyToOne()
+	@JoinColumn(name = "id_usuario")
+	private Usuario operador;
 	
 }

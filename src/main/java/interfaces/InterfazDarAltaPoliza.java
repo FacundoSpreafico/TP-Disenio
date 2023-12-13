@@ -2090,8 +2090,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		vencimientoCuota6.setEnabled(false);
 		textFieldMontoTotal.setFont(new Font("Arial", Font.PLAIN, 12));
 	
-		
-		
 		textFieldMontoTotal.setColumns(10);
 		textFieldMontoTotal.setBounds(132, 309, 170, 20);
 		panelGeneracionPoliza_2.add(textFieldMontoTotal);
@@ -2450,6 +2448,7 @@ public class InterfazDarAltaPoliza extends JFrame {
         
     }
     public void configuracionBotonConfirmarPoliza(JButton btn) {
+    	InterfazDarAltaPoliza interfaz = this;
     	btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int opcionSeleccionada = JOptionPane.showConfirmDialog(null, "¿Desea confirmar la creación de la nueva póliza?", "Confirmación", JOptionPane.YES_NO_OPTION);
@@ -2457,7 +2456,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
 		            // El usuario seleccionó "Sí"
 		        	try {
-		        		CreacionPoliza creacion = new CreacionPoliza((GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO)));
+		        		CreacionPoliza creacion = new CreacionPoliza(GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO), interfaz);
 						creacion.setVisible(true);
 					} catch (Exception e1) {
 						e1.printStackTrace();

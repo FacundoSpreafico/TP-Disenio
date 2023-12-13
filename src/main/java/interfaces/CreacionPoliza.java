@@ -21,7 +21,7 @@ public class CreacionPoliza extends JFrame {
 
 	private JPanel contentPane;
 
-	public CreacionPoliza(String numero) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public CreacionPoliza(String numero, InterfazDarAltaPoliza interfazAntigua) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		setType(Type.UTILITY);
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setTitle("Póliza generada");
@@ -60,6 +60,7 @@ public class CreacionPoliza extends JFrame {
 					interfaz = new InterfazDarAltaPoliza();
 					interfaz.setVisible(true);
 					dispose();
+					interfazAntigua.dispose();
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

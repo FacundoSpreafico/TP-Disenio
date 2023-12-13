@@ -3,9 +3,7 @@ package gestores;
 import DAO.HijoClienteDAO;
 import DAO.HijoClienteDAOImp;
 import DTO.HijoClienteDTO;
-import DTO.PolizaDTO;
 import entidades.HijoCliente;
-import entidades.Poliza;
 
 public class GestorHijoCliente {
 

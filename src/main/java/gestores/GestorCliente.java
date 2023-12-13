@@ -3,7 +3,6 @@ package gestores;
 import java.util.ArrayList;
 import java.util.List;
 
-import DAO.ClienteDAO;
 import DAO.ClienteDAOImp;
 import DTO.ClienteDTO;
 import DTO.DomicilioDTO;

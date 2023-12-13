@@ -119,8 +119,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 	
 	private JFormattedTextField textFieldChasis, textFieldPatente;
 	
-	
-	
+
 	//Campos datos de vehiculo
 	private JComboBox<Object> comboBoxPaisRiesgo, comboBoxLocalidadRiesgo, comboBoxProvinciaRiesgo, comboBoxFormatoPatente,
 	comboBoxKmsPorAnio, comboBoxSiniestrosUltAnio, comboBoxAnioVehiculo, comboBoxModeloVehiculo, comboBoxMarcaVehiculo;

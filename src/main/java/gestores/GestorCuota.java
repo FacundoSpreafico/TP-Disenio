@@ -2,8 +2,6 @@ package gestores;
 
 import DAO.CuotaDAO;
 import DAO.CuotaDAOImp;
-import DAO.PolizaDAO;
-import DAO.PolizaDAOImp;
 import DTO.CuotaDTO;
 import entidades.Cuota;
 

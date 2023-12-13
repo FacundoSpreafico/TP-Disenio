@@ -1,15 +1,9 @@
 package gestores;
 
-import org.hibernate.Session;
-
 import DAO.MedidaDeSeguridadDAO;
 import DAO.MedidaDeSeguridadDAOImp;
-import DAO.PolizaDAO;
-import DAO.PolizaDAOImp;
-import DAO.SessionHibernate;
 import DTO.MedidaDeSeguridadDTO;
 import entidades.MedidaDeSeguridad;
-import jakarta.persistence.Query;
 
 public class GestorMedidaSeguridad {
 	

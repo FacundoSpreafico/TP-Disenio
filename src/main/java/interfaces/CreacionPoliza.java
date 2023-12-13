@@ -11,16 +11,18 @@ import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JButton;
+import java.awt.SystemColor;
+import java.awt.Window.Type;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.awt.event.ActionEvent;
 
 public class CreacionPoliza extends JFrame {
 
 	private JPanel contentPane;
 
-	
-	
-	
-	
 	public CreacionPoliza(String numero) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		setType(Type.UTILITY);
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setTitle("Póliza generada");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -33,15 +35,15 @@ public class CreacionPoliza extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 0, 395, 169);
+		panel.setBackground(SystemColor.menu);
+		panel.setBounds(0, 0, 395, 127);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Poliza generada correctamente!");
 		lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblNewLabel.setForeground(new Color(0, 128, 0));
-		lblNewLabel.setBounds(47, 22, 182, 14);
+		lblNewLabel.setBounds(47, 28, 182, 14);
 		panel.add(lblNewLabel);
 		
 		JLabel lblNroDePoliza = new JLabel("Nro de poliza: ");
@@ -51,6 +53,19 @@ public class CreacionPoliza extends JFrame {
 		panel.add(lblNroDePoliza);
 		
 		JButton btnDescargar = new JButton("Descargar póliza");
+		btnDescargar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					InterfazDarAltaPoliza interfaz;
+					interfaz = new InterfazDarAltaPoliza();
+					interfaz.setVisible(true);
+					dispose();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		btnDescargar.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnDescargar.setBounds(253, 96, 132, 23);
 		panel.add(btnDescargar);

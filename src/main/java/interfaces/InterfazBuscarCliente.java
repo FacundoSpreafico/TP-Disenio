@@ -50,7 +50,7 @@ public class InterfazBuscarCliente extends JFrame {
 		this.interfazDarAltaPoliza = interfazDarAltaPoliza;
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setTitle("Productor de seguro - Buscar cliente");
-		setIconImage(Images.MILEI.getImage());
+		setIconImage(Images.LOGO.getImage());
 		setResizable(false);
 		setBounds(100, 100, 869, 547);
 		contentPane = new JPanel();

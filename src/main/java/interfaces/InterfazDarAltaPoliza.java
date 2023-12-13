@@ -181,12 +181,13 @@ public class InterfazDarAltaPoliza extends JFrame {
     private PolizaDTO polizaDTO;
     private JDateChooser fechaInicio_1, fechaFin;
     JComboBox<String> comboBoxTipoCobertura;
+    JComboBox<String> comboBoxFormaDePago;
     
 	public InterfazDarAltaPoliza() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException, ParseException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setIconImage(Images.MILEI.getImage());
+		setIconImage(Images.LOGO.getImage());
 		setBounds(100, 100, 869, 547);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -340,6 +341,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		fechaNacimiento = new JDateChooser();
 		fechaNacimiento.setBounds(143, 110, 111, 20);
+		fechaNacimiento.setFocusable(false);
 		panelPoliza_2.add(fechaNacimiento);
 		
 		lblEstadoCivil = new JLabel("Estado civil");
@@ -348,6 +350,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		panelPoliza_2.add(lblEstadoCivil);
 		
 		comboBoxEstadoCivil = new JComboBox(optionsEstadoCivil);
+		comboBoxEstadoCivil.setFocusable(false);
 		comboBoxEstadoCivil.setBounds(143, 154, 111, 22);
 		
 		panelPoliza_2.add(comboBoxEstadoCivil);
@@ -359,6 +362,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		comboBoxSexo = new JComboBox(optionsSexo);
 		comboBoxSexo.setBounds(142, 198, 112, 22);
+		comboBoxSexo.setFocusable(false);
 		panelPoliza_2.add(comboBoxSexo);
 		
 		JLabel lblContadorHijos_1 = new JLabel("Hijos (entre 18 y 30 años)");
@@ -409,6 +413,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldHijos.setFont(new Font("Arial", Font.BOLD, 12));
 		textFieldHijos.setEnabled(true);
 		textFieldHijos.setColumns(10);
+		textFieldHijos.setFocusable(false);
 		textFieldHijos.setBounds(182, 21, 20, 20);
 		textFieldHijos.setText("0");
 		panelPoliza_2.add(textFieldHijos);
@@ -531,6 +536,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldApellido_1 = new JTextField();
 		textFieldApellido_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldApellido_1.setBounds(441, 24, 123, 20);
+		textFieldApellido_1.setFocusable(false);
 		panelContextoCliente.add(textFieldApellido_1);
 		textFieldApellido_1.setColumns(10);
 		configuracionTextField(textFieldApellido_1);
@@ -539,6 +545,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldNombre_1 = new JTextField();
 		textFieldNombre_1.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldNombre_1.setBounds(80, 24, 123, 20);
+		textFieldNombre_1.setFocusable(false);
 		panelContextoCliente.add(textFieldNombre_1);
 		textFieldNombre_1.setColumns(10);
 		configuracionTextField(textFieldNombre_1);
@@ -559,24 +566,28 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		chckbxGuardaGarage = new JCheckBox("¿Se guarda en garage?");
 		chckbxGuardaGarage.setBounds(378, 188, 174, 23);
+		chckbxGuardaGarage.setFocusable(false);
 		panelPoliza.add(chckbxGuardaGarage);
 		chckbxGuardaGarage.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxGuardaGarage.setBackground(Color.WHITE);
 		
 		chckbxtieneAlarma = new JCheckBox("¿Tiene alarma?");
 		chckbxtieneAlarma.setBounds(378, 212, 154, 23);
+		chckbxtieneAlarma.setFocusable(false);
 		panelPoliza.add(chckbxtieneAlarma);
 		chckbxtieneAlarma.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxtieneAlarma.setBackground(Color.WHITE);
 		
 		chckbxRastreoVehicular = new JCheckBox("¿Posee dispositivo de rastreo vehicular?");
 		chckbxRastreoVehicular.setBounds(378, 236, 256, 23);
+		chckbxRastreoVehicular.setFocusable(false);
 		panelPoliza.add(chckbxRastreoVehicular);
 		chckbxRastreoVehicular.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxRastreoVehicular.setBackground(Color.WHITE);
 		
 		chckbxTuercasAntirrobos = new JCheckBox("¿Posee tuercas antirrobo en las cuatro ruedas?");
 		chckbxTuercasAntirrobos.setBounds(378, 260, 297, 23);
+		chckbxTuercasAntirrobos.setFocusable(false);
 		panelPoliza.add(chckbxTuercasAntirrobos);
 		chckbxTuercasAntirrobos.setFont(new Font("Arial", Font.PLAIN, 12));
 		chckbxTuercasAntirrobos.setBackground(Color.WHITE);
@@ -654,6 +665,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxPaisRiesgo = new JComboBox<Object>();
 		comboBoxPaisRiesgo.setBounds(158, 21, 154, 22);
 		comboBoxPaisRiesgo.setBackground(Color.WHITE);
+		comboBoxPaisRiesgo.setFocusable(false);
 		comboBoxPaisRiesgo.addItem("<Seleccione>");
 		panelPoliza.add(comboBoxPaisRiesgo);
 		
@@ -691,6 +703,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		String[] opcionesSiniestros = {"Ninguno", "Uno", "Dos", "Mas de dos"};
 		comboBoxSiniestrosUltAnio = new JComboBox<>(opcionesSiniestros);
 		comboBoxSiniestrosUltAnio.setBounds(158, 217, 154, 22);
+		comboBoxSiniestrosUltAnio.setFocusable(false);
 		panelPoliza.add(comboBoxSiniestrosUltAnio);
 		comboBoxSiniestrosUltAnio.setBackground(Color.WHITE);
 		
@@ -702,6 +715,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		//campo KMs por anio
 		comboBoxKmsPorAnio = new JComboBox<>(opcionesKMs);
 		comboBoxKmsPorAnio.setBounds(158, 189, 154, 22);
+		comboBoxKmsPorAnio.setFocusable(false);
 		panelPoliza.add(comboBoxKmsPorAnio);
 		comboBoxKmsPorAnio.setBackground(Color.WHITE);
 		
@@ -737,6 +751,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldSumaAsegurada = new JTextField();
 		textFieldSumaAsegurada.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldSumaAsegurada.setBounds(526, 105, 154, 17);
+		textFieldSumaAsegurada.setFocusable(false);
 		panelPoliza.add(textFieldSumaAsegurada);
 		textFieldSumaAsegurada.setColumns(10);
 		configuracionTextField(textFieldSumaAsegurada);
@@ -755,6 +770,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxMarcaVehiculo = new JComboBox<>();
 		comboBoxMarcaVehiculo.setBounds(525, 21, 154, 22);
 		comboBoxMarcaVehiculo.addItem("<Seleccione>");
+		comboBoxMarcaVehiculo.setFocusable(false);
 		panelPoliza.add(comboBoxMarcaVehiculo);
 		comboBoxMarcaVehiculo.setBackground(Color.WHITE);
 		
@@ -807,6 +823,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxProvinciaRiesgo = new JComboBox<Object>();
 		comboBoxProvinciaRiesgo.setBounds(158, 49, 154, 22);
 		comboBoxProvinciaRiesgo.setBackground(Color.WHITE);
+		comboBoxProvinciaRiesgo.setFocusable(false);
 		comboBoxProvinciaRiesgo.addItem("<Seleccione>");
 		comboBoxProvinciaRiesgo.setEnabled(false);
 		panelPoliza.add(comboBoxProvinciaRiesgo);
@@ -845,6 +862,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		comboBoxLocalidadRiesgo = new JComboBox<Object>();
 		comboBoxLocalidadRiesgo.setBounds(158, 77, 154, 22);
 		comboBoxLocalidadRiesgo.setBackground(Color.WHITE);
+		comboBoxLocalidadRiesgo.setFocusable(false);
 		comboBoxLocalidadRiesgo.addItem("<Seleccione>");
 		comboBoxLocalidadRiesgo.setEnabled(false);
 		panelPoliza.add(comboBoxLocalidadRiesgo);
@@ -861,9 +879,11 @@ public class InterfazDarAltaPoliza extends JFrame {
     	comboBoxModeloVehiculo.setBackground(Color.WHITE);
     	comboBoxModeloVehiculo.addItem("<Seleccione>");
     	comboBoxModeloVehiculo.setEnabled(false);
+    	comboBoxModeloVehiculo.setFocusable(false);
     	//campo anio
     	comboBoxAnioVehiculo = new JComboBox<>();
     	comboBoxAnioVehiculo.setBounds(525, 77, 154, 22);
+    	comboBoxAnioVehiculo.setFocusable(false);
     	panelPoliza.add(comboBoxAnioVehiculo);
     	comboBoxAnioVehiculo.setBackground(Color.WHITE);
     	comboBoxAnioVehiculo.addItem("<Seleccione>");
@@ -897,6 +917,7 @@ public class InterfazDarAltaPoliza extends JFrame {
     	
     	
     	comboBoxFormatoPatente = new JComboBox(opcionesFormatoPatente);
+    	comboBoxFormatoPatente.setFocusable(false);
     	comboBoxFormatoPatente.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
     			panelPoliza.remove(textFieldPatente);
@@ -1208,6 +1229,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldNombre_3 = new JTextField();
 		textFieldNombre_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldNombre_3.setBounds(80, 24, 123, 20);
+		textFieldNombre_3.setFocusable(false);
 		panelContextoCliente_2.add(textFieldNombre_3);
 		textFieldNombre_3.setColumns(10);
 		configuracionTextField(textFieldNombre_3);
@@ -1215,6 +1237,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		textFieldApellido_3 = new JTextField();
 		textFieldApellido_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		textFieldApellido_3.setColumns(10);
+		textFieldApellido_3.setFocusable(false);
 		textFieldApellido_3.setBounds(441, 24, 123, 20);
 		panelContextoCliente_2.add(textFieldApellido_3);
 		configuracionTextField(textFieldApellido_3);
@@ -1261,11 +1284,13 @@ public class InterfazDarAltaPoliza extends JFrame {
 		
 		comboBoxTipoCobertura = new JComboBox<String>();
 		comboBoxTipoCobertura.setBounds(173, 32, 154, 22);
+		comboBoxTipoCobertura.setFocusable(false);
 		comboBoxTipoCobertura.addItem("<Seleccione>");
 		panelTipoPoliza.add(comboBoxTipoCobertura);
 		
-		JComboBox<String> comboBoxFormaDePago = new JComboBox<String>();
+		comboBoxFormaDePago = new JComboBox<String>();
 		comboBoxFormaDePago.setBounds(173, 76, 154, 22);
+		comboBoxFormaDePago.setFocusable(false);
 		panelTipoPoliza.add(comboBoxFormaDePago);
 		comboBoxFormaDePago.addItem("<Seleccione>");
 		comboBoxFormaDePago.addItem("Mensual");
@@ -1274,17 +1299,15 @@ public class InterfazDarAltaPoliza extends JFrame {
 
 		fechaInicio = new JDateChooser();
 		fechaInicio.setBounds(533, 32, 154, 20);
+		fechaInicio.setFocusable(false);
 		panelTipoPoliza.add(fechaInicio);
+		
 		Calendar calendar = Calendar.getInstance();
 		//Date dateToday = calendar.getTime();
         // Sumar un día
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         Date dateTomorrow = calendar.getTime();
 		fechaInicio.setDate(dateTomorrow);
-		
-		
-		
-		
 		
 		JButton btnSiguiente_1_1 = new JButton("Siguiente");
 		btnSiguiente_1_1.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -1440,11 +1463,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 	public void asignarCuotas(JTextField cuota, double monto) {
 		cuota.setText(transformarAFormatoPesos(monto));
 	}
-
-	public void pestaniaGeneracionPoliza(){
+    public void pestaniaGeneracionPoliza(){
 		configuracionGeneracionPoliza();
 	}
-    private static void asignarFechaAVencimiento(JDateChooser vencimiento, Calendar fecha) {
+    public void asignarFechaAVencimiento(JDateChooser vencimiento, Calendar fecha) {
 	        vencimiento.setDate(fecha.getTime());
 	}
     //funciones de configuracion
@@ -2435,9 +2457,8 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        if (opcionSeleccionada == JOptionPane.YES_OPTION) {
 		            // El usuario seleccionó "Sí"
 		        	try {
-						CreacionPoliza cartel = new CreacionPoliza(GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO));
-						cartel.setVisible(true);
-						
+		        		CreacionPoliza creacion = new CreacionPoliza((GestorPoliza.getInstance().darAltaPoliza(polizaDTO, clienteDTO, vehiculoDTO)));
+						creacion.setVisible(true);
 					} catch (Exception e1) {
 						e1.printStackTrace();
 					}
@@ -2464,6 +2485,9 @@ public class InterfazDarAltaPoliza extends JFrame {
         	System.exit(0);
         }
     }
+    
 }
+
+
 
     

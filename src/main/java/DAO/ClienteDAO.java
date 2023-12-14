@@ -10,6 +10,8 @@ public interface ClienteDAO {
 
 	public void create(Cliente cliente);
 	public List<Cliente> buscarClientes(ClienteDTO cliente);
+	public List<Cliente> buscarClientes();
+	public Cliente obtenerPorId(int idCliente);
 	public int recuperarID(String nroCliente);
     public Long obtenerCantidadVehiculos(int idCliente);
 	public void actualizarEstadoCliente(Cliente cliente, Poliza poliza);

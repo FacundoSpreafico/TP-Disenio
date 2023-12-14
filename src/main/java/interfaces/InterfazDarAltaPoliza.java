@@ -196,7 +196,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 		contentPane.setLayout(null);
 		inicializarPaneles();
 		tabbedPrincipal.setFocusable(false);
-		
+			
 		pestaniaCrearPoliza();
 	}
 
@@ -434,8 +434,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 			public void actionPerformed(ActionEvent e) {	
 				try {
 					if(comboBoxCorrectos() && camposIngresados()) {
-						polizaDTO = new PolizaDTO();
-						
 						List<MedidaDeSeguridadDTO> listaMedidas = new ArrayList<>();
 						agregarMedida(chckbxGuardaGarage.isSelected(), "Guarda en garage", listaMedidas);
 			            agregarMedida(chckbxtieneAlarma.isSelected(), "Tiene alarma", listaMedidas);
@@ -2278,7 +2276,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 			 
 			 
         } else {
-            System.out.println("No hay fila seleccionada. Deshabilitando el botón.");
             btnEditar.setEnabled(false);
         }
 		}});
@@ -2462,12 +2459,7 @@ public class InterfazDarAltaPoliza extends JFrame {
 						e1.printStackTrace();
 					}
 		        
-		        } else {
-		            // El usuario seleccionó "No" o cerró el cuadro de diálogo
-		            System.out.println("Se canceló la creación de la nueva póliza.");
-		        }
-
-				
+		        } 
 			}
 		});
     }

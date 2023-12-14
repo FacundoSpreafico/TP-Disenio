@@ -68,6 +68,7 @@ import gestores.GestorPremio;
 import gestores.GestorSumaAsegurada;
 import gestores.GestorVehiculo;
 import gestores.SubsistemaSiniestros;
+import java.awt.Canvas;
 
 public class InterfazDarAltaPoliza extends JFrame {
 	// JPanels
@@ -176,9 +177,9 @@ public class InterfazDarAltaPoliza extends JFrame {
     JDateChooser vencimientoCuota4;
     JDateChooser vencimientoCuota5;
     JDateChooser vencimientoCuota6;
-    private VehiculoDTO vehiculoDTO;
-    private ClienteDTO clienteDTO;
-    private PolizaDTO polizaDTO;
+    private VehiculoDTO vehiculoDTO = new VehiculoDTO();
+    private ClienteDTO clienteDTO= new ClienteDTO();
+    private PolizaDTO polizaDTO= new PolizaDTO();
     private JDateChooser fechaInicio_1, fechaFin;
     JComboBox<String> comboBoxTipoCobertura;
     JComboBox<String> comboBoxFormaDePago;
@@ -444,8 +445,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 			            polizaDTO.setKmsUltAnio(comboBoxKmsPorAnio.getSelectedItem().toString());
 			            polizaDTO.setNroSiniestros(comboBoxSiniestrosUltAnio.getSelectedItem().toString());
 			            
-			            
-						vehiculoDTO = new VehiculoDTO();
 						vehiculoDTO.setMotor(textFieldMotor.getText());
 						vehiculoDTO.setChasis(textFieldChasis.getText());
 						vehiculoDTO.setPatente(textFieldPatente.getText());
@@ -1356,7 +1355,6 @@ public class InterfazDarAltaPoliza extends JFrame {
 		        			textField_ImportePDesc.setText(transformarAFormatoPesos(descuento.devolverTotal()));
 		        			//Inicializamos paneles de cuotas semestrales
 		        			configuracionPanelCuotasSemestrales();
-		  
 				            panelCuotas = panelCuotasSemestral;
 				        } 
 		        		else 
@@ -1405,10 +1403,10 @@ public class InterfazDarAltaPoliza extends JFrame {
 				                 // Actualizar la fecha de inicio para la siguiente iteración
 				                 fechaInicioCalendar.add(Calendar.MONTH, 1);
 
-				                asignarCuotas(listaCuotas.get(i),montoTotal/6);
+				                 asignarCuotas(listaCuotas.get(i),montoTotal/6);
 				                 asignarFechaAVencimiento(listaVencimientos.get(i), fechaInicioCalendar);        
-				              //Agregar cuota a la polizaDTO
-				                polizaDTO.getCuotas().add(cuota);
+				                 //Agregar cuota a la polizaDTO
+				                 polizaDTO.getCuotas().add(cuota);
 				            }
 				        }
 		        		
@@ -2476,7 +2474,6 @@ public class InterfazDarAltaPoliza extends JFrame {
         	System.exit(0);
         }
     }
-    
 }
 
 

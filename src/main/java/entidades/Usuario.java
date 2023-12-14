@@ -20,7 +20,6 @@ public class Usuario {
 	@Column(name = "id_usuario")
 	private int idUsuario;
 	
-	
 	@Column(name = "nombre")
 	private String nombre;
 	
@@ -35,7 +34,7 @@ public class Usuario {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_perfil_usuario")
-	private PerfilUsuario perfil;
+	private PerfilUsuario rol;
 	
 	
 	

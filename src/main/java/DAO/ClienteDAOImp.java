@@ -40,7 +40,6 @@ public class ClienteDAOImp implements ClienteDAO {
             Predicate[] restricciones = construirRestricciones(criteriaBuilder, root, clienteDTO);
             
             criteriaQuery.where(restricciones);
-            
             Query<Cliente> query = session.createQuery(criteriaQuery);
             List<Cliente> listaClientes = query.getResultList();
             session.close();
